@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长上架大师"
+  short_description: "经 DSers 把选定商品采集、优化、审阅并推送到 Shopify/Wix，或生成 TikTok Shop 上架资料包"
+  default_prompt: "使用 $cap-tiktok-listing 核对我的目标店铺和商品，整理可审阅的上架资料与审阅单，结果按草稿、提交、后台终态、前台可售分开报告。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长选品大师"
+  short_description: "按目标市场八环节评估候选商品，输出测试结论、利润测算和证据缺口"
+  default_prompt: "使用 $cap-tiktok-selection 按我的目标市场和预算评估候选商品，给出优先测试、补证据或暂不测试的结论和证据缺口。"

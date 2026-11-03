@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok Skill 治理"
+  short_description: "保护官方版本并管理修改、发布与回滚"
+  default_prompt: "使用 $cap-tiktok-governance 审查这套 TikTok Skill 的边界、变更和发布状态。"

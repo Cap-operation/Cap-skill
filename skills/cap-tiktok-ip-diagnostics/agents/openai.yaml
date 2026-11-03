@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok IP 检测"
+  short_description: "检测 IP 归属、风险和泄漏"
+  default_prompt: "使用 $cap-tiktok-ip-diagnostics 帮我检测当前 IP 是否通过。"

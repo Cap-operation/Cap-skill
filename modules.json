@@ -1,0 +1,166 @@
+{
+  "product": "Cap-skill v4.0",
+  "install_slug": "cap-skill",
+  "version": "4.0.0",
+  "modules": [
+    {
+      "slug": "cap-skill",
+      "display_name": "Cap-skill v4.0",
+      "kind": "hub",
+      "legacy_slug": null,
+      "requires": []
+    },
+    {
+      "slug": "cap-tiktok-selection",
+      "display_name": "船长选品大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-breakdown",
+      "display_name": "船长拆解大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-site",
+      "display_name": "船长建站大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-listing",
+      "display_name": "船长上架大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-ads",
+      "display_name": "船长投流大师",
+      "kind": "business",
+      "legacy_slug": "captain-tiktok-ads",
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-service",
+      "display_name": "船长客服大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-prep",
+      "display_name": "课前准备",
+      "kind": "course",
+      "legacy_slug": "captain-tiktok",
+      "requires": [
+        "cap-skill",
+        "cap-tiktok-computer-prep",
+        "cap-tiktok-device-reset"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-computer-prep",
+      "display_name": "电脑工具准备",
+      "kind": "foundation",
+      "legacy_slug": "captain-tiktok-computer-prep",
+      "requires": [
+        "cap-skill",
+        "cap-tiktok-prep"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-device-reset",
+      "display_name": "手机设备初始化",
+      "kind": "foundation",
+      "legacy_slug": "captain-tiktok-device-reset",
+      "requires": [
+        "cap-skill",
+        "cap-tiktok-prep"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-apple-id",
+      "display_name": "美国 Apple ID",
+      "kind": "foundation",
+      "legacy_slug": "captain-tiktok-apple-id",
+      "requires": [
+        "cap-skill",
+        "cap-tiktok-prep"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-shadowrocket-treehole",
+      "display_name": "小火箭与树洞",
+      "kind": "foundation",
+      "legacy_slug": "captain-tiktok-shadowrocket-treehole",
+      "requires": [
+        "cap-skill",
+        "cap-tiktok-prep"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-ip-purchase",
+      "display_name": "TikTok IP 购买",
+      "kind": "foundation",
+      "legacy_slug": "captain-tiktok-ip-purchase",
+      "requires": [
+        "cap-skill",
+        "cap-tiktok-prep"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-ip-diagnostics",
+      "display_name": "TikTok IP 检测",
+      "kind": "foundation",
+      "legacy_slug": "captain-tiktok-ip-diagnostics",
+      "requires": [
+        "cap-skill",
+        "cap-tiktok-prep"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-shop",
+      "display_name": "店铺经营主线",
+      "kind": "operations",
+      "legacy_slug": "captain-tiktok-shop",
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-operations",
+      "display_name": "运营诊断",
+      "kind": "operations",
+      "legacy_slug": "captain-tiktok-operations",
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-governance",
+      "display_name": "源码维护与版本治理",
+      "kind": "maintenance",
+      "legacy_slug": "captain-tiktok-governance",
+      "requires": [
+        "cap-skill"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "美国 Apple ID"
+  short_description: "注册账号并下载 Shadowrocket"
+  default_prompt: "使用 $cap-tiktok-apple-id 带我完成美国 Apple ID 和 App Store 设置。"

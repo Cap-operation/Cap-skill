@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长拆解大师"
+  short_description: "拆解参考文案，按自己产品事实重构钩子并写中文口播稿"
+  default_prompt: "使用 $cap-tiktok-breakdown 拆解我给的参考文案，用我的产品事实重写开头钩子和中文口播，并标出事实缺口。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok 店铺篇"
+  short_description: "带新手完成开店、冷启动、履约与利润复盘"
+  default_prompt: "使用 $cap-tiktok-shop 判断我当前的店铺阶段，并只带我完成下一步。"

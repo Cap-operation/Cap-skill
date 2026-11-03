@@ -1,0 +1,4 @@
+interface:
+  display_name: "手机设备初始化"
+  short_description: "准备手机和爱思助手，课前流程不提供刷机教学"
+  default_prompt: "使用 $cap-tiktok-device-reset 帮我准备 iPhone 并下载爱思助手，遵守当前课前准备范围。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长建站大师"
+  short_description: "规划、制作、预览并按授权部署独立站或承接页，分层验收页面与交易条件"
+  default_prompt: "使用 $cap-tiktok-site 先确认平台、新站或已有站和目标市场，给出站点结构与页面方案，并说明当前能交付到哪一层级。"

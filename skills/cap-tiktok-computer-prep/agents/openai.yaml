@@ -1,0 +1,4 @@
+interface:
+  display_name: "电脑工具准备"
+  short_description: "确认Google访问，安装Chrome并完成账号与NotebookLM准备"
+  default_prompt: "使用 $cap-tiktok-computer-prep 先确认本机浏览器能打开 Google，再带我安装 Chrome、准备 Google 账号并登录 NotebookLM。"

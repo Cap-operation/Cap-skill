@@ -1,0 +1,23 @@
+{
+  "product": "Cap-skill v4.0",
+  "version": "4.0.0",
+  "baseline": {
+    "name": "Cap 3.1 candidate (captain-tiktok-system)",
+    "version": "3.1.0-mcp-candidate.20261031",
+    "repository": "https://github.com/Cap-operation/chris-skills",
+    "base_tag": "v3.0.0",
+    "base_commit": "ef53d823c3ada4089db162da2c8e14d0fd10e383",
+    "candidate_commit": null,
+    "note": "3.1 was a working-tree candidate on top of v3.0.0, not a separate commit; it is pinned by its per-file checksum list.",
+    "baseline_sha256sums_sha256": "66815e1b116413b775b3def9754a112415dea666c4053740fcfed69a12f9adce",
+    "modules": 11
+  },
+  "external_dependencies": [
+    {"name": "FastMoss CLI / Skill", "url": "https://github.com/FastMoss/cli", "version_seen": "1.1.0", "commit": null, "license": "UNLICENSED (npm metadata)", "bundled": false, "used_by": "cap-tiktok-selection"},
+    {"name": "Shopify AI Toolkit", "url": "https://github.com/Shopify/Shopify-AI-Toolkit", "version_seen": null, "commit": null, "license": "MIT", "bundled": false, "used_by": "cap-tiktok-site", "note": "no installation evidence"},
+    {"name": "DSers MCP Product", "url": "https://github.com/rhkiswani/dsers-mcp-product", "version_seen": "1.3.3", "commit": "f0d7e4a9e5716f381e6d8298c828500c48e1b9df", "license": "MIT", "bundled": false, "used_by": "cap-tiktok-listing"},
+    {"name": "TikTok for Business official Ads MCP", "url": "https://business-api.tiktok.com/open_mcp/tt-ads-mcp-layer", "version_seen": null, "commit": null, "license": "TikTok terms", "bundled": false, "used_by": "cap-tiktok-ads"},
+    {"name": "Chatwoot skills", "url": "https://github.com/fxckcode/chatwoot-skills", "version_seen": null, "commit": "8036b469328d98405eefc7bfc3c0659968c385d0", "license": "MIT", "bundled": false, "used_by": "cap-tiktok-service"},
+    {"name": "marketingskills (social, ad-creative)", "url": "https://github.com/coreyhaines31/marketingskills", "version_seen": "social 2.4.0, ad-creative 2.12.2", "commit": null, "license": "MIT", "bundled": false, "used_by": "cap-tiktok-breakdown", "note": "methods informed by research notes; no text copied"}
+  ]
+}

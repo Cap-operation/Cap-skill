@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长客服大师"
+  short_description: "多平台买家客服的渠道接入、知识整理、自动化与人工交接、报表复盘与排障"
+  default_prompt: "使用 $cap-tiktok-service 先核对我现有的客服工具和要接的渠道，再给出当前任务的配置方案和验收步骤。"

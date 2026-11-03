@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok 运营诊断"
+  short_description: "分析账号问题和平台故障"
+  default_prompt: "使用 $cap-tiktok-operations 帮我诊断 TikTok 账号问题。"

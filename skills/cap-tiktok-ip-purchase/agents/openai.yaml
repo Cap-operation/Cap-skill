@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok IP 购买"
+  short_description: "选择地区和静态住宅 IP"
+  default_prompt: "使用 $cap-tiktok-ip-purchase 帮我核对目标地区的 IP 购买规格。"

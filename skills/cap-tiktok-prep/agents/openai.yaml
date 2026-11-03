@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长 TikTok 课前准备入口"
+  short_description: "按固定动作清单完成课前准备，框架外问题转工作人员"
+  default_prompt: "使用 $cap-tiktok-prep 开始课前准备，先展示动作清单，再一次带我完成一步。"

@@ -1,0 +1,12 @@
+interface:
+  display_name: "船长投流大师"
+  short_description: "连接官方广告工具，完成广告草案、授权执行、效果分析和预算范围内优化"
+  default_prompt: "使用 $cap-tiktok-ads 先核对我的广告账户和目标，读取效果并给出可审阅的投放或优化计划。"
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "tiktok-ads"
+      description: "TikTok for Business 官方 MCP；实际工具和权限按当前连接发现"
+      transport: "streamable_http"
+      url: "https://business-api.tiktok.com/open_mcp/tt-ads-mcp-layer"
