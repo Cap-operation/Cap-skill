@@ -1,0 +1,774 @@
+<meta name="dash-one-writer">
+<style>
+.tw { color-scheme: dark;
+  --color-fg: #F2F2F5; --color-fg-muted: rgba(242,242,245,.56); --color-bg: #0E0E13; --color-panel: #16161D;
+  --color-border-line: rgba(255,255,255,.08); --color-ok: #3DDC97; --color-warn: #FFC53D; --color-bad: #FF6B3D;
+  --cds-chart-grid: rgba(255,255,255,.07); --cds-chart-axis: rgba(255,255,255,.16); --cds-chart-reference: rgba(255,255,255,.35); --cds-chart-muted: rgba(255,255,255,.18);
+  --cds-surface-popover: #1F1F28; --cds-border: rgba(255,255,255,.12); --cds-text-secondary: rgba(242,242,245,.6); --cds-shadow-popover: 0 8px 24px rgba(0,0,0,.5);
+  --tk-cyan: #25F4EE; --tk-pink: #FE2C55;
+  --tw-bad: var(--color-bad); --tw-warn: var(--color-warn); --tw-ok: var(--color-ok);
+  --tw-bad-soft: color-mix(in srgb, var(--color-bad) 9%, transparent);
+  --tw-warn-soft: color-mix(in srgb, var(--color-warn) 11%, transparent);
+  --tw-ok-soft: color-mix(in srgb, var(--color-ok) 9%, transparent);
+  --tw-line: var(--color-border-line);
+  --tw-chrome: #121218;
+  --tw-hover: rgba(255,255,255,.05);
+  font-family: var(--font-anthropic-sans); font-variant-numeric: tabular-nums; color: var(--color-fg); }
+.tw-app, .tw-app * { scrollbar-color: rgba(255,255,255,.15) transparent; }
+
+.tw-app { display: grid; grid-template-columns: 13.5rem minmax(0, 1fr) 20rem; min-height: 46rem; border: 1px solid var(--tw-line); border-radius: 14px; overflow: hidden; background: var(--color-bg); box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+
+.tw-side { background: var(--tw-chrome); border-right: 1px solid var(--tw-line); display: flex; flex-direction: column; padding: var(--cds-pad-lg) var(--cds-pad-md); gap: var(--cds-gap-lg); min-width: 0; }
+.tw-brand { display: flex; align-items: center; gap: var(--cds-gap-sm); padding: 0 var(--cds-pad-xs); }
+.tw-logo { width: 1.9rem; height: 1.9rem; border-radius: 8px; display: grid; place-items: center; background: #000; color: #fff; font-weight: 800; font-size: 1.05rem; flex: none; border: 1px solid rgba(255,255,255,.12); text-shadow: -1.5px -1px 0 var(--tk-cyan), 1.5px 1px 0 var(--tk-pink); }
+.tw-brand-name { font-weight: 500; font-size: var(--cds-font-size-body); line-height: 1.2; }
+.tw-brand-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.tw-navlabel { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .06em; padding: 0 var(--cds-pad-sm); margin-bottom: calc(var(--cds-gap-xs) * -1); }
+.tw-nav { display: flex; flex-direction: column; gap: 2px; }
+.tw-nav button { all: unset; box-sizing: border-box; display: flex; align-items: center; gap: var(--cds-gap-sm); width: 100%; padding: var(--cds-pad-sm); border-radius: var(--cds-radius); font-size: var(--cds-font-size-body); color: var(--color-fg-muted); cursor: pointer; }
+.tw-nav button:hover { background: var(--tw-hover); color: var(--color-fg); }
+.tw-nav button:focus-visible { outline: 2px solid var(--color-fg); outline-offset: -2px; }
+.tw-nav button[aria-current="page"] { background: rgba(255,255,255,.07); color: var(--color-fg); box-shadow: inset 2px 0 0 var(--tk-cyan); font-weight: 500; }
+.tw-nav button[aria-current="page"] svg { stroke: var(--tk-cyan); }
+.tw-nav svg { width: 1rem; height: 1rem; flex: none; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.tw-count-unused { margin-left: auto; min-width: 1.4em; padding: 0 .4em; border-radius: 999px; text-align: center; font-size: var(--cds-font-size-caption); background: var(--tw-warn-soft); color: var(--tw-warn); }
+.tw-acct { margin-top: auto; padding: var(--cds-pad-md); border: 1px solid var(--tw-line); border-radius: var(--cds-radius); background: var(--color-panel); font-size: var(--cds-font-size-caption); line-height: 1.6; }
+.tw-acct-name { font-weight: 500; font-size: var(--cds-font-size-body); }
+.tw-dot { display: inline-block; width: .45rem; height: .45rem; border-radius: 50%; margin-right: .35em; background: var(--color-fg-muted); vertical-align: .05em; }
+.tw-dot.warn { background: var(--tw-warn); }
+.tw-dot.ok { background: var(--tw-ok); }
+.tw-muted { color: var(--color-fg-muted); }
+
+.tw-main { display: flex; flex-direction: column; min-width: 0; }
+.tw-bar-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--cds-gap-sm); padding: var(--cds-pad-md) var(--cds-pad-lg); border-bottom: 1px solid var(--tw-line); }
+.tw-crumb { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.tw-pagetitle { font-weight: 700; font-size: 22px; margin: 0; line-height: 1.25; letter-spacing: -.01em; }
+.tw-tools { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); }
+.tw-tool { display: inline-flex; align-items: center; gap: var(--cds-gap-xs); padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--tw-line); border-radius: var(--cds-radius); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); background: var(--color-bg); white-space: nowrap; }
+.tw .tw-tool b { color: var(--color-fg); font-weight: 500; }
+.tw-tool.sample { border-color: rgba(254,44,85,.5); color: var(--tk-pink); }
+.tw-body { padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-lg); min-width: 0; }
+
+.tw-verdict-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); border: 1px solid var(--tw-line); border-radius: 12px; overflow: hidden; background: var(--color-panel); }
+.tw-vbox { padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-xs); }
+.tw-vbox.bad { background: linear-gradient(135deg, rgba(255,107,61,.16), rgba(255,107,61,.03) 70%); } .tw-vbox.warn { background: linear-gradient(135deg, rgba(255,197,61,.15), rgba(255,197,61,.03) 70%); } .tw-vbox.ok { background: linear-gradient(135deg, rgba(61,220,151,.15), rgba(61,220,151,.03) 70%); }
+.tw-kicker { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .04em; }
+.tw-verdict { font-weight: 800; font-size: 34px; line-height: 1.05; margin: 0; letter-spacing: -.02em; }
+.tw-verdict.bad { color: var(--tw-bad); } .tw-verdict.warn { color: var(--tw-warn); } .tw-verdict.ok { color: var(--tw-ok); }
+.tw-vtext { margin: 0; font-size: var(--cds-font-size-caption); line-height: 1.7; color: var(--color-fg-muted); }
+.tw .tw-vtext b { color: var(--color-fg); font-weight: 500; }
+.tw-gbox { padding: var(--cds-pad-md) var(--cds-pad-lg); border-left: 1px solid var(--tw-line); display: flex; flex-direction: column; justify-content: center; }
+.tw-gauge { min-height: 96px; position: relative; }
+
+.tw-kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid var(--tw-line); border-radius: 12px; overflow: hidden; background: var(--color-panel); }
+.tw-kpi { padding: var(--cds-pad-md) var(--cds-pad-lg); display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.tw-kpi + .tw-kpi { border-left: 1px solid var(--tw-line); }
+.tw-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tw-big { font-weight: 700; font-size: 26px; line-height: 1.2; min-height: 1.2em; letter-spacing: -.02em; }
+.tw-delta { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); min-height: 1.2em; white-space: nowrap; }
+.tw-spark { height: 30px; margin-top: var(--cds-gap-xs); }
+
+.tw-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: var(--cds-gap-md); }
+.tw-panel { border: 1px solid var(--tw-line); border-radius: 12px; background: var(--color-panel); min-width: 0; }
+.tw-phead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--cds-gap-xs) var(--cds-gap-md); padding: var(--cds-pad-md) var(--cds-pad-lg) 0; }
+.tw-h { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.tw-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; line-height: 1.6; }
+.tw .tw-sub b { color: var(--color-fg); font-weight: 500; }
+.tw-pbody { padding: var(--cds-pad-sm) var(--cds-pad-lg) var(--cds-pad-lg); }
+.tw-chart { position: relative; min-height: 220px; }
+.tw-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.tw-legend i { display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin-right: .35em; vertical-align: -.05em; }
+.tw-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 2; }
+.tw-tip span { color: var(--cds-text-secondary); }
+
+.tw-tablebox { overflow-x: auto; }
+.tw-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); }
+.tw-table th { text-align: left; font-weight: 400; color: var(--color-fg-muted); padding: var(--cds-pad-sm) var(--cds-pad-md); border-bottom: 1px solid var(--tw-line); white-space: nowrap; background: rgba(255,255,255,.025); }
+.tw-table td { padding: var(--cds-pad-sm) var(--cds-pad-md); border-bottom: 1px solid var(--tw-line); vertical-align: middle; }
+.tw-table tbody tr:hover td { background: var(--tw-hover); }
+.tw-table tbody tr:last-child td { border-bottom: 0; }
+.tw-table tr.bad td:first-child { box-shadow: inset 3px 0 0 var(--tw-bad); }
+.tw-table tr.warn td:first-child { box-shadow: inset 3px 0 0 var(--tw-warn); }
+.tw-table tr.ok td:first-child { box-shadow: inset 3px 0 0 var(--tw-ok); }
+.tw-table .num { text-align: right; white-space: nowrap; }
+.tw-name { font-weight: 500; white-space: nowrap; }
+.tw-meta { color: var(--color-fg-muted); white-space: nowrap; }
+.tw-bar { display: flex; align-items: center; justify-content: flex-end; gap: var(--cds-gap-sm); }
+.tw-bar-track { width: 4rem; height: 6px; border-radius: 3px; background: var(--cds-chart-grid); position: relative; overflow: hidden; flex: none; }
+.tw-bar-fill { position: absolute; inset: 0 auto 0 0; border-radius: 3px; }
+.tw-bar-mark { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--color-fg); opacity: .55; }
+.tw-pill { display: inline-block; padding: 1px var(--cds-pad-sm); border-radius: 999px; white-space: nowrap; font-size: var(--cds-font-size-caption); }
+.tw-pill.bad { color: var(--tw-bad); background: var(--tw-bad-soft); }
+.tw-pill.warn { color: var(--tw-warn); background: var(--tw-warn-soft); }
+.tw-pill.ok { color: var(--tw-ok); background: var(--tw-ok-soft); }
+.tw-pill.muted { color: var(--color-fg-muted); background: color-mix(in srgb, var(--color-fg-muted) 10%, transparent); }
+
+.tw-rail { border-left: 1px solid var(--tw-line); background: var(--tw-chrome); display: flex; flex-direction: column; min-width: 0; }
+.tw-rail-head { padding: var(--cds-pad-md) var(--cds-pad-lg); border-bottom: 1px solid var(--tw-line); }
+.tw-rail-title { display: flex; align-items: center; gap: var(--cds-gap-sm); font-weight: 500; font-size: var(--cds-font-size-body); }
+.tw-queue { padding: var(--cds-pad-md); display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-height: 10rem; }
+.tw-task { background: var(--color-panel); border: 1px solid var(--tw-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: flex; flex-direction: column; gap: var(--cds-gap-xs); }
+.tw-task.warn { box-shadow: inset 3px 0 0 var(--tk-pink); }
+.tw-task-top { display: flex; align-items: center; justify-content: space-between; gap: var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.tw-task-act { font-weight: 500; font-size: var(--cds-font-size-body); }
+.tw-task-target { font-size: var(--cds-font-size-caption); }
+.tw-task-reason { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.55; }
+.tw-task-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--cds-gap-sm); margin-top: var(--cds-gap-xs); font-size: var(--cds-font-size-caption); }
+.tw-copy { all: unset; box-sizing: border-box; cursor: pointer; padding: 4px 10px; border-radius: 6px; background: var(--tk-pink); color: #fff; font-weight: 600; font-size: var(--cds-font-size-caption); white-space: nowrap; }
+.tw-copy:hover { filter: brightness(1.1); }
+.tw-copy:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+.tw-cmd { font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-radius: var(--cds-radius); background: var(--tw-hover); user-select: all; }
+.tw-rail-foot { margin-top: auto; padding: var(--cds-pad-md) var(--cds-pad-lg); border-top: 1px solid var(--tw-line); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.7; }
+.tw-steps { margin: var(--cds-gap-xs) 0 0; padding-left: 1.2em; }
+
+.tw-terms { display: grid; grid-template-columns: max-content 1fr; gap: var(--cds-gap-sm) var(--cds-gap-lg); margin: 0; font-size: var(--cds-font-size-caption); line-height: 1.6; }
+.tw-terms dt { font-weight: 500; }
+.tw-terms dd { margin: 0; color: var(--color-fg-muted); }
+
+.tw-fail { display: flex; align-items: center; justify-content: center; gap: var(--cds-gap-sm); min-height: inherit; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.tw-fail i { width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+.tw [hidden] { display: none !important; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+[data-dash-source-state=empty] { color: transparent; }
+
+@media (max-width: 75rem) {
+  .tw-app { grid-template-columns: 12.5rem minmax(0, 1fr); }
+  .tw-rail { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--tw-line); }
+  .tw-queue { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+  .tw-kpis { grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); }
+  .tw-kpi + .tw-kpi { border-left: 0; }
+  .tw-kpi { border-bottom: 1px solid var(--tw-line); }
+}
+@media (max-width: 46rem) {
+  .tw-app { grid-template-columns: minmax(0, 1fr); }
+  .tw-side { border-right: 0; border-bottom: 1px solid var(--tw-line); }
+  .tw-nav { flex-direction: row; flex-wrap: wrap; }
+  .tw-nav button { width: auto; }
+  .tw-acct, .tw-navlabel { display: none; }
+  .tw-verdict-row { grid-template-columns: minmax(0, 1fr); }
+  .tw-gbox { border-left: 0; border-top: 1px solid var(--tw-line); }
+  .tw-body { padding: var(--cds-pad-md); }
+}
+</style>
+
+<div class="tw">
+  <div class="tw-app">
+    <aside class="tw-side">
+      <div class="tw-brand">
+        <div class="tw-logo" aria-hidden="true">C</div>
+        <div><div class="tw-brand-name">船长投流</div><div class="tw-brand-sub">Cap-skill 工作台</div></div>
+      </div>
+      <div class="tw-navlabel">导航</div>
+      <nav class="tw-nav" aria-label="工作台导航">
+        <button type="button" data-view="overview" aria-current="page"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>总览</button>
+        <button type="button" data-view="campaigns"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h8"/></svg>广告计划</button>
+        <button type="button" data-view="creatives"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="2" width="11" height="12" rx="1.5"/><path d="M6.5 6l3.5 2-3.5 2z"/></svg>素材</button>
+        <button type="button" data-view="guide"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 7.5v3.5M8 5h.01"/></svg>使用说明</button>
+      </nav>
+      <div class="tw-acct">
+        <div class="tw-muted">广告账户</div>
+        <div class="tw-acct-name" data-draw="kt" data-source="settings" data-row="0" data-field="account_name">—</div>
+        <div data-sample="yes" hidden><span class="tw-dot warn"></span>未授权 · 显示示例数据</div>
+        <div data-sample="no" hidden><span class="tw-dot ok"></span>已连接 · 真实数据</div>
+        <div class="tw-muted">币种 <span data-draw="kt" data-source="settings" data-row="0" data-field="currency">—</span> · <span data-draw="kt" data-source="settings" data-row="0" data-field="market">—</span></div>
+      </div>
+    </aside>
+
+    <main class="tw-main">
+      <div class="tw-bar-top">
+        <div>
+          <div class="tw-crumb">投流工作台</div>
+          <h1 class="tw-pagetitle" data-title="overview">总览</h1>
+          <h1 class="tw-pagetitle" data-title="campaigns" hidden>广告计划</h1>
+          <h1 class="tw-pagetitle" data-title="creatives" hidden>素材</h1>
+          <h1 class="tw-pagetitle" data-title="guide" hidden>使用说明</h1>
+        </div>
+        <div class="tw-tools">
+          <span class="tw-tool">周期 <b data-draw="kt" data-source="kpi" data-row="0" data-field="range">—</b></span>
+          <span class="tw-tool">对比 <b>前 7 天</b></span>
+          <span class="tw-tool sample" data-sample="yes" hidden>示例数据</span>
+          <span class="tw-tool" data-sample="no" hidden>更新于 <b data-draw="kt" data-source="settings" data-row="0" data-field="updated_at">—</b></span>
+        </div>
+      </div>
+
+      <section class="tw-body" id="overview" data-panel="overview">
+        <div class="tw-verdict-row">
+          <div class="tw-vbox bad" data-paid="loss" hidden>
+            <div class="tw-kicker">普通广告 · 近 7 天</div>
+            <p class="tw-verdict bad">在亏钱</p>
+            <p class="tw-vtext">ROAS <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_roas" data-fmt="roas">—</b>，比保本线低 <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_gap" data-fmt="pct0">—</b>。<b data-draw="kv" data-source="kpi" data-row="0" data-field="below" data-fmt="int">—</b> 个在投计划亏钱，先处理右侧的建议。</p>
+          </div>
+          <div class="tw-vbox warn" data-paid="near" hidden>
+            <div class="tw-kicker">普通广告 · 近 7 天</div>
+            <p class="tw-verdict warn">接近保本</p>
+            <p class="tw-vtext">ROAS <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_roas" data-fmt="roas">—</b>，只比保本线高 <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_gap" data-fmt="pct0">—</b>，利润很薄，先别加预算。</p>
+          </div>
+          <div class="tw-vbox ok" data-paid="profit" hidden>
+            <div class="tw-kicker">普通广告 · 近 7 天</div>
+            <p class="tw-verdict ok">在赚钱</p>
+            <p class="tw-vtext">ROAS <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_roas" data-fmt="roas">—</b>，比保本线高 <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_gap" data-fmt="pct0">—</b>，可以考虑给表现好的计划加预算。</p>
+          </div>
+          <div class="tw-gbox">
+            <div class="tw-gauge" data-draw="gauge" data-source="kpi settings" aria-label="普通广告 ROAS 与保本线"></div>
+          </div>
+        </div>
+
+        <div class="tw-kpis" aria-label="近 7 天核心数字">
+          <div class="tw-kpi">
+            <div class="tw-label">成交额</div>
+            <div class="tw-big" data-draw="kv" data-source="kpi" data-row="0" data-field="gmv7" data-fmt="money">—</div>
+            <div class="tw-delta"><span data-draw="kd" data-source="kpi" data-row="0" data-field="gmv_chg" data-good="up">—</span> 对比前 7 天</div>
+            <div class="tw-spark" data-draw="spark" data-source="daily" data-metric="gmv"></div>
+          </div>
+          <div class="tw-kpi">
+            <div class="tw-label">广告花费</div>
+            <div class="tw-big" data-draw="kv" data-source="kpi" data-row="0" data-field="spend7" data-fmt="money">—</div>
+            <div class="tw-delta"><span data-draw="kd" data-source="kpi" data-row="0" data-field="spend_chg" data-good="none">—</span> 对比前 7 天</div>
+            <div class="tw-spark" data-draw="spark" data-source="daily" data-metric="spend"></div>
+          </div>
+          <div class="tw-kpi">
+            <div class="tw-label">订单</div>
+            <div class="tw-big" data-draw="kv" data-source="kpi" data-row="0" data-field="orders7" data-fmt="int">—</div>
+            <div class="tw-delta"><span data-draw="kd" data-source="kpi" data-row="0" data-field="orders_chg" data-good="up">—</span> 对比前 7 天</div>
+            <div class="tw-spark" data-draw="spark" data-source="daily" data-metric="orders"></div>
+          </div>
+          <div class="tw-kpi">
+            <div class="tw-label">普通广告 ROAS</div>
+            <div class="tw-big" data-draw="kv" data-source="kpi" data-row="0" data-field="paid_roas" data-fmt="roas">—</div>
+            <div class="tw-delta"><span data-draw="kd" data-source="kpi" data-row="0" data-field="paid_roas_chg" data-good="up">—</span> 对比前 7 天</div>
+            <div class="tw-spark" data-draw="spark" data-source="daily settings" data-metric="paid_roas"></div>
+          </div>
+          <div class="tw-kpi">
+            <div class="tw-label">GMV Max ROI</div>
+            <div class="tw-big" data-draw="kv" data-source="kpi" data-row="0" data-field="max_roi" data-fmt="roas">—</div>
+            <div class="tw-delta"><span data-draw="kd" data-source="kpi" data-row="0" data-field="max_roi_chg" data-good="up">—</span> 对比前 7 天</div>
+            <div class="tw-spark" data-draw="spark" data-source="daily" data-metric="max_roi"></div>
+          </div>
+        </div>
+
+        <div class="tw-grid">
+          <div class="tw-panel">
+            <div class="tw-phead"><h2 class="tw-h" id="roas-trend">普通广告每日 ROAS</h2><p class="tw-sub">浅红区域是亏钱区</p></div>
+            <div class="tw-pbody"><div class="tw-chart" data-draw="roasChart" data-source="daily settings"></div></div>
+          </div>
+          <div class="tw-panel">
+            <div class="tw-phead"><h2 class="tw-h" id="spend-trend">每日广告花费</h2>
+              <div class="tw-legend"><span><i data-draw="swatch" data-i="0"></i>普通广告</span><span><i data-draw="swatch" data-i="1"></i>GMV Max</span></div></div>
+            <div class="tw-pbody"><div class="tw-chart" data-draw="spendChart" data-source="daily"></div></div>
+          </div>
+        </div>
+
+        <div class="tw-panel">
+          <div class="tw-phead"><h2 class="tw-h" id="overview-campaigns">广告计划</h2><p class="tw-sub">竖线是保本线 <b data-draw="kv" data-source="settings" data-row="0" data-field="breakeven_roas" data-fmt="roas">—</b> · 亏钱的排在前面</p></div>
+          <div class="tw-pbody">
+            <div class="tw-tablebox">
+              <table class="tw-table" data-source="campaign_eval" data-row-key="campaign">
+                <thead><tr>
+                  <th data-field="campaign">计划</th><th data-field="type">类型</th><th data-field="status">状态</th>
+                  <th data-field="spend" class="num">花费</th><th data-field="gmv" class="num">成交额</th>
+                  <th data-field="roas" class="num">ROAS / ROI</th><th data-field="verdict">判断</th>
+                </tr></thead>
+                <tbody data-draw="campRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tw-body" id="campaigns" data-panel="campaigns" hidden>
+        <div class="tw-panel">
+          <div class="tw-phead"><h2 class="tw-h">全部广告计划 · 近 7 天</h2><p class="tw-sub">竖线是保本线 <b data-draw="kv" data-source="settings" data-row="0" data-field="breakeven_roas" data-fmt="roas">—</b></p></div>
+          <div class="tw-pbody">
+            <p class="tw-sub">普通广告低于保本线是亏钱，高出不到 20% 算接近保本。已暂停、学习中和 GMV Max 的计划不下这个结论。</p>
+            <div class="tw-tablebox">
+              <table class="tw-table" data-source="campaign_eval" data-row-key="campaign">
+                <thead><tr>
+                  <th data-field="campaign">计划</th><th data-field="type">类型</th><th data-field="status">状态</th>
+                  <th data-field="spend" class="num">花费</th><th data-field="gmv" class="num">成交额</th>
+                  <th data-field="roas" class="num">ROAS / ROI</th><th data-field="verdict">判断</th>
+                </tr></thead>
+                <tbody data-draw="campRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tw-body" id="creatives" data-panel="creatives" hidden>
+        <div class="tw-panel">
+          <div class="tw-phead"><h2 class="tw-h">素材表现 · 近 7 天</h2><p class="tw-sub">竖线是判断标准</p></div>
+          <div class="tw-pbody">
+            <p class="tw-sub">点击率低于 <b data-draw="kv" data-source="settings" data-row="0" data-field="ctr_min" data-fmt="pct1">—</b> 算开头留不住人，转化率低于 <b data-draw="kv" data-source="settings" data-row="0" data-field="cvr_min" data-fmt="pct1">—</b> 算看了不买。示例标准，真实使用时按你的类目调整。</p>
+            <div class="tw-tablebox">
+              <table class="tw-table" data-source="creative_eval" data-row-key="creative">
+                <thead><tr>
+                  <th data-field="creative">素材</th><th data-field="campaign">所在计划</th><th data-field="spend" class="num">花费</th>
+                  <th data-field="ctr" class="num">点击率</th><th data-field="cvr" class="num">转化率</th><th data-field="issue">问题</th>
+                </tr></thead>
+                <tbody data-draw="creativeRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tw-body" id="guide" data-panel="guide" hidden>
+        <div class="tw-grid">
+          <div class="tw-panel">
+            <div class="tw-phead"><h2 class="tw-h">怎么执行建议</h2></div>
+            <div class="tw-pbody">
+              <ol class="tw-steps tw-sub">
+                <li>在右侧建议卡上点“复制指令”，粘贴到 Claude 对话里发送。</li>
+                <li>Claude 列出要改的计划、旧值和新值、金额上限，等你确认。</li>
+                <li>你说“确认”后 Claude 才改广告，改完回读，告诉你平台上的实际状态。</li>
+              </ol>
+            </div>
+          </div>
+          <div class="tw-panel">
+            <div class="tw-phead"><h2 class="tw-h">怎么刷新数据</h2></div>
+            <div class="tw-pbody">
+              <ol class="tw-steps tw-sub">
+                <li>在 Claude 对话里说“刷新工作台”，Claude 读取最新数据并更新这里。</li>
+                <li>想每天自动刷新，就让 Claude 设一个每天定时刷新的任务，到点时电脑和 Claude 要开着。</li>
+                <li>只在网页上按刷新，数据不会变。</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <div class="tw-panel">
+          <div class="tw-phead"><h2 class="tw-h" id="terms">名词解释</h2></div>
+          <div class="tw-pbody">
+            <dl class="tw-terms">
+              <dt>ROAS</dt><dd>花 1 块钱广告费卖回多少钱。比如 ROAS 2.5，就是花 1 块卖回 2.5 块。</dd>
+              <dt>保本线</dt><dd>ROAS 到这个数刚好不赚不亏，用商品成本、运费、佣金等按贡献利润算出来。低于它就是在亏钱。</dd>
+              <dt>GMV Max ROI</dt><dd>GMV Max 的回报数字，里面含自然流量带来的成交，所以会偏高，不能直接和保本线比。</dd>
+              <dt>点击率</dt><dd>看到广告的人里有多少点进来。低，说明视频开头留不住人。</dd>
+              <dt>转化率</dt><dd>点进来的人里有多少下单。低，说明商品页、价格或评价有问题。</dd>
+              <dt>学习中</dt><dd>新计划刚开始投，系统还在找人群，数据不稳，先不下结论。</dd>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="tw-rail" aria-label="今日建议">
+      <div class="tw-rail-head">
+        <div class="tw-rail-title">今日建议 <span class="tw-pill warn"><span data-draw="kv" data-source="kpi" data-row="0" data-field="pending" data-fmt="int">—</span> 条待批准</span></div>
+        <p class="tw-sub">工作台只给建议，不会直接改广告</p>
+      </div>
+      <div class="tw-queue" data-draw="tasks" data-source="suggestions"></div>
+      <div class="tw-rail-foot">点“复制指令”，粘贴到 Claude 对话里。Claude 会先列出改动和金额，你确认后才执行。</div>
+    </aside>
+  </div>
+</div>
+
+<script>
+dash.calc('campaign_eval', {
+  title: '计划对比保本线',
+  description: '普通广告计划的 ROAS（成交额 ÷ 花费）和保本线比较；已暂停、学习中和 GMV Max 的计划不下结论。',
+  inputs: ['campaigns', 'settings'],
+  fn: (campaigns, settings) => {
+    const be = Number(settings[0].breakeven_roas);
+    const order = {'低于保本': 0, '接近保本': 1, '高于保本': 2};
+    return campaigns.map((c) => {
+      const spend = Number(c.spend), gmv = Number(c.gmv);
+      const roas = Math.round(gmv / spend * 100) / 100;
+      let verdict;
+      if (c.status === '已暂停') verdict = '已暂停';
+      else if (c.status === '学习中') verdict = '学习中，不判断';
+      else if (c.type === 'GMV Max') verdict = '参考，不比保本';
+      else verdict = roas < be ? '低于保本' : roas < be * 1.2 ? '接近保本' : '高于保本';
+      return {campaign: c.campaign, type: c.type, status: c.status, spend, gmv, roas, verdict};
+    }).sort((a, b) => (order[a.verdict] ?? 3) - (order[b.verdict] ?? 3) || a.roas - b.roas);
+  }
+});
+
+dash.calc('creative_eval', {
+  title: '素材问题判断',
+  description: '点击率低于标准算开头留不住人，否则转化率低于标准算看了不买。',
+  inputs: ['creatives', 'settings'],
+  fn: (creatives, settings) => {
+    const ctrMin = Number(settings[0].ctr_min), cvrMin = Number(settings[0].cvr_min);
+    const rank = {'开头留不住人': 0, '看了不买': 1, '表现正常': 2};
+    return creatives.map((c) => {
+      const ctr = Number(c.ctr), cvr = Number(c.cvr);
+      const issue = ctr < ctrMin ? '开头留不住人' : cvr < cvrMin ? '看了不买' : '表现正常';
+      return {creative: c.creative, campaign: c.campaign, spend: Number(c.spend), ctr, cvr, issue};
+    }).sort((a, b) => rank[a.issue] - rank[b.issue] || b.spend - a.spend);
+  }
+});
+
+dash.calc('kpi', {
+  title: '近 7 天与前 7 天',
+  description: '按天加总近 7 天和前 7 天：全部花费、成交额、订单；普通广告 ROAS 和 GMV Max ROI 分开算，普通广告再和保本线比较；数在投的亏钱计划和待批准的建议。',
+  inputs: ['daily', 'campaign_eval', 'suggestions', 'settings'],
+  fn: (daily, campaign_eval, suggestions, settings) => {
+    const be = Number(settings[0].breakeven_roas);
+    const rows = daily.slice().sort((a, b) => a.day < b.day ? -1 : 1);
+    const last = rows.slice(-7), prev = rows.slice(-14, -7);
+    const sum = (rs, f) => rs.reduce((t, r) => t + Number(r[f]), 0);
+    const r2 = (v) => Math.round(v * 100) / 100;
+    const md = (s) => Number(s.slice(5, 7)) + '/' + Number(s.slice(8, 10));
+    const spend7 = sum(last, 'spend'), gmv7 = sum(last, 'gmv'), orders7 = sum(last, 'orders');
+    const paid_roas = r2(sum(last, 'paid_gmv') / sum(last, 'paid_spend'));
+    const paidP = sum(prev, 'paid_gmv') / sum(prev, 'paid_spend');
+    const max_roi = r2(sum(last, 'max_gmv') / sum(last, 'max_spend'));
+    const maxP = sum(prev, 'max_gmv') / sum(prev, 'max_spend');
+    return [{
+      range: md(last[0].day) + ' – ' + md(last[last.length - 1].day),
+      spend7, gmv7, orders7, paid_roas, max_roi,
+      spend_chg: spend7 / sum(prev, 'spend') - 1,
+      gmv_chg: gmv7 / sum(prev, 'gmv') - 1,
+      orders_chg: orders7 / sum(prev, 'orders') - 1,
+      paid_roas_chg: paid_roas / paidP - 1,
+      max_roi_chg: max_roi / maxP - 1,
+      paid_gap: Math.abs(paid_roas / be - 1),
+      paid_state: paid_roas < be ? 'loss' : paid_roas < be * 1.2 ? 'near' : 'profit',
+      below: campaign_eval.filter((c) => c.verdict === '低于保本').length,
+      pending: suggestions.filter((s) => s.status === '待你批准').length
+    }];
+  }
+});
+
+dash.onData(() => {
+  const r = dash.data('kpi');
+  const st = r.status === 'ok' ? r.data[0].paid_state : null;
+  document.querySelectorAll('[data-paid]').forEach((el) => { el.hidden = el.dataset.paid !== st; });
+  const cfg = dash.data('settings');
+  const sample = cfg.status === 'ok' ? (String(cfg.data[0].is_sample) === 'true' ? 'yes' : 'no') : null;
+  document.querySelectorAll('[data-sample]').forEach((el) => { el.hidden = el.dataset.sample !== sample; });
+});
+
+window.tw = {
+  sym: () => { const st = dash.data('settings'); return (st.status === 'ok' && st.data[0].currency_symbol) || '$'; },
+  fmt: {
+    money: (v) => tw.sym() + d3.format(',.0f')(v),
+    roas: (v) => d3.format('.2f')(v),
+    int: (v) => d3.format(',')(v),
+    pct0: (v) => d3.format('.0%')(v),
+    pct1: (v) => d3.format('.1%')(v)
+  },
+  fail: (el) => {
+    el.replaceChildren();
+    const box = document.createElement('div'); box.className = 'tw-fail';
+    box.append(document.createElement('i'), document.createTextNode('Failed to load'));
+    el.append(box);
+  },
+  pending: (el, statuses) => {
+    if (statuses.some((s) => s === 'error')) { el.classList.remove('dash-skeleton'); tw.fail(el); return true; }
+    if (statuses.some((s) => s !== 'ok')) { el.replaceChildren(); el.classList.add('dash-skeleton'); return true; }
+    el.classList.remove('dash-skeleton');
+    return false;
+  },
+  tip: (el) => { const t = document.createElement('div'); t.className = 'tw-tip'; t.hidden = true; el.append(t); return t; },
+  showTip: (el, tip, x, y, head, line) => {
+    tip.replaceChildren();
+    const s = document.createElement('span'); s.textContent = head;
+    tip.append(s, document.createElement('br'), document.createTextNode(line));
+    tip.hidden = false;
+    const w = el.clientWidth, tw2 = tip.offsetWidth;
+    tip.style.left = Math.max(0, Math.min(w - tw2, x - tw2 / 2)) + 'px';
+    tip.style.top = Math.max(0, y - tip.offsetHeight - 10) + 'px';
+  },
+  axisText: (g) => g.attr('font-size', null).attr('font-family', null)
+    .selectAll('text').attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)'),
+  daily: () => {
+    const d = dash.data('daily');
+    if (d.status !== 'ok') return null;
+    return d.data.map((r) => {
+      const n = (f) => Number(r[f]);
+      return {day: r.day.slice(0, 10), date: new Date(r.day), gmv: n('gmv'), spend: n('spend'), orders: n('orders'),
+        paid_spend: n('paid_spend'), max_spend: n('max_spend'),
+        paid_roas: n('paid_gmv') / n('paid_spend'), max_roi: n('max_gmv') / n('max_spend')};
+    }).sort((a, b) => a.date - b.date);
+  },
+  bar: (td, text, value, max, mark, color) => {
+    const wrap = document.createElement('div'); wrap.className = 'tw-bar';
+    const track = document.createElement('div'); track.className = 'tw-bar-track';
+    const fill = document.createElement('div'); fill.className = 'tw-bar-fill';
+    fill.style.width = Math.max(0, Math.min(100, value / max * 100)) + '%';
+    fill.style.background = color;
+    track.append(fill);
+    if (mark != null) { const m = document.createElement('div'); m.className = 'tw-bar-mark'; m.style.left = 'calc(' + Math.min(100, mark / max * 100) + '% - 1px)'; track.append(m); }
+    const txt = document.createElement('span'); txt.textContent = text;
+    wrap.append(txt, track);
+    td.append(wrap);
+  },
+  pill: (td, text, cls) => {
+    const p = document.createElement('span'); p.className = 'tw-pill ' + cls; p.textContent = text; td.append(p);
+  }
+};
+
+dash.draw('kv', (el) => {
+  const r = dash.data(el.dataset.source);
+  if (r.status !== 'ok') { el.textContent = '—'; el.classList.toggle('dash-skeleton', r.status === 'loading'); return; }
+  el.classList.remove('dash-skeleton');
+  const v = r.data[Number(el.dataset.row || 0)]?.[el.dataset.field];
+  el.textContent = v == null ? '—' : tw.fmt[el.dataset.fmt](Number(v));
+});
+
+dash.draw('kt', (el) => {
+  const r = dash.data(el.dataset.source);
+  const v = r.status === 'ok' ? r.data[Number(el.dataset.row || 0)]?.[el.dataset.field] : null;
+  el.textContent = v == null || v === '' ? '—' : String(v);
+});
+
+dash.draw('kd', (el) => {
+  const r = dash.data('kpi');
+  if (r.status !== 'ok') { el.textContent = '—'; el.style.color = ''; return; }
+  const v = Number(r.data[0][el.dataset.field]);
+  el.textContent = d3.format('+.0%')(v);
+  el.style.color = el.dataset.good === 'up' ? (v >= 0 ? 'var(--color-ok)' : 'var(--color-bad)') : 'var(--color-fg)';
+});
+
+dash.draw('swatch', (el) => {
+  el.style.background = el.dataset.i === '0' ? '#25F4EE' : '#FE2C55';
+});
+
+dash.draw('gauge', (el) => {
+  const k = dash.data('kpi'), s = dash.data('settings');
+  el.replaceChildren();
+  if (tw.pending(el, [k.status, s.status])) return;
+  const roas = Number(k.data[0].paid_roas), be = Number(s.data[0].breakeven_roas);
+  const W = el.clientWidth || 360, H = 96, padX = 8;
+  const max = Math.max(be * 1.6, roas * 1.15);
+  const x = d3.scaleLinear([0, max], [padX, W - padX]);
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  const y0 = 46, h = 12;
+  svg.append('rect').attr('x', x(0)).attr('y', y0).attr('width', x(be) - x(0)).attr('height', h).attr('rx', 3)
+    .attr('fill', 'var(--color-bad)').attr('opacity', 0.16);
+  svg.append('rect').attr('x', x(be)).attr('y', y0).attr('width', x(be * 1.2) - x(be)).attr('height', h)
+    .attr('fill', 'var(--color-warn)').attr('opacity', 0.18);
+  svg.append('rect').attr('x', x(be * 1.2)).attr('y', y0).attr('width', x(max) - x(be * 1.2)).attr('height', h).attr('rx', 3)
+    .attr('fill', 'var(--color-ok)').attr('opacity', 0.16);
+  const zone = (a, b, t) => svg.append('text').attr('x', (x(a) + x(b)) / 2).attr('y', y0 + h + 18).attr('text-anchor', 'middle')
+    .attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(t);
+  zone(0, be, '亏钱'); zone(be * 1.2, max, '赚钱');
+  svg.append('line').attr('x1', x(be)).attr('x2', x(be)).attr('y1', y0 - 6).attr('y2', y0 + h + 4)
+    .attr('stroke', 'var(--color-fg)').attr('stroke-width', 1.5);
+  svg.append('text').attr('x', x(be)).attr('y', y0 + h + 18).attr('text-anchor', 'middle')
+    .attr('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text('保本 ' + tw.fmt.roas(be));
+  const cx = x(roas);
+  svg.append('path').attr('d', `M${cx - 6},${y0 - 14} L${cx + 6},${y0 - 14} L${cx},${y0 - 4} Z`).attr('fill', 'var(--color-fg)');
+  const label = svg.append('text').attr('y', y0 - 22).attr('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)')
+    .text('现在 ' + tw.fmt.roas(roas));
+  const lw = label.node().getComputedTextLength();
+  label.attr('x', Math.max(0, Math.min(W - lw, cx - lw / 2)));
+});
+
+
+(() => {
+  const views = ['overview', 'campaigns', 'creatives', 'guide'];
+  const show = (v, link) => {
+    if (!views.includes(v)) return;
+    document.querySelectorAll('[data-panel]').forEach((el) => { el.hidden = el.dataset.panel !== v; });
+    document.querySelectorAll('[data-title]').forEach((el) => { el.hidden = el.dataset.title !== v; });
+    document.querySelectorAll('.tw-nav [data-view]').forEach((b) => {
+      if (b.dataset.view === v) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+    if (link) dash.setLink(v);
+  };
+  document.querySelectorAll('.tw-nav [data-view]').forEach((b) => {
+    b.addEventListener('click', () => show(b.dataset.view, true));
+  });
+  show(location.hash.slice(1), false);
+})();
+
+dash.draw('tasks', (el) => {
+  const r = dash.data('suggestions');
+  el.replaceChildren();
+  if (tw.pending(el, [r.status])) return;
+  r.data.forEach((s) => {
+    const where = 'id=' + encodeURIComponent(s.id);
+    const mark = (e, field) => { e.dataset.source = 'suggestions'; e.dataset.field = field; e.dataset.where = where; return e; };
+    const mk = (cls, field, tag) => { const e = document.createElement(tag || 'div'); e.className = cls; e.textContent = s[field]; return mark(e, field); };
+    const waiting = s.status === '待你批准';
+    const card = document.createElement('article');
+    card.className = 'tw-task' + (waiting ? ' warn' : '');
+    const top = document.createElement('div'); top.className = 'tw-task-top';
+    const no = mark(document.createElement('span'), 'id'); no.textContent = '建议 ' + s.id;
+    const pill = mk('tw-pill ' + (waiting ? 'warn' : 'muted'), 'status', 'span');
+    top.append(no, pill);
+    const foot = document.createElement('div'); foot.className = 'tw-task-foot';
+    foot.append(mk('tw-muted', 'impact', 'span'));
+    card.append(top, mk('tw-task-act', 'action'), mk('tw-task-target', 'target'), mk('tw-task-reason', 'reason'), foot);
+    if (waiting) {
+      const cmd = '执行建议 ' + s.id + '：' + s.action + '「' + s.target + '」';
+      const code = document.createElement('div'); code.className = 'tw-cmd'; code.textContent = cmd; code.hidden = true;
+      const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'tw-copy'; btn.textContent = '复制指令';
+      btn.addEventListener('click', () => {
+        const fallback = () => {
+          code.hidden = false;
+          const range = document.createRange(); range.selectNodeContents(code);
+          const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+          btn.textContent = '请手动复制下面这行';
+        };
+        try {
+          navigator.clipboard.writeText(cmd).then(() => { btn.textContent = '已复制，去对话里粘贴'; }, fallback);
+        } catch (e) { fallback(); }
+      });
+      foot.append(btn);
+      card.append(code);
+    }
+    el.append(card);
+  });
+});
+
+dash.draw('spark', (el) => {
+  const rows = tw.daily();
+  const s = dash.data('settings');
+  el.replaceChildren();
+  if (!rows) return;
+  const f = el.dataset.metric;
+  const W = el.clientWidth || 160, H = 36, p = 3;
+  const vals = rows.map((r) => r[f]);
+  const be = f === 'paid_roas' && s.status === 'ok' ? Number(s.data[0].breakeven_roas) : null;
+  const lo = Math.min(d3.min(vals), be ?? Infinity), hi = Math.max(d3.max(vals), be ?? -Infinity);
+  const x = d3.scaleLinear([0, rows.length - 1], [p, W - p]);
+  const y = d3.scaleLinear([lo - (hi - lo) * 0.15, hi + (hi - lo) * 0.15], [H - p, p]);
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('preserveAspectRatio', 'none');
+  svg.append('rect').attr('x', x(rows.length - 7) - 3).attr('y', 0).attr('width', W - x(rows.length - 7) + 3).attr('height', H)
+    .attr('fill', 'var(--cds-chart-grid)').attr('opacity', 0.6);
+  if (be != null) svg.append('line').attr('x1', p).attr('x2', W - p).attr('y1', y(be)).attr('y2', y(be))
+    .attr('stroke', 'var(--color-bad)').attr('stroke-dasharray', '3 3').attr('opacity', 0.7);
+  const color = f === 'paid_roas' && be != null && vals[vals.length - 1] < be ? 'var(--color-bad)' : '#25F4EE';
+  svg.append('path').datum(vals).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 1.75)
+    .attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round').attr('vector-effect', 'non-scaling-stroke')
+    .attr('d', d3.line().x((_, i) => x(i)).y((v) => y(v)));
+  svg.append('circle').attr('cx', x(vals.length - 1)).attr('cy', y(vals[vals.length - 1])).attr('r', 2.5).attr('fill', color);
+});
+
+dash.draw('roasChart', (el) => {
+  const d = dash.data('daily'), s = dash.data('settings');
+  el.replaceChildren();
+  if (tw.pending(el, [d.status, s.status])) return;
+  const be = Number(s.data[0].breakeven_roas);
+  const rows = tw.daily();
+  const W = el.clientWidth || 560, H = 230, m = {t: 14, r: 70, b: 26, l: 36};
+  const x = d3.scaleUtc(d3.extent(rows, (r) => r.date), [m.l, W - m.r]);
+  const y = d3.scaleLinear([0, Math.max(be, d3.max(rows, (r) => r.paid_roas)) * 1.2], [H - m.b, m.t]).nice();
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  svg.append('rect').attr('x', m.l).attr('y', y(be)).attr('width', W - m.r - m.l).attr('height', y(0) - y(be))
+    .attr('fill', 'var(--color-bad)').attr('opacity', 0.07);
+  svg.append('g').selectAll('line').data(y.ticks(4)).join('line')
+    .attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
+  svg.append('g').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4).tickSize(0).tickPadding(6))
+    .call((g) => g.select('.domain').remove()).call(tw.axisText);
+  svg.append('g').attr('transform', `translate(0,${H - m.b})`).call(d3.axisBottom(x).ticks(Math.min(7, Math.floor(W / 70))).tickFormat(d3.utcFormat('%-m/%-d')).tickSizeOuter(0))
+    .call((g) => g.select('.domain').attr('stroke', 'var(--cds-chart-axis)'))
+    .call((g) => g.selectAll('line').remove()).call(tw.axisText);
+  svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(be)).attr('y2', y(be))
+    .attr('stroke', 'var(--color-bad)').attr('stroke-dasharray', '4 4').attr('opacity', 0.8);
+  svg.append('text').attr('x', W - m.r + 8).attr('y', y(be)).attr('dy', '0.35em')
+    .attr('fill', 'var(--color-bad)').style('font-size', 'var(--cds-font-size-caption)').text('保本 ' + tw.fmt.roas(be));
+  const gid = 'twg' + Math.random().toString(36).slice(2, 8);
+  const grad = svg.append('defs').append('linearGradient').attr('id', gid).attr('x1', 0).attr('x2', 0).attr('y1', 0).attr('y2', 1);
+  [[0, .26], [.25, .16], [.5, .08], [.75, .03], [1, 0]].forEach(([o, a]) => grad.append('stop').attr('offset', o).attr('stop-opacity', a).style('stop-color', '#25F4EE'));
+  svg.append('path').datum(rows).attr('fill', `url(#${gid})`)
+    .attr('d', d3.area().x((r) => x(r.date)).y0(y(0)).y1((r) => y(r.paid_roas)));
+  svg.append('path').datum(rows).attr('fill', 'none').attr('stroke', '#25F4EE').attr('stroke-width', 2)
+    .attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round')
+    .attr('d', d3.line().x((r) => x(r.date)).y((r) => y(r.paid_roas)));
+  svg.append('g').selectAll('circle').data(rows).join('circle')
+    .attr('cx', (r) => x(r.date)).attr('cy', (r) => y(r.paid_roas)).attr('r', 2.5)
+    .attr('fill', (r) => r.paid_roas < be ? 'var(--color-bad)' : '#25F4EE');
+  const lastR = rows[rows.length - 1];
+  const ly = Math.abs(y(lastR.paid_roas) - y(be)) < 16 ? y(lastR.paid_roas) + (y(lastR.paid_roas) > y(be) ? 16 : -16) : y(lastR.paid_roas);
+  svg.append('text').attr('x', W - m.r + 8).attr('y', ly).attr('dy', '0.35em')
+    .attr('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text('最新 ' + tw.fmt.roas(lastR.paid_roas));
+  const dot = svg.append('circle').attr('r', 4.5).attr('fill', 'none').attr('stroke', 'var(--color-fg)').attr('stroke-width', 1.5).attr('opacity', 0);
+  const tip = tw.tip(el);
+  svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', H - m.t - m.b).attr('fill', 'transparent')
+    .on('pointermove', (ev) => {
+      const [px] = d3.pointer(ev);
+      const r = d3.least(rows, (q) => Math.abs(x(q.date) - px));
+      dot.attr('cx', x(r.date)).attr('cy', y(r.paid_roas)).attr('opacity', 1);
+      const k = el.clientWidth / W;
+      tw.showTip(el, tip, x(r.date) * k, y(r.paid_roas) * k, d3.utcFormat('%-m月%-d日')(r.date),
+        'ROAS ' + tw.fmt.roas(r.paid_roas) + (r.paid_roas < be ? '（亏钱）' : '（没亏）') + '　花费 ' + tw.fmt.money(r.paid_spend));
+    })
+    .on('pointerleave', () => { dot.attr('opacity', 0); tip.hidden = true; });
+});
+
+dash.draw('spendChart', (el) => {
+  const d = dash.data('daily');
+  el.replaceChildren();
+  if (tw.pending(el, [d.status])) return;
+  const rows = tw.daily();
+  const W = el.clientWidth || 560, H = 230, m = {t: 14, r: 12, b: 26, l: 44};
+  const x = d3.scaleBand(rows.map((r) => r.day), [m.l, W - m.r]).padding(0.28);
+  const y = d3.scaleLinear([0, d3.max(rows, (r) => r.spend) * 1.1], [H - m.b, m.t]).nice();
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  svg.append('g').selectAll('line').data(y.ticks(4)).join('line')
+    .attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
+  svg.append('g').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4).tickSize(0).tickPadding(6).tickFormat((v) => tw.sym() + v))
+    .call((g) => g.select('.domain').remove()).call(tw.axisText);
+  const step = Math.ceil(rows.length / Math.max(2, Math.floor(W / 70)));
+  svg.append('g').attr('transform', `translate(0,${H - m.b})`)
+    .call(d3.axisBottom(x).tickValues(rows.filter((_, i) => i % step === 0).map((r) => r.day)).tickFormat((s) => d3.utcFormat('%-m/%-d')(new Date(s))).tickSizeOuter(0))
+    .call((g) => g.select('.domain').attr('stroke', 'var(--cds-chart-axis)'))
+    .call((g) => g.selectAll('line').remove()).call(tw.axisText);
+  const x7 = x(rows[rows.length - 7].day) - x.step() * x.paddingInner() / 2;
+  svg.append('line').attr('x1', x7).attr('x2', x7).attr('y1', m.t).attr('y2', H - m.b).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '2 3');
+  svg.append('text').attr('x', x7 + 4).attr('y', m.t + 8).attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text('近 7 天');
+  const keys = ['paid_spend', 'max_spend'];
+  const stacked = d3.stack().keys(keys)(rows);
+  const bw = Math.min(28, x.bandwidth());
+  const tip = tw.tip(el);
+  stacked.forEach((layer, li) => {
+    svg.append('g').selectAll('rect').data(layer).join('rect')
+      .attr('x', (p) => x(p.data.day) + (x.bandwidth() - bw) / 2).attr('width', bw)
+      .attr('y', (p) => y(p[1])).attr('height', (p) => Math.max(0, y(p[0]) - y(p[1]) - (li === 0 ? 1 : 0)))
+      .attr('rx', li === 1 ? 3 : 0)
+      .attr('fill', ['#25F4EE', '#FE2C55'][li])
+      .on('pointermove', (ev, p) => {
+        const r = p.data, k = el.clientWidth / W;
+        tw.showTip(el, tip, (x(r.day) + x.bandwidth() / 2) * k, y(r.spend) * k, d3.utcFormat('%-m月%-d日')(r.date),
+          '普通 ' + tw.fmt.money(r.paid_spend) + '　GMV Max ' + tw.fmt.money(r.max_spend));
+      })
+      .on('pointerleave', () => { tip.hidden = true; });
+  });
+});
+
+dash.draw('campRows', (tbody) => {
+  const c = dash.data('campaign_eval'), s = dash.data('settings');
+  tbody.replaceChildren();
+  if (c.status !== 'ok' || s.status !== 'ok') return;
+  const be = Number(s.data[0].breakeven_roas);
+  const cls = {'低于保本': 'bad', '接近保本': 'warn', '高于保本': 'ok'};
+  const maxSpend = d3.max(c.data, (r) => r.spend), maxRoas = Math.max(be * 1.6, d3.max(c.data, (r) => r.roas));
+  c.data.forEach((r) => {
+    const tr = tbody.insertRow(); tr.className = cls[r.verdict] || '';
+    const n = tr.insertCell(); n.className = 'tw-name'; n.textContent = r.campaign;
+    const t = tr.insertCell(); t.className = 'tw-meta'; t.textContent = r.type;
+    const st = tr.insertCell(); st.className = 'tw-meta'; st.textContent = r.status;
+    const sp = tr.insertCell(); sp.className = 'num';
+    tw.bar(sp, tw.fmt.money(r.spend), r.spend, maxSpend, null, 'var(--color-fg-muted)');
+    const g = tr.insertCell(); g.className = 'num'; g.textContent = tw.fmt.money(r.gmv);
+    const ro = tr.insertCell(); ro.className = 'num';
+    const col = cls[r.verdict] ? 'var(--color-' + cls[r.verdict] + ')' : 'var(--color-fg-muted)';
+    tw.bar(ro, tw.fmt.roas(r.roas), r.roas, maxRoas, r.type === 'GMV Max' ? null : be, col);
+    tw.pill(tr.insertCell(), r.verdict, cls[r.verdict] || 'muted');
+  });
+});
+
+dash.draw('creativeRows', (tbody) => {
+  const c = dash.data('creative_eval'), s = dash.data('settings');
+  tbody.replaceChildren();
+  if (c.status !== 'ok' || s.status !== 'ok') return;
+  const ctrMin = Number(s.data[0].ctr_min), cvrMin = Number(s.data[0].cvr_min);
+  const cls = {'开头留不住人': 'bad', '看了不买': 'warn', '表现正常': 'ok'};
+  const maxCtr = Math.max(ctrMin * 2, d3.max(c.data, (r) => r.ctr)), maxCvr = Math.max(cvrMin * 2, d3.max(c.data, (r) => r.cvr));
+  c.data.forEach((r) => {
+    const tr = tbody.insertRow(); tr.className = cls[r.issue] || '';
+    const n = tr.insertCell(); n.className = 'tw-name'; n.textContent = r.creative;
+    const p = tr.insertCell(); p.className = 'tw-meta'; p.textContent = r.campaign;
+    const sp = tr.insertCell(); sp.className = 'num'; sp.textContent = tw.fmt.money(r.spend);
+    const a = tr.insertCell(); a.className = 'num';
+    tw.bar(a, tw.fmt.pct1(r.ctr), r.ctr, maxCtr, ctrMin, r.ctr < ctrMin ? 'var(--color-bad)' : 'var(--color-ok)');
+    const b = tr.insertCell(); b.className = 'num';
+    tw.bar(b, tw.fmt.pct1(r.cvr), r.cvr, maxCvr, cvrMin, r.cvr < cvrMin ? 'var(--color-warn)' : 'var(--color-ok)');
+    tw.pill(tr.insertCell(), r.issue, cls[r.issue] || 'muted');
+  });
+});
+</script>
