@@ -29,6 +29,7 @@ v4.0 中本模块即“船长投流大师”。商家场景共用 [共用交接�
 | 普通 TikTok Ads、Smart+ 创建与更新、素材与状态 | [广告生命周期](references/ad-lifecycle.md) |
 | Product / LIVE GMV Max、Shop 与直播权限、开投确认 | [GMV Max](references/gmv-max.md) |
 | 拉取效果、诊断、ROAS/ROI/利润、生成优化建议 | [分析与优化](references/analysis-optimization.md) |
+| 建投流工作台（看板）、刷新工作台 | [投流工作台](references/workbench.md) |
 | 任何广告写入、批次或持续规则、超时与恢复 | [执行授权与恢复](references/authorization-recovery.md) |
 | 核对政策、工具行为、限流、产品变化 | [官方来源](references/official-sources.md) |
 
