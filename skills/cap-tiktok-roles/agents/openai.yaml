@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长岗位大师"
+  short_description: "后台岗位 AI 化：经营报告、现金流、库存、对账、采购、合同初审、招聘与 SOP"
+  default_prompt: "使用 $cap-tiktok-roles 先确认要处理的岗位任务和手上的数据，给出一份可直接用的表格或文书草稿。"

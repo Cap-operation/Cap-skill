@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长社媒大师"
+  short_description: "社媒出海：找爆款、拆竞品和达人、挖评论，运营 Instagram 与 YouTube"
+  default_prompt: "使用 $cap-tiktok-social 先确认平台和品类，找出近期爆款并说明可借鉴的开头和卖点。"

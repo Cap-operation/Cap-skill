@@ -1,0 +1,307 @@
+{
+ "schema": "cap-workbench/1",
+ "company": {
+  "name": "示例 · 独立站品牌",
+  "slogan": "三个人 · 七个 AI 岗位 · 卖向欧美",
+  "mark": "示",
+  "industry": "shopify",
+  "markets": [
+   "US",
+   "DE",
+   "GB",
+   "FR"
+  ],
+  "team_size": 3,
+  "audience": "team",
+  "origin": "CN"
+ },
+ "theme": {
+  "main_scene": "neon-grid",
+  "palette": "ice",
+  "role_default": "neural-galaxy",
+  "fx": [
+   "rain"
+  ],
+  "motion": "normal",
+  "celebrate": "comet",
+  "opening": "reveal"
+ },
+ "roles": [
+  {
+   "id": "chief",
+   "name": "统筹助理",
+   "title": "把老板的一句话拆成每个岗位的活",
+   "mark": "统",
+   "keywords": [
+    "安排",
+    "计划",
+    "汇总",
+    "日报",
+    "周报",
+    "统筹"
+   ],
+   "duties": [
+    "拆解老板的指令",
+    "汇总各岗位进度",
+    "整理今日日报"
+   ],
+   "outputs": [
+    "任务拆解单",
+    "今日日报"
+   ],
+   "module": "node-matrix",
+   "executor": {
+    "skill": "cap-skill",
+    "connected": false
+   }
+  },
+  {
+   "id": "scout",
+   "name": "选品专家",
+   "title": "每天从榜单里挑能赚钱的品",
+   "mark": "选",
+   "keywords": [
+    "选品",
+    "爆品",
+    "找品",
+    "商品",
+    "竞品",
+    "榜单"
+   ],
+   "duties": [
+    "扫描平台热销榜",
+    "评估候选商品利润",
+    "对比竞品价格"
+   ],
+   "outputs": [
+    "候选商品清单",
+    "竞品对比表"
+   ],
+   "module": "data-vortex",
+   "executor": {
+    "skill": "cap-tiktok-selection",
+    "connected": false
+   }
+  },
+  {
+   "id": "site",
+   "name": "独立站专家",
+   "title": "站点转化与落地页",
+   "mark": "站",
+   "keywords": [
+    "独立站",
+    "shopify",
+    "网站",
+    "落地页",
+    "转化"
+   ],
+   "duties": [
+    "检查站点转化",
+    "更新落地页",
+    "跟进支付与配送设置"
+   ],
+   "outputs": [
+    "站点周报",
+    "改版清单"
+   ],
+   "module": "energy-flow",
+   "executor": {
+    "skill": "cap-tiktok-site",
+    "connected": false
+   }
+  },
+  {
+   "id": "ads",
+   "name": "投流专家",
+   "title": "盯预算、看 ROAS、调计划",
+   "mark": "投",
+   "keywords": [
+    "广告",
+    "投流",
+    "预算",
+    "roas",
+    "花费"
+   ],
+   "duties": [
+    "核对昨日广告花费",
+    "找出亏钱的计划",
+    "给出调整建议"
+   ],
+   "outputs": [
+    "投流日报",
+    "调整建议"
+   ],
+   "module": "node-matrix",
+   "socket": "广告账户",
+   "executor": {
+    "skill": "cap-tiktok-ads",
+    "connected": false
+   }
+  },
+  {
+   "id": "content",
+   "name": "内容专家",
+   "title": "脚本、钩子、短视频一条龙",
+   "mark": "内",
+   "keywords": [
+    "视频",
+    "脚本",
+    "文案",
+    "内容",
+    "钩子",
+    "口播"
+   ],
+   "duties": [
+    "改写爆款脚本",
+    "生成开头钩子",
+    "检查字幕与配音"
+   ],
+   "outputs": [
+    "带货脚本",
+    "钩子合集"
+   ],
+   "module": "pipeline",
+   "flow": "content",
+   "executor": {
+    "skill": "cap-tiktok-breakdown",
+    "connected": false
+   }
+  },
+  {
+   "id": "service",
+   "name": "客服专家",
+   "title": "回买家、处理售后",
+   "mark": "客",
+   "keywords": [
+    "客服",
+    "买家",
+    "消息",
+    "售后",
+    "差评",
+    "退款"
+   ],
+   "duties": [
+    "回复买家消息",
+    "整理差评原因",
+    "更新常见问题"
+   ],
+   "outputs": [
+    "差评分析",
+    "客服话术"
+   ],
+   "module": "data-vortex",
+   "executor": {
+    "skill": "cap-tiktok-service",
+    "connected": false
+   }
+  },
+  {
+   "id": "supply",
+   "name": "供应链管家",
+   "title": "库存、补货、物流",
+   "mark": "供",
+   "keywords": [
+    "发货",
+    "库存",
+    "物流",
+    "采购",
+    "工厂",
+    "补货"
+   ],
+   "duties": [
+    "盯库存与补货",
+    "跟进物流异常",
+    "对接工厂交期"
+   ],
+   "outputs": [
+    "补货单",
+    "物流异常表"
+   ],
+   "module": "globe",
+   "executor": {
+    "skill": "cap-tiktok-shop",
+    "connected": false
+   }
+  }
+ ],
+ "kpis": [
+  {
+   "key": "gmv",
+   "label": "今日成交",
+   "prefix": "$",
+   "format": "money",
+   "sim": {
+    "start": 4200,
+    "min": 0,
+    "step": 120,
+    "trend": 0.2
+   }
+  },
+  {
+   "key": "visitors",
+   "label": "访客数",
+   "format": "int",
+   "decimals": 0,
+   "sim": {
+    "start": 2600,
+    "min": 0,
+    "step": 60,
+    "trend": 0.3
+   }
+  },
+  {
+   "key": "cvr",
+   "label": "转化率",
+   "format": "pct",
+   "decimals": 2,
+   "sim": {
+    "start": 0.021,
+    "min": 0.005,
+    "max": 0.05,
+    "step": 0.001
+   }
+  },
+  {
+   "key": "done",
+   "label": "AI 完成任务",
+   "unit": "个",
+   "format": "int",
+   "decimals": 0,
+   "sim": {
+    "start": 0,
+    "perTask": 1
+   }
+  }
+ ],
+ "flows": [
+  {
+   "id": "content",
+   "name": "内容生产线",
+   "stages": [
+    "素材",
+    "脚本",
+    "制作",
+    "检验",
+    "分发"
+   ]
+  }
+ ],
+ "commands": {
+  "placeholder": "一句话派活，比如：看下德国站这周转化",
+  "presets": [
+   "看下德国站这周转化",
+   "给新款咖啡机找 3 个竞品",
+   "整理昨天的差评",
+   "查一下美国仓库存"
+  ]
+ },
+ "sim": {
+  "speed": 1.2
+ },
+ "live": {
+  "enabled": false,
+  "url": "data/live.json",
+  "interval": 10000,
+  "outbox": "/api/outbox"
+ }
+}

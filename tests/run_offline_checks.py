@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline package checks S01-S08 from the acceptance plan. Uses temp dirs only.
+"""Offline package checks S01-S09 from the acceptance plan. Uses temp dirs only.
 
 Does not touch the real HOME or any installed skills, and makes no network calls.
 """
@@ -81,7 +81,7 @@ def s06_clean_machine(tmp):
     out = run([str(repo / 'scripts/validate.py')], cwd=repo, home=home)
     dest = home / 'skills'
     inst = run([str(repo / 'scripts/install.py'), 'install', '--dest', str(dest)], home=home)
-    ok = out.returncode == 0 and inst.returncode == 0 and len([p for p in dest.iterdir() if p.is_dir()]) == 17
+    ok = out.returncode == 0 and inst.returncode == 0 and len([p for p in dest.iterdir() if p.is_dir()]) == len(json.loads((repo / 'modules.json').read_text(encoding='utf-8'))['modules'])
     record('S06', ok, 'validate + install from a copy with empty HOME' if ok else out.stdout + inst.stdout[-300:])
 
 
@@ -131,11 +131,29 @@ def s08_rollback(tmp):
     record('S08', ok, 'rollback restores the original files and hashes exactly' if ok else out.stdout[-300:])
 
 
+def s09_status(tmp):
+    dest = tmp / 's09'
+    run([str(ROOT / 'scripts/install.py'), 'install', '--dest', str(dest)])
+    first = run([str(ROOT / 'scripts/install.py'), 'status', '--dest', str(dest)])
+    clean = json.loads(first.stdout.split('\n}', 1)[0] + '\n}')
+    edited = dest / 'cap-tiktok-shop/SKILL.md'
+    before = tree(dest)
+    edited.write_text(edited.read_text(encoding='utf-8') + '\n本地修改\n', encoding='utf-8')
+    second = run([str(ROOT / 'scripts/install.py'), 'status', '--dest', str(dest)])
+    dirty = json.loads(second.stdout.split('\n}', 1)[0] + '\n}')
+    total = len(json.loads((ROOT / 'modules.json').read_text(encoding='utf-8'))['modules'])
+    ok = (first.returncode == 0 and len(clean['up_to_date']) == total
+          and dirty['modified_locally'] == ['cap-tiktok-shop'] and '本地修改' in edited.read_text(encoding='utf-8')
+          and {k: v for k, v in tree(dest).items() if k != 'cap-tiktok-shop/SKILL.md'} ==
+              {k: v for k, v in before.items() if k != 'cap-tiktok-shop/SKILL.md'})
+    record('S09', ok, 'status is read-only and reports up-to-date and locally edited modules' if ok else second.stdout[-300:])
+
+
 def main():
     with tempfile.TemporaryDirectory() as raw:
         tmp = Path(raw)
         for case in (s01_s02_static, s03_single_truth_negative, s05_archive_scan,
-                     s06_clean_machine, s07_migration, s08_rollback):
+                     s06_clean_machine, s07_migration, s08_rollback, s09_status):
             try:
                 case(tmp)
             except Exception as error:  # report and continue with remaining cases

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OPC 工作台</title>
+  <link rel="stylesheet" href="core/shell.css" />
+</head>
+<body>
+  <div class="wb" id="wb"></div>
+
+  <!-- 运行核心与插座（不要改顺序） -->
+  <script src="core/state.js"></script>
+  <script src="sources/sim.js"></script>
+  <script src="core/fx.js"></script>
+  <script src="sources/live-json.js"></script>
+
+  <!-- 公司配置：由视觉卡、按键卡、场景卡生成，改名字、岗位、KPI、风格都在这个文件 -->
+  <script src="data/company.js"></script>
+  <!-- 看图挑选页的临时预览（地址不带 ?preview 时什么都不做） -->
+  <script src="core/preview.js"></script>
+
+  <!-- 零件：由 scripts/new_workbench.py 按配置写入 -->
+  <!-- PARTS:BEGIN -->
+  <!-- PARTS:END -->
+
+  <script src="core/shell.js"></script>
+</body>
+</html>

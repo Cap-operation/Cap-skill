@@ -1,0 +1,13 @@
+{
+  "id": "energy-flow",
+  "name": "能量流体",
+  "label": "ENERGY FLOW",
+  "kind": "scene",
+  "modes": ["main", "role"],
+  "best_for": ["看任务从哪来、流到哪个岗位、卡在哪", "投流 / 内容等多环节岗位的抽屉模块", "大屏展示团队吞吐"],
+  "style": ["桑基图", "流体发光", "渐变能量带", "数据感"],
+  "data": ["roles", "tasks"],
+  "source": "船长 JEV 设计画布 · 方向 G（自有作品移植）",
+  "license": "船长电商自有",
+  "version": "1.0.0"
+}

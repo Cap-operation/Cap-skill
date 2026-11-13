@@ -1,0 +1,14 @@
+{
+  "id": "neural-galaxy",
+  "name": "神经星河",
+  "label": "NEURAL GALAXY",
+  "kind": "scene",
+  "modes": ["main", "role"],
+  "best_for": ["给客户、投资人、学员展示", "岗位多（10 个以上）", "统筹、达人类岗位"],
+  "style": ["星空", "发光", "震撼", "科技"],
+  "data": ["roles", "tasks"],
+  "roles": { "min": 2, "max": 14 },
+  "source": "船长 JEV 设计画布 · 方向 E 神经星河（自有作品移植）",
+  "license": "船长电商自有",
+  "version": "1.0.0"
+}

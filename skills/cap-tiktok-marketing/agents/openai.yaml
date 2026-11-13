@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长营销大师"
+  short_description: "跨境电商营销：客户研究、卖点、文案、促销定价、转化优化、邮件短信、复购"
+  default_prompt: "使用 $cap-tiktok-marketing 先确认要推的商品和目标买家，给出最该先做的一件营销动作和一版文案草稿。"

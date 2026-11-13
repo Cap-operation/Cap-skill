@@ -4,7 +4,7 @@ Cap 使用通用的 Agent Skills 结构（每个模块一个文件夹，内含�
 
 ## 安装要求
 
-- 17 个模块文件夹放在同一个技能目录下，互为同级，相对链接才能解析。
+- 23 个模块文件夹放在同一个技能目录下，互为同级，相对链接才能解析。
 - 只装部分模块时，至少同时带上 `cap-skill`（共用规则）；课前准备另需 `cap-tiktok-prep`、`cap-tiktok-computer-prep`、`cap-tiktok-device-reset`。
 - 把 ZIP 发到聊天网页不等于安装。
 
@@ -16,7 +16,7 @@ Cap 使用通用的 Agent Skills 结构（每个模块一个文件夹，内含�
 | Claude Code | `~/.claude/skills/` 或项目 `.claude/skills/` | 按 `description` 自动选择；忽略 `agents/openai.yaml` |
 | 其他支持 SKILL.md 的客户端 | 各自的技能目录 | 以客户端实际能力为准 |
 
-本版本只做了结构校验和离线场景记录，**未在各客户端逐一做安装与行为验收**，不宣称“全部客户端兼容”。
+各客户端的读取方式和可用能力不同，以当前客户端实际表现为准，不宣称“全部客户端行为一致”。Windows 与 macOS 的安装方式见仓库 README。
 
 ## 工具按当前环境发现
 

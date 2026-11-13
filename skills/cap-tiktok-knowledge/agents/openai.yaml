@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长知识库大师"
+  short_description: "Obsidian 知识库：需求诊断、资料加工、结构设计、星空图谱与长期复用"
+  default_prompt: "使用 $cap-tiktok-knowledge，围绕我的真实任务，带我搭建并试用 Obsidian 知识库，再选择合适的知识可视化效果。"

@@ -1,6 +1,6 @@
 ---
 name: cap-tiktok-ads
-description: "通过 TikTok 官方 MCP 连接获授权广告账户，编排 TikTok Ads、Smart+、Product/LIVE GMV Max 的创建、更新、效果分析与有界优化。用于独立广告任务；课前准备上下文仍固定拒答转人工，安装本 Skill 不代表广告写入授权。"
+description: "通过 TikTok 官方 MCP 连接获授权广告账户，编排 TikTok Ads、Smart+、Product/LIVE GMV Max 的创建、更新、效果分析与有界优化。也可基于导出报表只读诊断 Meta、Google、亚马逊等其他平台广告并做跨平台计划。用于独立广告任务；课前准备上下文仍固定拒答转人工，安装本 Skill 不代表广告写入授权。"
 ---
 
 # TikTok 官方 MCP 广告执行
@@ -32,6 +32,7 @@ v4.0 中本模块即“船长投流大师”。商家场景共用 [共用交接�
 | 建投流工作台（看板）、刷新工作台 | [投流工作台](references/workbench.md) |
 | 任何广告写入、批次或持续规则、超时与恢复 | [执行授权与恢复](references/authorization-recovery.md) |
 | 核对政策、工具行为、限流、产品变化 | [官方来源](references/official-sources.md) |
+| Meta、Google、亚马逊等其他平台的报表诊断、跨平台计划与预算分配（只读） | [其他平台广告诊断](references/other-platforms.md) |
 
 只读当前任务需要的参考；Shop 投放前置条件沿用 `../cap-tiktok-shop/references/paid-growth.md`，利润与保本 ROAS 按 `../cap-skill/references/profit.md`，不把课程建议说成平台硬规则。
 
@@ -74,7 +75,7 @@ v4.0 中本模块即“船长投流大师”。商家场景共用 [共用交接�
 
 ### 4. 检查授权后写入
 
-按授权参考核对现有批准是否覆盖本批次；未覆盖的先展示可审阅计划并请求明确批准。增加预算、启投、降低 ROI 目标或延长时段可能增加花费，都受授权边界约束。
+按授权参考核对现有批准是否覆盖本批次；未覆盖的先展示可审阅计划并请求明确批准。每次写入前都在计划最上方放[写入前确认条](references/authorization-recovery.md#写入前确认条)（账户 · 店铺 · 国家 · 币种 · 动作 · 金额），多账户或多国家时每个组合一行。增加预算、启投、降低 ROI 目标或延长时段可能增加花费，都受授权边界约束。
 
 普通广告仅在当前 schema 支持时以暂停状态创建；不支持安全的非投放状态且未获开投授权时，保留文本草案。GMV Max 按其独立产品行为处理，不能假设也能暂停创建。
 

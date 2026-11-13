@@ -1,0 +1,14 @@
+{
+  "id": "globe",
+  "name": "全球市场",
+  "label": "GLOBAL",
+  "kind": "scene",
+  "modes": ["main", "role"],
+  "best_for": ["跨境卖家：一眼看到卖向哪些国家", "给客户或投资人演示出海版图", "选品 / 投流等面向市场的岗位详情模块"],
+  "style": ["点阵地图", "光弧", "彗星", "大屏"],
+  "data": ["roles", "tasks", "company.markets", "company.origin"],
+  "roles": { "min": 2, "max": 14 },
+  "source": "船长 JEV 内容矩阵中枢 · globe 全球大屏（自有作品抽取）",
+  "license": "船长电商自有",
+  "version": "1.0.0"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "data-vortex",
+  "name": "数据漩涡",
+  "label": "DATA VORTEX",
+  "kind": "scene",
+  "modes": ["main", "role"],
+  "best_for": ["任务多、想看全局流转", "客服、选品类岗位", "科技感品牌"],
+  "style": ["漩涡", "轨道", "全息", "科技"],
+  "data": ["roles", "tasks", "logs", "flows"],
+  "roles": { "min": 2, "max": 14 },
+  "source": "船长 JEV 设计画布 · 方向 H 数据漩涡（自有作品移植）",
+  "license": "船长电商自有",
+  "version": "1.0.0"
+}

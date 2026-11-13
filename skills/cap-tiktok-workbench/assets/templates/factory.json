@@ -1,0 +1,461 @@
+{
+ "schema": "cap-workbench/1",
+ "company": {
+  "name": "示例 · 外贸工厂",
+  "slogan": "工厂直出 · 十二个 AI 岗位 · 全球接单",
+  "mark": "示",
+  "industry": "factory",
+  "markets": [
+   "US",
+   "MX",
+   "BR",
+   "AE",
+   "SA",
+   "DE",
+   "PL",
+   "AU",
+   "ID",
+   "VN"
+  ],
+  "team_size": 20,
+  "audience": "clients",
+  "origin": "CN"
+ },
+ "theme": {
+  "main_scene": "neural-galaxy",
+  "palette": "amber",
+  "role_default": "data-vortex",
+  "fx": [
+   "aurora",
+   "stars"
+  ],
+  "motion": "calm",
+  "celebrate": "confetti",
+  "opening": "reveal"
+ },
+ "roles": [
+  {
+   "id": "chief",
+   "name": "统筹助理",
+   "title": "把老板的一句话拆成每个岗位的活",
+   "mark": "统",
+   "keywords": [
+    "安排",
+    "计划",
+    "汇总",
+    "日报",
+    "周报",
+    "统筹"
+   ],
+   "duties": [
+    "拆解老板的指令",
+    "汇总各岗位进度",
+    "整理今日日报"
+   ],
+   "outputs": [
+    "任务拆解单",
+    "今日日报"
+   ],
+   "module": "node-matrix",
+   "executor": {
+    "skill": "cap-skill",
+    "connected": false
+   }
+  },
+  {
+   "id": "scout",
+   "name": "选品专家",
+   "title": "每天从榜单里挑能赚钱的品",
+   "mark": "选",
+   "keywords": [
+    "选品",
+    "爆品",
+    "找品",
+    "商品",
+    "竞品",
+    "榜单"
+   ],
+   "duties": [
+    "扫描平台热销榜",
+    "评估候选商品利润",
+    "对比竞品价格"
+   ],
+   "outputs": [
+    "候选商品清单",
+    "竞品对比表"
+   ],
+   "module": "globe",
+   "executor": {
+    "skill": "cap-tiktok-selection",
+    "connected": false
+   }
+  },
+  {
+   "id": "content",
+   "name": "内容专家",
+   "title": "脚本、钩子、短视频一条龙",
+   "mark": "内",
+   "keywords": [
+    "视频",
+    "脚本",
+    "文案",
+    "内容",
+    "钩子",
+    "口播"
+   ],
+   "duties": [
+    "改写爆款脚本",
+    "生成开头钩子",
+    "检查字幕与配音"
+   ],
+   "outputs": [
+    "带货脚本",
+    "钩子合集"
+   ],
+   "module": "pipeline",
+   "flow": "content",
+   "executor": {
+    "skill": "cap-tiktok-breakdown",
+    "connected": false
+   }
+  },
+  {
+   "id": "ads",
+   "name": "投流专家",
+   "title": "盯预算、看 ROAS、调计划",
+   "mark": "投",
+   "keywords": [
+    "广告",
+    "投流",
+    "预算",
+    "roas",
+    "花费"
+   ],
+   "duties": [
+    "核对昨日广告花费",
+    "找出亏钱的计划",
+    "给出调整建议"
+   ],
+   "outputs": [
+    "投流日报",
+    "调整建议"
+   ],
+   "module": "energy-flow",
+   "socket": "广告账户",
+   "executor": {
+    "skill": "cap-tiktok-ads",
+    "connected": false
+   }
+  },
+  {
+   "id": "kol",
+   "name": "达人经理",
+   "title": "找达人、寄样、跟合作",
+   "mark": "达",
+   "keywords": [
+    "达人",
+    "网红",
+    "建联",
+    "寄样",
+    "合作"
+   ],
+   "duties": [
+    "筛选匹配达人",
+    "跟进寄样进度",
+    "整理合作数据"
+   ],
+   "outputs": [
+    "达人名单",
+    "寄样进度表"
+   ],
+   "module": "neural-galaxy",
+   "executor": {
+    "skill": "cap-tiktok-shop",
+    "connected": false
+   }
+  },
+  {
+   "id": "service",
+   "name": "客服专家",
+   "title": "回买家、处理售后",
+   "mark": "客",
+   "keywords": [
+    "客服",
+    "买家",
+    "消息",
+    "售后",
+    "差评",
+    "退款"
+   ],
+   "duties": [
+    "回复买家消息",
+    "整理差评原因",
+    "更新常见问题"
+   ],
+   "outputs": [
+    "差评分析",
+    "客服话术"
+   ],
+   "module": "data-vortex",
+   "executor": {
+    "skill": "cap-tiktok-service",
+    "connected": false
+   }
+  },
+  {
+   "id": "store",
+   "name": "店铺运营",
+   "title": "上新、商品页、活动",
+   "mark": "店",
+   "keywords": [
+    "上架",
+    "店铺",
+    "商品页",
+    "详情页",
+    "活动"
+   ],
+   "duties": [
+    "上新商品资料",
+    "检查商品页",
+    "报名平台活动"
+   ],
+   "outputs": [
+    "上架清单",
+    "活动报名表"
+   ],
+   "module": "pipeline",
+   "executor": {
+    "skill": "cap-tiktok-listing",
+    "connected": false
+   }
+  },
+  {
+   "id": "finance",
+   "name": "财务管家",
+   "title": "每天算清楚赚没赚",
+   "mark": "财",
+   "keywords": [
+    "对账",
+    "利润",
+    "成本",
+    "财务",
+    "回款"
+   ],
+   "duties": [
+    "核对平台回款",
+    "标记异常支出"
+   ],
+   "outputs": [
+    "利润日报",
+    "异常清单"
+   ],
+   "module": "neon-grid",
+   "executor": {
+    "skill": "cap-tiktok-shop",
+    "connected": false
+   }
+  },
+  {
+   "id": "supply",
+   "name": "供应链管家",
+   "title": "库存、补货、物流",
+   "mark": "供",
+   "keywords": [
+    "发货",
+    "库存",
+    "物流",
+    "采购",
+    "工厂",
+    "补货"
+   ],
+   "duties": [
+    "盯库存与补货",
+    "跟进物流异常",
+    "对接工厂交期"
+   ],
+   "outputs": [
+    "补货单",
+    "物流异常表"
+   ],
+   "module": "globe",
+   "executor": {
+    "skill": "cap-tiktok-shop",
+    "connected": false
+   }
+  },
+  {
+   "id": "site",
+   "name": "独立站专家",
+   "title": "站点转化与落地页",
+   "mark": "站",
+   "keywords": [
+    "独立站",
+    "shopify",
+    "网站",
+    "落地页",
+    "转化"
+   ],
+   "duties": [
+    "检查站点转化",
+    "更新落地页",
+    "跟进支付与配送设置"
+   ],
+   "outputs": [
+    "站点周报",
+    "改版清单"
+   ],
+   "module": "energy-flow",
+   "executor": {
+    "skill": "cap-tiktok-site",
+    "connected": false
+   }
+  },
+  {
+   "id": "inquiry",
+   "name": "询盘专家",
+   "title": "回询盘、报价、跟单",
+   "mark": "询",
+   "keywords": [
+    "询盘",
+    "报价",
+    "客户",
+    "跟单"
+   ],
+   "duties": [
+    "回复新询盘",
+    "整理报价单",
+    "跟进老客户复购"
+   ],
+   "outputs": [
+    "报价单",
+    "询盘日报"
+   ],
+   "module": "pipeline",
+   "executor": {
+    "skill": "cap-tiktok-shop",
+    "connected": false
+   }
+  },
+  {
+   "id": "qc",
+   "name": "质检专家",
+   "title": "验货、证书、合规资料",
+   "mark": "检",
+   "keywords": [
+    "质检",
+    "验货",
+    "证书",
+    "认证"
+   ],
+   "duties": [
+    "安排验货",
+    "整理产品证书",
+    "核对出货资料"
+   ],
+   "outputs": [
+    "验货报告",
+    "证书清单"
+   ],
+   "module": "neon-grid",
+   "executor": {
+    "skill": "cap-tiktok-shop",
+    "connected": false
+   }
+  }
+ ],
+ "kpis": [
+  {
+   "key": "inq",
+   "label": "今日询盘",
+   "unit": "个",
+   "format": "int",
+   "decimals": 0,
+   "sim": {
+    "start": 18,
+    "min": 0,
+    "step": 2,
+    "trend": 0.3
+   }
+  },
+  {
+   "key": "orders",
+   "label": "在途订单",
+   "unit": "单",
+   "format": "int",
+   "decimals": 0,
+   "sim": {
+    "start": 42,
+    "min": 0,
+    "step": 1
+   }
+  },
+  {
+   "key": "ship",
+   "label": "待发货",
+   "unit": "柜",
+   "format": "int",
+   "decimals": 0,
+   "sim": {
+    "start": 6,
+    "min": 0,
+    "step": 1
+   }
+  },
+  {
+   "key": "samples",
+   "label": "样品寄出",
+   "unit": "件",
+   "format": "int",
+   "decimals": 0,
+   "sim": {
+    "start": 3,
+    "perTask": 1,
+    "roles": [
+     "kol",
+     "inquiry"
+    ]
+   }
+  },
+  {
+   "key": "done",
+   "label": "AI 完成任务",
+   "unit": "个",
+   "format": "int",
+   "decimals": 0,
+   "sim": {
+    "start": 0,
+    "perTask": 1
+   }
+  }
+ ],
+ "flows": [
+  {
+   "id": "content",
+   "name": "内容生产线",
+   "stages": [
+    "素材",
+    "脚本",
+    "制作",
+    "检验",
+    "分发"
+   ]
+  }
+ ],
+ "commands": {
+  "presets": [
+   "给迪拜客户报个价",
+   "安排下周验货",
+   "查一下巴西的物流",
+   "找 5 个墨西哥五金经销商"
+  ]
+ },
+ "sim": {
+  "speed": 1
+ },
+ "live": {
+  "enabled": false,
+  "url": "data/live.json",
+  "interval": 10000,
+  "outbox": "/api/outbox"
+ }
+}

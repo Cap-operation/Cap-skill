@@ -1,0 +1,14 @@
+{
+  "id": "pipeline",
+  "name": "流水线",
+  "label": "PIPELINE",
+  "kind": "scene",
+  "modes": ["main", "role"],
+  "best_for": ["有固定工序的业务（内容生产、上架、发货）", "看每个任务卡在哪一道工序", "内容 / 制作类岗位的详情模块"],
+  "style": ["看板", "工序列", "发光连线", "清爽实用"],
+  "data": ["roles", "tasks", "flows"],
+  "roles": { "min": 2, "max": 14 },
+  "source": "船长 JEV 内容矩阵中枢 · flow 案例回放五列工序板（自有作品抽取）",
+  "license": "船长电商自有",
+  "version": "1.0.0"
+}

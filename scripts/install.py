@@ -7,6 +7,9 @@ moved into <dest>/.cap-tiktok-backup/<stamp>/ and recorded in a manifest.
   python3 scripts/install.py install  --dest ~/.claude/skills [--dry-run]
           [--disable-legacy] [--replace-modified] [--only SLUG ...]
   python3 scripts/install.py rollback --dest ~/.claude/skills [--dry-run]
+  python3 scripts/install.py status   --dest ~/.claude/skills   (read-only)
+
+On Windows use `py -3` instead of `python3`.
 """
 
 import argparse
@@ -146,7 +149,65 @@ def rollback(args):
     return 0
 
 
+def latest_changes(limit=12):
+    path = ROOT / 'CHANGELOG.md'
+    if not path.is_file():
+        return []
+    lines, started = [], False
+    for line in path.read_text(encoding='utf-8').splitlines():
+        if line.startswith('## '):
+            if started:
+                break
+            started = True
+        if started and line.strip():
+            lines.append(line)
+    return lines[:limit]
+
+
+def status(args):
+    registry = load_registry()
+    dest = Path(args.dest).expanduser()
+    record = {}
+    if (dest / MANIFEST).is_file():
+        record = json.loads((dest / MANIFEST).read_text(encoding='utf-8'))
+    installed = record.get('installed', {})
+    rows = {'up_to_date': [], 'update_available': [], 'modified_locally': [], 'not_installed': []}
+    for module in registry['modules']:
+        slug = module['slug']
+        source, target = ROOT / 'skills' / slug, dest / slug
+        if not target.exists():
+            rows['not_installed'].append(slug)
+            continue
+        current, new = tree(target), tree(source)
+        if current == new:
+            rows['up_to_date'].append(slug)
+        elif installed.get(slug) == current:
+            rows['update_available'].append(slug)
+        else:
+            rows['modified_locally'].append(slug)
+    report = {'installed_version': record.get('version'), 'repository_version': registry['version'],
+              'dest': str(dest), **rows}
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+    if rows['update_available'] or rows['not_installed']:
+        print('Run `install` with the same --dest to update.')
+    if rows['modified_locally']:
+        print('Some modules were edited after install; `install` will report them as conflicts '
+              'and leave them untouched unless you add --replace-modified (which backs them up first).')
+    if not (rows['update_available'] or rows['not_installed'] or rows['modified_locally']):
+        print('Everything is up to date.')
+    changes = latest_changes()
+    if changes:
+        print('\nLatest changes (CHANGELOG.md):')
+        print('\n'.join(changes))
+    return 0
+
+
 def main():
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(errors='replace')
+        except (AttributeError, ValueError):
+            pass
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = parser.add_subparsers(dest='command', required=True)
     one = sub.add_parser('install')
@@ -158,8 +219,10 @@ def main():
     two = sub.add_parser('rollback')
     two.add_argument('--dest', required=True)
     two.add_argument('--dry-run', action='store_true')
+    three = sub.add_parser('status')
+    three.add_argument('--dest', required=True)
     args = parser.parse_args()
-    return install(args) if args.command == 'install' else rollback(args)
+    return {'install': install, 'rollback': rollback, 'status': status}[args.command](args)
 
 
 if __name__ == '__main__':

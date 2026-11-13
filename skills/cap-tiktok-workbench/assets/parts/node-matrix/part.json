@@ -1,0 +1,14 @@
+{
+  "id": "node-matrix",
+  "name": "信号总线",
+  "label": "SIGNAL BUS",
+  "kind": "scene",
+  "modes": ["main", "role"],
+  "best_for": ["一屏看清老板指令怎么流到每个岗位", "数字型老板：左边实时数字、右边岗位进度", "统筹 / 总控类岗位的详情模块"],
+  "style": ["霓虹", "光纤", "彩虹总线", "科技感", "路由图"],
+  "data": ["roles", "tasks", "kpis"],
+  "roles": { "min": 2, "max": 14 },
+  "source": "船长 JEV 内容矩阵中枢 · overview（自有作品抽取）",
+  "license": "船长电商自有",
+  "version": "1.0.0"
+}

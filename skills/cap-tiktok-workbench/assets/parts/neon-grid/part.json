@@ -1,0 +1,13 @@
+{
+  "id": "neon-grid",
+  "name": "霓虹赛博",
+  "label": "NEON GRID",
+  "kind": "scene",
+  "modes": ["main", "role"],
+  "best_for": ["炫酷大屏 / 直播背景", "看谁在干活、当前任务进度", "年轻化、科技感品牌的 OPC 首页"],
+  "style": ["合成波", "霓虹", "赛博朋克", "电路板", "故障字"],
+  "data": ["roles", "tasks"],
+  "source": "船长 JEV 设计画布 · 方向 F（自有作品移植）",
+  "license": "船长电商自有",
+  "version": "1.0.0"
+}

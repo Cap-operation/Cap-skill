@@ -1,7 +1,7 @@
 {
   "product": "Cap-skill v4.0",
   "install_slug": "cap-skill",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "modules": [
     {
       "slug": "cap-skill",
@@ -58,6 +58,60 @@
     {
       "slug": "cap-tiktok-service",
       "display_name": "船长客服大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-workbench",
+      "display_name": "船长工作台大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-traffic",
+      "display_name": "船长流量大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-marketing",
+      "display_name": "船长营销大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-social",
+      "display_name": "船长社媒大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-roles",
+      "display_name": "船长岗位大师",
+      "kind": "business",
+      "legacy_slug": null,
+      "requires": [
+        "cap-skill"
+      ]
+    },
+    {
+      "slug": "cap-tiktok-knowledge",
+      "display_name": "船长知识库大师",
       "kind": "business",
       "legacy_slug": null,
       "requires": [

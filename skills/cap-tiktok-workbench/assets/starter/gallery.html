@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>风格画廊 · OPC 工作台</title>
+  <link rel="stylesheet" href="core/shell.css" />
+  <style>
+    /* 画廊整页滚动：body 不能固定一屏高，否则顶部控制台滚过一屏就跟着走了 */
+    html, body { height: auto; min-height: 100%; }
+    body { overflow: visible; }
+    .g-top { position: sticky; top: 0; z-index: 20; padding: 12px 18px 10px; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .g-row1 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+    .g-top h1 { margin: 0; font-size: 18px; }
+    .g-top p { margin: 0; color: var(--muted); font-size: 12.5px; flex: 1; min-width: 240px; }
+    .g-console { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 6px 18px; margin-top: 10px; }
+    .g-dim { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .g-dim > span { font-size: 12px; color: var(--muted); width: 64px; flex-shrink: 0; }
+    .g-dim button { padding: 4px 10px; border-radius: 99px; border: 1px solid var(--line-strong); background: transparent; cursor: pointer; font-size: 12px; color: var(--muted); }
+    .g-dim button.on { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+    .g-card { margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; border: 1px dashed var(--boss); font-size: 12.5px; }
+    .g-card b { color: var(--boss); }
+    .g-card code { color: var(--text); }
+    .g-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 560px), 1fr)); gap: 14px; padding: 14px 18px 40px; }
+    .g-tile { position: relative; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); overflow: hidden; display: grid; grid-template-rows: auto 380px; }
+    .g-h { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    .g-h b { font-size: 15px; }
+    .g-h span { color: var(--muted); font-size: 12px; flex: 1; }
+    .g-h button { padding: 5px 12px; border-radius: 8px; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; font-size: 12px; }
+    .g-tile.picked { border-color: var(--boss); box-shadow: 0 0 22px color-mix(in srgb, var(--boss) 30%, transparent); }
+    .g-tile.picked .g-h button { background: var(--boss); color: var(--bg); border-color: var(--boss); }
+    .g-stage { position: relative; }
+    body.fx-on .g-tile { background: color-mix(in srgb, var(--panel-solid) 30%, transparent); }
+    .g-group { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-top: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+    .g-group b { font-size: 18px; color: var(--accent); }
+    .g-group span { color: var(--muted); font-size: 13px; }
+    .g-cmd { position: relative; z-index: 1; display: flex; gap: 8px; padding: 10px 18px 0; }
+    .g-cmd input { flex: 1; background: var(--panel); border: 1px solid var(--line-strong); border-radius: 10px; padding: 8px 12px; color: var(--text); font: inherit; }
+  </style>
+</head>
+<body>
+  <header class="g-top">
+    <nav class="wb-road" aria-label="六步路线"><b>① 视觉风格 · 现在</b><i>→</i><span>② 功能按键</span><i>→</i><span>③ 应用场景</span><i>→</i><span>④ 优化</span><i>→</i><span>⑤ 接口</span><i>→</i><span>⑥ 交付</span></nav>
+    <div class="g-row1">
+      <h1 id="g-title">风格画廊</h1>
+      <p>画面按第一眼的感觉分组，都在用你自己的岗位实时跑（模拟数据）。上面每一行点一下就能看到效果；看中了点“就用这个”。</p>
+    </div>
+    <div class="g-console" id="g-console"></div>
+    <div class="g-card" id="g-card"></div>
+  </header>
+  <div class="g-cmd"><input id="g-input" placeholder="试着派个活，看看每个画面怎么反应：比如 找 5 个爆品" /><button class="go" id="g-go">派活</button></div>
+  <main class="g-grid" id="g-grid"></main>
+
+  <script src="core/state.js"></script>
+  <script src="sources/sim.js"></script>
+  <script src="core/fx.js"></script>
+  <script src="data/company.js"></script>
+  <!-- PARTS:BEGIN -->
+  <!-- PARTS:END -->
+  <script>
+  (function () {
+    var WB = window.Workbench, FX = window.WorkbenchFX, cfg = window.WB_COMPANY;
+    cfg.theme = cfg.theme || {};
+    var th = cfg.theme;
+    th.palette = th.palette || 'cyber';
+    th.fx = th.fx == null ? ['grid'] : [].concat(th.fx);
+    th.motion = th.motion || 'normal';
+    th.celebrate = th.celebrate || 'fireworks';
+    th.opening = th.opening || 'none';
+    WB.init(cfg);
+    // 画廊按“第一眼气质”分组：问老板的每个选项都要能在这一页上找到同名的组、画面或按钮
+    // 每个画面只属于一组；分组和 references/visual-discovery.md 的“气质 → 候选”表保持一致
+    var GROUPS = [
+      ['warm', '温暖有人味', '像一间真的公司，有人在干活'],
+      ['club', '潮酷夜店', '霓虹和星光，第一眼最抓人'],
+      ['tech', '科技冷酷', '像数据中心、指挥舱'],
+      ['calm', '高级沉稳', '安静、有质感，适合放给别人看'],
+      ['more', '更多画面', '后来装进零件库的画面']
+    ];
+    var SCENES = {
+      'pixel-office': ['像素办公室', 'warm', '小人走来走去，接活回工位，干完去老板桌前汇报'],
+      'globe': ['全球市场', 'warm', '点阵世界地图，每干完一个活就有光弧飞向一个市场'],
+      'neon-grid': ['霓虹赛博', 'club', '霓虹框、透视网格、电路脉冲和数字雨'],
+      'neural-galaxy': ['神经星河', 'club', '深空里的星球和光纤，越忙的岗位越亮'],
+      'data-vortex': ['数据漩涡', 'tech', '发光核心外一圈圈轨道，任务绕圈做完旋进中心'],
+      'node-matrix': ['信号总线', 'tech', '彩虹总线连着数字卡和岗位卡，光点来回跑'],
+      'energy-flow': ['能量流体', 'calm', '彩色能量带从老板流向各岗位，再流向成果'],
+      'pipeline': ['流水线', 'calm', '任务卡一列列从左往右走，最清楚']
+    };
+    var names = {};
+    Object.keys(SCENES).forEach(function (k) { names[k] = SCENES[k][0]; });
+    var grid = document.getElementById('g-grid'), insts = [];
+    document.getElementById('g-title').textContent = '风格画廊 · ' + ((cfg.company && cfg.company.name) || '我的 OPC 公司');
+
+    var DIMS = [
+      { key: 'palette', label: '配色', opts: [['cyber', '赛博青'], ['neon', '霓虹粉紫'], ['aurora', '极光绿紫'], ['amber', '琥珀金'], ['jade', '翡翠绿'], ['ice', '冰蓝']] },
+      { key: 'fx', label: '背景氛围', multi: true, opts: [['none', '干净'], ['grid', '网格'], ['stars', '星空'], ['rain', '数字雨'], ['aurora', '极光流动'], ['bokeh', '光斑'], ['scan', '扫描线']] },
+      { key: 'motion', label: '动感', opts: [['calm', '安静'], ['normal', '正常'], ['wild', '炸裂']] },
+      { key: 'celebrate', label: '完成庆祝', opts: [['fireworks', '烟花'], ['confetti', '彩带'], ['comet', '彗星'], ['none', '不要']] },
+      { key: 'opening', label: '开场', opts: [['boot', '开机自检'], ['reveal', 'Logo 亮相'], ['none', '不要']] }
+    ];
+
+    function applyAll(remount) {
+      document.documentElement.setAttribute('data-palette', th.palette);
+      document.documentElement.removeAttribute('style');
+      if (FX) { FX.applyBrand(th); FX.background(th); }
+      if (remount) mountAll();
+      card();
+    }
+
+    function consoleUI() {
+      var box = document.getElementById('g-console');
+      box.innerHTML = '';
+      DIMS.forEach(function (d) {
+        var row = document.createElement('div'); row.className = 'g-dim';
+        row.innerHTML = '<span>' + d.label + '</span>';
+        d.opts.forEach(function (o) {
+          var b = document.createElement('button'); b.textContent = o[1];
+          var on = d.multi ? (o[0] === 'none' ? th[d.key].length === 0 : th[d.key].indexOf(o[0]) !== -1) : th[d.key] === o[0];
+          if (on) b.className = 'on';
+          b.addEventListener('click', function () {
+            if (d.multi && o[0] === 'none') th[d.key] = [];
+            else if (d.multi) {
+              var i = th[d.key].indexOf(o[0]);
+              if (i === -1) th[d.key].push(o[0]); else th[d.key].splice(i, 1);
+            } else th[d.key] = o[0];
+            consoleUI();
+            if (d.key === 'palette') applyAll(true);
+            else if (d.key === 'fx' || d.key === 'motion') applyAll(false);
+            else card();
+            if (d.key === 'celebrate' && FX) FX.celebrate(o[0]);
+            if (d.key === 'opening' && FX) FX.opening(o[0], cfg);
+          });
+          row.appendChild(b);
+        });
+        box.appendChild(row);
+      });
+      var brand = document.createElement('div'); brand.className = 'g-dim';
+      brand.innerHTML = '<span>品牌色</span><input type="color" id="g-brand" value="' + (th.accent || '#35e0ff') + '" style="width:42px;height:24px;border:0;background:transparent;cursor:pointer" /><button id="g-brand-x">用配色自带的</button>';
+      box.appendChild(brand);
+      brand.querySelector('#g-brand').addEventListener('input', function (e) { th.accent = e.target.value; applyAll(false); });
+      brand.querySelector('#g-brand-x').addEventListener('click', function () { delete th.accent; applyAll(false); consoleUI(); });
+    }
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function card() {
+      var pick = function (k) { var d = DIMS.find(function (x) { return x.key === k; }); return [].concat(th[k]).map(function (v) { var o = d.opts.find(function (x) { return x[0] === v; }); return o ? o[1] : v; }).join('+') || '干净'; };
+      document.getElementById('g-card').innerHTML = '<b>我的视觉卡</b><span>名字：' + esc((cfg.company && cfg.company.name) || '我的 OPC 公司') + '</span><span>主场景：' + (names[th.main_scene] || '还没选') + '</span><span>配色：' + pick('palette') +
+        (th.accent ? '</span><span>品牌色：' + th.accent : '') + '</span><span>背景：' + pick('fx') + '</span><span>动感：' + pick('motion') + '</span><span>庆祝：' + pick('celebrate') + '</span><span>开场：' + pick('opening') +
+        '</span>' + (th._picked ? '<a class="go" style="text-decoration:none;padding:6px 14px;border-radius:9px" href="pick.html?' + new URLSearchParams({ scene: th.main_scene, palette: th.palette, fx: th.fx.join(','), motion: th.motion, celebrate: th.celebrate, opening: th.opening, accent: th.accent || '' }).toString() + '">下一步：看图挑配色和特效 →</a>' : '<span style="color:var(--muted)">→ 先在下面挑一个主场景，点“就用这个”</span>');
+    }
+
+    function mountAll() {
+      insts.forEach(function (x) { if (x.inst && x.inst.destroy) x.inst.destroy(); });
+      insts = []; grid.innerHTML = '';
+      var ids = WB.partIds();
+      GROUPS.forEach(function (g) {
+        var members = g[0] === 'more'
+          ? ids.filter(function (id) { return !SCENES[id]; })
+          : Object.keys(SCENES).filter(function (id) { return SCENES[id][1] === g[0] && ids.indexOf(id) !== -1; });
+        if (!members.length) return;
+        var head = document.createElement('div'); head.className = 'g-group';
+        head.innerHTML = '<b>' + g[1] + '</b><span>' + g[2] + '</span>';
+        grid.appendChild(head);
+        members.forEach(mountTile);
+      });
+    }
+
+    function mountTile(id) {
+        var s = SCENES[id] || [id, 'more', ''];
+        var tile = document.createElement('section');
+        tile.className = 'g-tile' + (th.main_scene === id && th._picked ? ' picked' : '');
+        tile.title = id;
+        tile.innerHTML = '<div class="g-h"><b>' + s[0] + '</b><span>' + s[2] + '</span><button>就用这个</button></div><div class="g-stage"><div class="stage-host"></div></div>';
+        grid.appendChild(tile);
+        tile.querySelector('button').addEventListener('click', function () {
+          document.querySelectorAll('.g-tile').forEach(function (t) { t.classList.remove('picked'); });
+          tile.classList.add('picked'); th.main_scene = id; th._picked = true; card();
+          if (FX) FX.celebrate(th.celebrate);
+        });
+        var host = tile.querySelector('.stage-host');
+        insts.push({ id: id, inst: WB.part(id).mount(host, WB, { mode: 'main' }) || {} });
+    }
+
+    function send() {
+      var input = document.getElementById('g-input'), text = input.value.trim();
+      if (!text) return;
+      var res = WB.dispatch(text);
+      if (!res.ok) WB.dispatch(text, cfg.roles[0].id);
+      input.value = '';
+    }
+    document.getElementById('g-go').addEventListener('click', send);
+    document.getElementById('g-input').addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.isComposing) send(); });
+    window.addEventListener('resize', function () { insts.forEach(function (x) { if (x.inst.resize) x.inst.resize(); }); });
+    WB.on('task', function (t) { if (t.status === 'done' && t.origin === 'boss' && FX) FX.celebrate(th.celebrate); });
+
+    consoleUI();
+    applyAll(true);
+    WB.source('sim')(WB).start();
+  })();
+  </script>
+</body>
+</html>

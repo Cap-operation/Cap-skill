@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>看图挑选 · OPC 工作台</title>
+  <link rel="stylesheet" href="core/shell.css" />
+  <style>
+    html, body { height: auto; min-height: 100%; }
+    body { overflow: visible; }
+    .p-top { position: sticky; top: 0; z-index: 20; padding: 12px 18px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .p-steps { display: flex; flex-wrap: wrap; gap: 6px; }
+    .p-steps span { padding: 4px 12px; border-radius: 99px; border: 1px solid var(--line-strong); font-size: 12.5px; color: var(--muted); }
+    .p-steps span.done { color: var(--text); border-color: var(--accent); }
+    .p-steps span.now { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+    .p-card { margin-top: 10px; font-size: 12.5px; color: var(--muted); }
+    .p-card b { color: var(--boss); margin-right: 8px; }
+    .p-q { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; padding: 16px 18px 4px; }
+    .p-q h1 { margin: 0; font-size: 22px; }
+    .p-q span { color: var(--muted); font-size: 13px; }
+    .p-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 14px; padding: 12px 18px 18px; }
+    .p-tile { border: 2px solid var(--line); border-radius: 14px; background: var(--panel); overflow: hidden; display: flex; flex-direction: column; }
+    .p-tile.big { grid-column: 1 / -1; }
+    .p-tile.picked { border-color: var(--boss); box-shadow: 0 0 24px color-mix(in srgb, var(--boss) 35%, transparent); }
+    .p-view { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #000; }
+    .p-view iframe { position: absolute; left: 0; top: 0; width: 1280px; height: 800px; border: 0; transform-origin: 0 0; pointer-events: none; }
+    .p-bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; }
+    .p-bar b { flex: 1; font-size: 16px; }
+    .p-bar button { padding: 7px 12px; border-radius: 9px; border: 1px solid var(--line-strong); background: transparent; color: var(--muted); cursor: pointer; font-size: 12.5px; }
+    .p-bar button.pick { padding: 8px 18px; border-color: var(--accent); background: var(--accent); color: var(--bg); font-size: 14px; }
+    .p-tile.picked .p-bar button.pick { background: var(--boss); border-color: var(--boss); }
+    .p-nav { position: relative; z-index: 1; display: flex; gap: 10px; padding: 0 18px 40px; }
+    .p-nav button { padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line-strong); background: transparent; color: var(--muted); cursor: pointer; }
+    .p-done { grid-column: 1 / -1; position: relative; z-index: 1; padding: 18px; border-radius: 14px; border: 1px dashed var(--boss); }
+    .p-done p { margin: 8px 0; }
+    .p-done code { color: var(--text); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <header class="p-top">
+    <nav class="wb-road" aria-label="六步路线"><b>① 视觉风格 · 现在</b><i>→</i><span>② 功能按键</span><i>→</i><span>③ 应用场景</span><i>→</i><span>④ 优化</span><i>→</i><span>⑤ 接口</span><i>→</i><span>⑥ 交付</span></nav>
+    <div class="p-steps" id="p-steps"></div>
+    <div class="p-card" id="p-card"></div>
+  </header>
+  <div class="p-q"><h1 id="p-title"></h1><span id="p-hint"></span></div>
+  <main class="p-grid" id="p-grid"></main>
+  <div class="p-nav" id="p-nav"><button id="p-back">上一步</button><button id="p-skip">先用现在这个，下一步</button></div>
+
+  <script src="data/company.js"></script>
+  <script>
+  (function () {
+    var cfg = window.WB_COMPANY || {}, base = cfg.theme || {}, q = new URLSearchParams(location.search);
+    var NAME = (cfg.company && cfg.company.name) || '我的 OPC 公司';
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    var SCENES = { 'pixel-office': '像素办公室', 'globe': '全球市场', 'neon-grid': '霓虹赛博', 'neural-galaxy': '神经星河', 'data-vortex': '数据漩涡', 'node-matrix': '信号总线', 'energy-flow': '能量流体', 'pipeline': '流水线' };
+    // 从风格画廊带过来的选择优先，其次是公司配置
+    var pick = {
+      main_scene: q.get('scene') || base.main_scene || 'pixel-office',
+      palette: q.get('palette') || base.palette || 'cyber',
+      fx: q.has('fx') ? (q.get('fx') ? q.get('fx').split(',') : []) : (base.fx == null ? ['grid'] : [].concat(base.fx)),
+      motion: q.get('motion') || base.motion || 'normal',
+      celebrate: q.get('celebrate') || base.celebrate || 'fireworks',
+      opening: q.get('opening') || base.opening || 'none'
+    };
+    var acc0 = q.has('accent') ? q.get('accent') : base.accent;
+    if (acc0 && /^#[0-9a-fA-F]{6}$/.test(acc0)) pick.accent = acc0;
+    // 每一步的选项名字和风格画廊顶部控制台的按钮名一致
+    var STEPS = [
+      { key: 'palette', name: '配色', title: '哪个配色顺眼？', hint: '每个都是你的工作台在实时跑，只有颜色不同',
+        opts: [['cyber', '赛博青'], ['neon', '霓虹粉紫'], ['aurora', '极光绿紫'], ['amber', '琥珀金'], ['jade', '翡翠绿'], ['ice', '冰蓝']] },
+      { key: 'fx', name: '背景', title: '背景要什么氛围？', hint: '看画面后面和空白处',
+        opts: [[['grid', 'rain'], '网格 + 数字雨'], [['grid', 'stars'], '网格 + 星空'], [['aurora'], '极光流动'], [['bokeh'], '光斑'], [['stars', 'scan'], '星空 + 扫描线'], [[], '干净']] },
+      { key: 'motion', name: '动感', title: '整体要安静一点，还是炸一点？', hint: '看线条和小光点跑得多快',
+        opts: [['calm', '安静'], ['normal', '正常'], ['wild', '炸裂']] },
+      { key: 'celebrate', name: '庆祝', title: '小人干完你派的活，放什么特效？', hint: '每隔几秒自动放一次',
+        opts: [['fireworks', '烟花'], ['confetti', '彩带'], ['comet', '彗星'], ['none', '不要']] },
+      { key: 'opening', name: '开场', title: '每次打开工作台，要不要开场？', hint: '点“再播一次”重新看',
+        opts: [['boot', '开机自检'], ['reveal', 'Logo 亮相'], ['none', '不要']] }
+    ];
+    var step = 0, frames = [], timer = null;
+    var grid = document.getElementById('p-grid');
+
+    function same(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
+    function labelOf(key, val) {
+      var s = STEPS.filter(function (x) { return x.key === key; })[0];
+      var o = s.opts.filter(function (x) { return same(x[0], val); })[0];
+      var FXN = { grid: '网格', stars: '星空', rain: '数字雨', aurora: '极光流动', bokeh: '光斑', scan: '扫描线' };
+      return o ? o[1] : (key === 'fx' ? [].concat(val).map(function (v) { return FXN[v] || v; }).join(' + ') || '干净' : val);
+    }
+    function src(over) {
+      var t = Object.assign({}, pick, over), p = new URLSearchParams();
+      p.set('preview', '1'); p.set('scene', t.main_scene); p.set('palette', t.palette); p.set('fx', [].concat(t.fx).join(','));
+      p.set('motion', t.motion); p.set('celebrate', t.celebrate);
+      p.set('opening', over.opening !== undefined ? t.opening : 'none');
+      if (t.accent) p.set('accent', t.accent);
+      return 'index.html?' + p.toString();
+    }
+    function cardLine() {
+      return '名字 ' + NAME + '｜主场景 ' + (SCENES[pick.main_scene] || pick.main_scene) + '｜配色 ' + labelOf('palette', pick.palette) + (pick.accent ? '（品牌色 ' + pick.accent + '）' : '') +
+        '｜背景 ' + labelOf('fx', pick.fx) + '｜动感 ' + labelOf('motion', pick.motion) + '｜庆祝 ' + labelOf('celebrate', pick.celebrate) + '｜开场 ' + labelOf('opening', pick.opening);
+    }
+    function header() {
+      document.documentElement.setAttribute('data-palette', pick.palette);
+      document.getElementById('p-steps').innerHTML = STEPS.map(function (s, i) {
+        return '<span class="' + (i < step ? 'done' : i === step ? 'now' : '') + '">' + (i + 1) + ' ' + s.name + (i < step ? ' ✓' : '') + '</span>';
+      }).join('') + '<span class="' + (step >= STEPS.length ? 'now' : '') + '">完成</span>';
+      document.getElementById('p-card').innerHTML = '<b>我的视觉卡</b>' + esc(cardLine());
+    }
+    function fit() {
+      frames.forEach(function (f) { var w = f.parentNode.clientWidth; f.style.transform = 'scale(' + (w / 1280) + ')'; });
+    }
+    function clear() { if (timer) clearInterval(timer); timer = null; frames = []; grid.innerHTML = ''; }
+
+    function render() {
+      clear(); header(); window.scrollTo(0, 0);
+      var nav = document.getElementById('p-nav');
+      if (step >= STEPS.length) return finish();
+      nav.style.display = '';
+      var s = STEPS[step];
+      document.getElementById('p-title').textContent = s.title;
+      document.getElementById('p-hint').textContent = s.hint;
+      s.opts.forEach(function (o) {
+        var over = {}; over[s.key] = o[0];
+        var tile = document.createElement('section');
+        tile.className = 'p-tile' + (same(pick[s.key], o[0]) ? ' picked' : '');
+        var extra = s.key === 'opening' && o[0] !== 'none' ? '<button class="again">再播一次</button>' : '';
+        tile.innerHTML = '<div class="p-view"><iframe loading="lazy" title="' + o[1] + '"></iframe></div>' +
+          '<div class="p-bar"><b>' + o[1] + '</b>' + extra + '<button class="zoom">放大看</button><button class="pick">选这个</button></div>';
+        grid.appendChild(tile);
+        var f = tile.querySelector('iframe'); f.src = src(over); f._kind = o[0]; frames.push(f);
+        tile.querySelector('.zoom').addEventListener('click', function (e) {
+          tile.classList.toggle('big'); e.target.textContent = tile.classList.contains('big') ? '缩小' : '放大看'; fit();
+        });
+        if (extra) tile.querySelector('.again').addEventListener('click', function () { f.src = src(over); });
+        tile.querySelector('.pick').addEventListener('click', function () {
+          pick[s.key] = o[0];
+          grid.querySelectorAll('.p-tile').forEach(function (t) { t.classList.remove('picked'); });
+          tile.classList.add('picked'); header();
+          setTimeout(function () { step++; render(); }, 450);
+        });
+      });
+      fit();
+      if (s.key === 'celebrate') {
+        timer = setInterval(function () {
+          frames.forEach(function (f) { if (f.contentWindow) f.contentWindow.postMessage({ wb: 'celebrate', kind: f._kind }, '*'); });
+        }, 3200);
+      }
+    }
+
+    function finish() {
+      document.getElementById('p-nav').style.display = 'none';
+      document.getElementById('p-title').textContent = '视觉挑好了';
+      document.getElementById('p-hint').textContent = '下面是你选的样子，随时还能换';
+      var line = '我的视觉卡：' + cardLine();
+      window.WB_PICK = { theme: JSON.parse(JSON.stringify(pick)), line: line, done: true };
+      try { localStorage.setItem('wb-visual-card', JSON.stringify(window.WB_PICK)); } catch (e) {}
+      var box = document.createElement('div'); box.className = 'p-done';
+      box.innerHTML = '<p><code></code></p><p>回到对话，跟 Claude 说一声“选好了”就行。Claude 看不到这个页面时，点下面按钮复制这一行发过去。</p>' +
+        '<p><button class="go" id="p-copy">复制这一行</button> <button class="go" id="p-redo">重新挑</button></p>';
+      box.querySelector('code').textContent = line;
+      grid.appendChild(box);
+      var tile = document.createElement('section'); tile.className = 'p-tile big picked';
+      tile.innerHTML = '<div class="p-view"><iframe title="最终效果"></iframe></div>';
+      grid.appendChild(tile);
+      var f = tile.querySelector('iframe'); f.src = src({ opening: pick.opening }); frames.push(f); fit();
+      box.querySelector('#p-copy').addEventListener('click', function (e) {
+        try { navigator.clipboard.writeText(line).then(function () { e.target.textContent = '已复制'; }); } catch (err) { e.target.textContent = '复制不了，请手动选中上面那行'; }
+      });
+      box.querySelector('#p-redo').addEventListener('click', function () { step = 0; render(); });
+    }
+
+    document.getElementById('p-back').addEventListener('click', function () { if (step > 0) { step--; render(); } });
+    document.getElementById('p-skip').addEventListener('click', function () { step++; render(); });
+    window.addEventListener('resize', fit);
+    render();
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "id": "pixel-office",
+  "name": "像素办公室",
+  "label": "PIXEL OFFICE",
+  "kind": "scene",
+  "modes": ["main", "role"],
+  "best_for": ["OPC 一人公司首页", "展示 AI 团队在干活", "给客户或投资人演示"],
+  "style": ["像素", "温暖", "有人味", "办公室"],
+  "data": ["roles", "tasks", "dispatch"],
+  "roles": { "min": 2, "max": 14 },
+  "source": "船长OPC工作台 office-dispatch.js（自有作品抽取）；家具绘制与角色像素图来自 Claw-Empire by GreenSheep01201（github.com/GreenSheep01201/claw-empire，commit 66a24ea）",
+  "license": "家具代码与角色图：Apache-2.0（见 LICENSE）；布局与动作逻辑：船长电商自有",
+  "version": "1.0.0"
+}
