@@ -180,6 +180,23 @@ def check_overview():
     check('references/overview.md' in hub and '亮家底' in hub, 'Hub does not route to the capability overview')
 
 
+def check_updater():
+    """The self-update script ships with the hub, compiles, stays pinned to the official
+    repository and never turns certificate checking off."""
+    path = SKILLS / 'cap-skill/scripts/update.py'
+    text = read(path)
+    try:
+        compile(text, str(path), 'exec')
+    except SyntaxError as error:
+        ERRORS.append(f'update.py does not compile: {error}')
+    check("REPO = 'Cap-operation/Cap-skill'" in text, 'update.py is not pinned to the official repository')
+    check('CERT_NONE' not in text and '_create_unverified_context' not in text and '--insecure' not in text
+          and 'check_hostname = False' not in text, 'update.py must not disable certificate checking')
+    hub = read(SKILLS / 'cap-skill/SKILL.md')
+    check('(scripts/update.py)' in hub and '用户明确同意后才更新' in hub and '不静默更新' in hub,
+          'Hub must route updates through update.py, with consent and never silently')
+
+
 def check_checksums():
     seen = set()
     for line in read(ROOT / 'SHA256SUMS.txt').splitlines():
@@ -208,12 +225,13 @@ def main():
     check_single_truth()
     check_course_regression()
     check_overview()
+    check_updater()
     hashed = check_checksums()
     if ERRORS:
         print('FAIL\n' + '\n'.join(ERRORS))
         return 1
     print(f'PASS: {registry["product"]} {registry["version"]}, {len(modules)} Skills, '
-          f'{hashed} file hashes, links, single-truth, course regression and overview checks')
+          f'{hashed} file hashes, links, single-truth, course regression, overview and updater checks')
     print('Static checks only; not a model-behavior, client-installation or live-platform test.')
     return 0
 

@@ -42,6 +42,10 @@ python3 scripts/install.py rollback --dest ~/.claude/skills
 
 ## 检查更新
 
+最省事的办法（4.1.3 起）：在对话里说一句“更新你自己”。它会先查官方最新版、告诉你更新了什么，你同意后再下载、核对校验值并安装，旧文件自动备份，更新后新开一个对话生效。需要客户端能运行命令（如 Claude Code、Codex）；用 `npx skills add` 安装的仍然是重新运行安装命令。
+
+也可以手动更新：
+
 ```sh
 git pull
 python3 scripts/install.py status  --dest ~/.claude/skills   # 看哪些模块有新版本、哪些被你改过

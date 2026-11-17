@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline package checks S01-S09 from the acceptance plan. Uses temp dirs only.
+"""Offline package checks S01-S10 from the acceptance plan. Uses temp dirs only.
 
 Does not touch the real HOME or any installed skills, and makes no network calls.
 """
@@ -149,11 +149,53 @@ def s09_status(tmp):
     record('S09', ok, 'status is read-only and reports up-to-date and locally edited modules' if ok else second.stdout[-300:])
 
 
+def s10_self_update(tmp):
+    """The installed updater installs a newer package offline, refuses a wrong checksum,
+    leaves user-edited modules alone and refuses when there is no install record."""
+    newer = copy_repo(tmp / 's10')
+    for name in ('VERSION', 'skills/cap-tiktok-prep/VERSION'):
+        (newer / name).write_text('99.0.0\n', encoding='utf-8')
+    registry = json.loads((newer / 'modules.json').read_text(encoding='utf-8'))
+    registry['version'] = '99.0.0'
+    (newer / 'modules.json').write_text(json.dumps(registry, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    for script in ('update_overview.py', 'update_checksums.py', 'build_release.py'):
+        run([str(newer / 'scripts' / script)])
+    package = newer / 'dist/Cap-skill-99.0.0.zip'
+    good = hashlib.sha256(package.read_bytes()).hexdigest()
+    current = (ROOT / 'VERSION').read_text(encoding='utf-8').strip()
+
+    dest = tmp / 's10-dest'
+    run([str(ROOT / 'scripts/install.py'), 'install', '--dest', str(dest)])
+    updater = dest / 'cap-skill/scripts/update.py'
+    before = tree(dest)
+    bad = run([str(updater), 'apply', '--from-zip', str(package), '--sha256', '0' * 64])
+    refused = bad.returncode == 1 and tree(dest) == before
+
+    edited = dest / 'cap-tiktok-shop/SKILL.md'
+    edited.write_text(edited.read_text(encoding='utf-8') + '\n本地修改\n', encoding='utf-8')
+    out = run([str(updater), 'apply', '--from-zip', str(package), '--sha256', good])
+    result = json.loads(out.stdout) if out.stdout.strip().startswith('{') else {}
+    updated = (out.returncode == 2 and result.get('from_version') == current and result.get('to_version') == '99.0.0'
+               and result.get('conflicts') == ['cap-tiktok-shop'] and '本地修改' in edited.read_text(encoding='utf-8')
+               and (dest / 'cap-tiktok-prep/VERSION').read_text(encoding='utf-8').strip() == '99.0.0'
+               and Path(result.get('backup') or '.', 'cap-skill/SKILL.md').is_file())
+
+    bare = tmp / 's10-bare'
+    shutil.copytree(ROOT / 'skills', bare)
+    untracked = run([str(bare / 'cap-skill/scripts/update.py'), 'apply', '--from-zip', str(package), '--sha256', good])
+    left_alone = (untracked.returncode == 1
+                  and (bare / 'cap-tiktok-prep/VERSION').read_text(encoding='utf-8').strip() == current)
+
+    ok = refused and updated and left_alone
+    record('S10', ok, 'updater installs a newer package, refuses a wrong checksum, keeps local edits and needs an install record'
+           if ok else f'refused={refused} updated={updated} left_alone={left_alone} {out.stdout[-300:]}')
+
+
 def main():
     with tempfile.TemporaryDirectory() as raw:
         tmp = Path(raw)
         for case in (s01_s02_static, s03_single_truth_negative, s05_archive_scan,
-                     s06_clean_machine, s07_migration, s08_rollback, s09_status):
+                     s06_clean_machine, s07_migration, s08_rollback, s09_status, s10_self_update):
             try:
                 case(tmp)
             except Exception as error:  # report and continue with remaining cases
