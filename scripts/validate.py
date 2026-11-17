@@ -2,6 +2,7 @@
 """Read-only repository checks for Cap-skill, standard library only."""
 
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -166,6 +167,19 @@ def check_course_regression():
     check('../cap-tiktok-prep/SKILL.md' in hub, 'Hub does not route course scene to prep')
 
 
+def check_overview():
+    """The capability card must equal what scripts/update_overview.py computes from the files."""
+    spec = importlib.util.spec_from_file_location('update_overview', ROOT / 'scripts/update_overview.py')
+    module = importlib.util.module_from_spec(spec)
+    sys.dont_write_bytecode = True  # keep this checker read-only: no __pycache__ in the repository
+    spec.loader.exec_module(module)
+    target = ROOT / module.RELATIVE_TARGET
+    check(target.is_file() and read(target) == module.render(ROOT),
+          'Capability overview is stale: run scripts/update_overview.py')
+    hub = read(SKILLS / 'cap-skill/SKILL.md')
+    check('references/overview.md' in hub and '亮家底' in hub, 'Hub does not route to the capability overview')
+
+
 def check_checksums():
     seen = set()
     for line in read(ROOT / 'SHA256SUMS.txt').splitlines():
@@ -193,12 +207,13 @@ def main():
     check_links_and_content(modules)
     check_single_truth()
     check_course_regression()
+    check_overview()
     hashed = check_checksums()
     if ERRORS:
         print('FAIL\n' + '\n'.join(ERRORS))
         return 1
     print(f'PASS: {registry["product"]} {registry["version"]}, {len(modules)} Skills, '
-          f'{hashed} file hashes, links, single-truth and course regression checks')
+          f'{hashed} file hashes, links, single-truth, course regression and overview checks')
     print('Static checks only; not a model-behavior, client-installation or live-platform test.')
     return 0
 

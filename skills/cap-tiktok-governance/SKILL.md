@@ -20,6 +20,7 @@ Skill 是行为说明文件，不是权限系统。任何拥有本地文件权�
 | 场景判断、模块路由 | `cap-skill/SKILL.md` |
 | 共用交接、证据、授权、结果状态、能力四层 | `cap-skill/references/shared-contracts.md` |
 | 贡献利润 | `cap-skill/references/profit.md` |
+| 能力总览卡片与数字 | `cap-skill/references/overview.md`（由 `scripts/update_overview.py` 按实际文件生成，不手改） |
 | 课前准备流程控制契约 | `cap-tiktok-prep/SKILL.md` |
 | 课前准备节点表 | `cap-tiktok-computer-prep/SKILL.md` |
 | 选品流程与 100 分评分 | `cap-tiktok-selection/references/scoring-and-flow.md` |
@@ -89,7 +90,7 @@ Skill 是行为说明文件，不是权限系统。任何拥有本地文件权�
 4. 核对来源、日期、市场和适用条件；
 5. 在副本或 Git 分支修改；
 6. 检查受影响模块、路由和引用；
-7. 更新仓库根 `VERSION`、`modules.json` 版本和 `skills/cap-tiktok-prep/VERSION`，再运行 `python3 scripts/update_checksums.py` 重算 `SHA256SUMS.txt`；
+7. 更新仓库根 `VERSION`、`modules.json` 版本和 `skills/cap-tiktok-prep/VERSION`，先运行 `python3 scripts/update_overview.py` 重算能力总览卡片，再运行 `python3 scripts/update_checksums.py` 重算 `SHA256SUMS.txt`；
 8. 运行结构校验（`python3 scripts/validate.py`）、行为冒烟、边界反例和回归测试（`tests/behavior/cases.md`）；
 9. 向维护者展示差异、风险和回滚点；
 10. 合并到受保护分支，合并内容必须是已测试的内容，合并后不再改文件；
