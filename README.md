@@ -1,6 +1,6 @@
 # Cap-skill v4.0
 
-船长电商 TikTok 跨境电商 Skill 系统：一个总入口 + 六位业务大师 + 工作台、流量、营销、社媒、岗位、知识库六位扩展大师 + 课前准备与开店经营模块。适用于支持 `SKILL.md` 技能格式的 AI 客户端（Claude Code、Codex 等）。
+船长电商 TikTok 跨境电商 Skill 系统：一个总入口 + 六位业务大师 + 工作台、流量、营销、社媒、岗位、知识库、自学七位扩展大师 + 课前准备与开店经营模块。适用于支持 `SKILL.md` 技能格式的 AI 客户端（Claude Code、Codex 等）。
 
 > 版本：**4.1.0**。已通过结构校验和离线场景检查。店铺、广告或客服账户第一次接入时，会先只读核对数据和权限，确认无误后再执行任何修改。
 
@@ -12,7 +12,7 @@
 npx skills add Cap-operation/Cap-skill
 ```
 
-按提示选择你使用的 AI 客户端，并**选中全部 23 个技能**（模块之间互相引用，需装在同一目录）。
+按提示选择你使用的 AI 客户端，并**选中全部 24 个技能**（模块之间互相引用，需装在同一目录）。
 
 **手动安装（只需 Git 和 Python 3）**：
 
@@ -32,7 +32,7 @@ py -3 scripts\install.py install --dest %USERPROFILE%\.claude\skills --dry-run
 py -3 scripts\install.py install --dest %USERPROFILE%\.claude\skills
 ```
 
-PowerShell 里把 `%USERPROFILE%` 换成 `$HOME`。装好后运行一次 `status`（见下文“检查更新”），确认 23 个模块都是“已是最新”。
+PowerShell 里把 `%USERPROFILE%` 换成 `$HOME`。装好后运行一次 `status`（见下文“检查更新”），确认 24 个模块都是“已是最新”。
 
 `--dest` 换成你的客户端技能目录：Claude Code 为 `~/.claude/skills`；Codex 等客户端以其文档中的技能目录为准。安装器不会删除任何文件：遇到你改过的模块会停下报告冲突；旧版 `captain-tiktok*` 只在加 `--disable-legacy` 时移入备份目录。回滚：
 
@@ -42,7 +42,9 @@ python3 scripts/install.py rollback --dest ~/.claude/skills
 
 ## 检查更新
 
-最省事的办法（4.1.3 起）：在对话里说一句“更新你自己”。它会先查官方最新版、告诉你更新了什么，你同意后再下载、核对校验值并安装，旧文件自动备份，更新后新开一个对话生效。需要客户端能运行命令（如 Claude Code、Codex）；用 `npx skills add` 安装的仍然是重新运行安装命令。
+最省事的办法：在对话里说一句“更新你自己”。它会查官方最新版，有新版就直接下载、核对校验值并安装，旧文件自动备份，最后告诉你更新了什么；新开一个对话后生效。只想看看有没有新版、先不装，就说“检查更新”。需要客户端能运行命令（如 Claude Code、Codex）；用 `npx skills add` 安装的仍然是重新运行安装命令。
+
+从 4.1.5 起，说“更新你自己”一步就装好。4.1.3、4.1.4 装的是旧规则：说完“更新你自己”后，它会多问一句“现在更新吗？”，回答“更新”即可。
 
 也可以手动更新：
 
@@ -77,12 +79,13 @@ python3 scripts/install.py install --dest ~/.claude/skills   # 更新
 | `cap-tiktok-listing` | 船长上架大师 | 商品采集、优化、核价、经 DSers 推送到 Shopify / Wix；TikTok Shop 只出资料包，原生上架由店铺经营负责 |
 | `cap-tiktok-ads` | 船长投流大师 | TikTok 官方广告 MCP、Ads/Smart+、GMV Max、分析与授权执行；Meta、Google、亚马逊等平台报表只读诊断 |
 | `cap-tiktok-service` | 船长客服大师 | 客服十能力域、Chatwoot、知识库、人工交接 |
-| `cap-tiktok-workbench` | 船长工作台大师 | 按六步走：视觉风格（先把公司名字挂上画面）→ 功能按键 → 应用场景 → 优化 → 接口 → 交付；用零件库和 GitHub 开源项目拼出炫酷的 OPC 工作台，先模拟调试，最后接数据插座和执行插座 |
+| `cap-tiktok-workbench` | 船长工作台大师 | 按四步走：看样子（挂上公司名字，挑首页画面和配色）→ 定公司（市场和 AI 岗位，直接生成）→ 调到满意 → 交付；用零件库和 GitHub 开源项目拼出炫酷的 OPC 工作台，先模拟调试，交付后可选接数据插座和执行插座 |
 | `cap-tiktok-traffic` | 船长流量大师 | 独立站 SEO 与 GEO：被谷歌搜到、被 ChatGPT 等 AI 推荐；中文体检结论与修复清单；随包 SEO 33 项、GEO 16 项方法，另装完整版检测程序时自动抓取打分 |
 | `cap-tiktok-marketing` | 船长营销大师 | 客户研究、卖点、文案、促销定价、转化优化、邮件短信、上新与复购（27 项方法） |
 | `cap-tiktok-social` | 船长社媒大师 | 找爆款与趋势、拆竞品和达人、挖评论、Instagram 与 YouTube 运营（37 项方法） |
 | `cap-tiktok-roles` | 船长岗位大师 | 经营报告、现金流、库存、对账、采购、合同初审、招聘与 SOP（43 项方法） |
-| `cap-tiktok-knowledge` | 船长知识库大师 | Obsidian 知识库：需求诊断、资料加工、结构设计、星空图谱、长期复用 |
+| `cap-tiktok-knowledge` | 船长知识库大师 | Obsidian 知识库：讲清好处、跨境电商学员推荐框架、需求诊断、资料加工、星空图谱、长期复用 |
+| `cap-tiktok-learning` | 船长自学大师 | 一对一交互式学习：学习计划、一课一个文件、检查站、按回答推进、下次接着学；学会的可沉淀进知识库 |
 | `cap-tiktok-shop` | 店铺经营主线 | 市场、主体、注册、合规、上线、定价、达人、履约、财务 |
 | `cap-tiktok-operations` | 运营诊断 | TikTok 账号功能与平台提示 |
 | `cap-tiktok-prep` | 课前准备 | 学员课前固定流程 |

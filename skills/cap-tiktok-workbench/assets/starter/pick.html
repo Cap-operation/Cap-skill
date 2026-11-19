@@ -38,7 +38,7 @@
 </head>
 <body>
   <header class="p-top">
-    <nav class="wb-road" aria-label="六步路线"><b>① 视觉风格 · 现在</b><i>→</i><span>② 功能按键</span><i>→</i><span>③ 应用场景</span><i>→</i><span>④ 优化</span><i>→</i><span>⑤ 接口</span><i>→</i><span>⑥ 交付</span></nav>
+    <nav class="wb-road" aria-label="四步路线"><b>① 看样子 · 现在</b><i>→</i><span>② 定公司</span><i>→</i><span>③ 调到满意</span><i>→</i><span>④ 交付</span></nav>
     <div class="p-steps" id="p-steps"></div>
     <div class="p-card" id="p-card"></div>
   </header>
@@ -65,7 +65,7 @@
     var acc0 = q.has('accent') ? q.get('accent') : base.accent;
     if (acc0 && /^#[0-9a-fA-F]{6}$/.test(acc0)) pick.accent = acc0;
     // 每一步的选项名字和风格画廊顶部控制台的按钮名一致
-    var STEPS = [
+    var ALL_STEPS = [
       { key: 'palette', name: '配色', title: '哪个配色顺眼？', hint: '每个都是你的工作台在实时跑，只有颜色不同',
         opts: [['cyber', '赛博青'], ['neon', '霓虹粉紫'], ['aurora', '极光绿紫'], ['amber', '琥珀金'], ['jade', '翡翠绿'], ['ice', '冰蓝']] },
       { key: 'fx', name: '背景', title: '背景要什么氛围？', hint: '看画面后面和空白处',
@@ -77,12 +77,26 @@
       { key: 'opening', name: '开场', title: '每次打开工作台，要不要开场？', hint: '点“再播一次”重新看',
         opts: [['boot', '开机自检'], ['reveal', 'Logo 亮相'], ['none', '不要']] }
     ];
+    var STEPS = ALL_STEPS.slice();
+    // 默认只挑配色；第 3 步要并排比别的，用 pick.html?steps=fx,motion,celebrate,opening
+    var want = (q.get('steps') || 'palette').split(',');
+    STEPS = STEPS.filter(function (s) { return want.indexOf(s.key) !== -1; });
+    if (!STEPS.length) STEPS = ALL_STEPS.slice(0, 1);
+    // 这个画面所在组推荐的配色排在前面（和 references/visual-discovery.md 的“气质 → 自动配置”表一致）
+    var GROUP_PALETTES = { 'pixel-office': ['aurora', 'jade'], 'globe': ['aurora', 'jade'], 'neon-grid': ['neon'], 'neural-galaxy': ['neon'],
+      'data-vortex': ['cyber', 'ice'], 'node-matrix': ['cyber', 'ice'], 'energy-flow': ['amber', 'ice'], 'pipeline': ['amber', 'ice'] };
+    var REC = GROUP_PALETTES[pick.main_scene] || [];
+    STEPS.forEach(function (s) {
+      if (s.key !== 'palette') return;
+      s.opts = s.opts.filter(function (o) { return REC.indexOf(o[0]) !== -1; }).sort(function (a, b) { return REC.indexOf(a[0]) - REC.indexOf(b[0]); })
+        .concat(s.opts.filter(function (o) { return REC.indexOf(o[0]) === -1; }));
+    });
     var step = 0, frames = [], timer = null;
     var grid = document.getElementById('p-grid');
 
     function same(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
     function labelOf(key, val) {
-      var s = STEPS.filter(function (x) { return x.key === key; })[0];
+      var s = ALL_STEPS.filter(function (x) { return x.key === key; })[0];
       var o = s.opts.filter(function (x) { return same(x[0], val); })[0];
       var FXN = { grid: '网格', stars: '星空', rain: '数字雨', aurora: '极光流动', bokeh: '光斑', scan: '扫描线' };
       return o ? o[1] : (key === 'fx' ? [].concat(val).map(function (v) { return FXN[v] || v; }).join(' + ') || '干净' : val);
@@ -125,7 +139,7 @@
         tile.className = 'p-tile' + (same(pick[s.key], o[0]) ? ' picked' : '');
         var extra = s.key === 'opening' && o[0] !== 'none' ? '<button class="again">再播一次</button>' : '';
         tile.innerHTML = '<div class="p-view"><iframe loading="lazy" title="' + o[1] + '"></iframe></div>' +
-          '<div class="p-bar"><b>' + o[1] + '</b>' + extra + '<button class="zoom">放大看</button><button class="pick">选这个</button></div>';
+          '<div class="p-bar"><b>' + o[1] + (s.key === 'palette' && REC.indexOf(o[0]) !== -1 ? ' · 推荐' : '') + '</b>' + extra + '<button class="zoom">放大看</button><button class="pick">选这个</button></div>';
         grid.appendChild(tile);
         var f = tile.querySelector('iframe'); f.src = src(over); f._kind = o[0]; frames.push(f);
         tile.querySelector('.zoom').addEventListener('click', function (e) {

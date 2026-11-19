@@ -1,4 +1,4 @@
 interface:
   display_name: "船长工作台大师"
-  short_description: "六步给老板搭炫酷的 OPC 一人公司工作台：先把公司名字挂上画面、看图挑视觉，再定功能按键和应用场景，优化满意后才接接口"
+  short_description: "四步给老板搭炫酷的 OPC 一人公司工作台：挂上公司名字、挑画面和配色，定市场和 AI 岗位后直接生成，调到满意就交付，真实数据可以以后再接"
   default_prompt: "使用 $cap-tiktok-workbench 帮我搭一个属于我公司的 OPC 工作台，一次只问我一个问题。"

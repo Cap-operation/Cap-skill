@@ -245,7 +245,7 @@ body.fx-scan::after { content: ""; position: fixed; inset: 0; pointer-events: no
 @keyframes kpiflow { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 [data-motion="calm"] .role[data-s="working"] .role-av::after { animation-duration: 2.4s; }
 
-/* 六步路线条（风格画廊、看图挑选页顶上）：让老板一直知道自己在第几步 */
+/* 四步路线条（风格画廊、看图挑选页顶上）：让老板一直知道自己在第几步 */
 .wb-road { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; margin-bottom: 8px; font-size: 11.5px; color: var(--muted); }
 .wb-road b { color: var(--accent); }
 .wb-road i { font-style: normal; opacity: .45; }

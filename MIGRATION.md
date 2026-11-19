@@ -34,7 +34,7 @@
 4. 避免新旧两套同时触发：加 `--disable-legacy`，旧 `captain-tiktok*` 文件夹会移入 `<技能目录>/.cap-tiktok-backup/<时间>/`。
 5. 安装后运行一次 `python3 scripts/validate.py`（在仓库目录）。
 
-不使用安装器时：把 `skills/` 下 23 个文件夹复制到技能目录，并手动把旧 `captain-tiktok*` 文件夹移出该目录。
+不使用安装器时：把 `skills/` 下 24 个文件夹复制到技能目录，并手动把旧 `captain-tiktok*` 文件夹移出该目录。
 
 ## 回滚
 

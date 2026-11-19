@@ -180,7 +180,7 @@
     open: open,
     setPaused: setPaused,
     reducedMotion: reducedMotion,
-    /* 执行插座：该岗位的活是否交给真实执行（接口阶段，见 state-contract.md §5） */
+    /* 执行插座：该岗位的活是否交给真实执行（接数据阶段，见 state-contract.md §5） */
     isConnected: function (role) {
       role = typeof role === 'string' ? roleById(role) : role;
       var live = company.live || {};

@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长自学大师"
+  short_description: "一对一交互式学习：学习计划、一课一个文件、检查站、按回答推进、下次接着学"
+  default_prompt: "使用 $cap-tiktok-learning，当我的一对一老师，带我学一个主题：先出学习计划，一课一课讲，每课后面出题检查，我答对了再往下走。"

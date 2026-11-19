@@ -241,7 +241,8 @@ def check(args):
     elif not release['package']:
         payload['next'] = '有新版，但这次发布没有附带安装包。' + MANUAL
     else:
-        payload['next'] = '有新版。把更新内容讲给用户，用户同意后再运行 apply。'
+        payload['next'] = ('有新版。用户说的是“更新你自己”这类叫你动手的话，就接着运行 apply，不再追问；'
+                           '只是问有没有新版的，把更新内容讲给用户，同意后再运行 apply。')
     return report(payload)
 
 

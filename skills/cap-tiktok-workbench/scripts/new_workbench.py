@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""把「视觉卡、按键卡、场景卡 → 公司配置」拼成一个能打开的工作台文件夹。标准库实现。
+"""把「视觉卡、公司卡 → 公司配置」拼成一个能打开的工作台文件夹。标准库实现。
 
 用法（详见 references/build-and-debug.md）：
   python3 new_workbench.py --list-parts
@@ -12,6 +12,10 @@
   python3 new_workbench.py --company company.json --out <工作台目录> --gallery  # 风格画廊：装上全部零件，用老板的岗位实时预览
 
 company.json 字段见 references/state-contract.md（纯 JSON，不带 window.WB_COMPANY 前缀）。
+生成时会在输出文件夹里另存一份 company.json，以后 --update 就用这一份。
+还会放进 AGENTS.md、CLAUDE.md（只在没有时新建）和 给AI看的说明/（本技能 references 的副本），
+老板用 AI 编程工具打开工作台文件夹时，工具会先读到规矩。
+老板自己的改动放 custom/：custom.css、custom.js、parts/<id>/，更新时不动，并自动挂进 index.html。
 """
 
 import argparse
@@ -26,17 +30,33 @@ ASSETS = HERE.parent / 'assets'
 STARTER = ASSETS / 'starter'
 PARTS = ASSETS / 'parts'
 TEMPLATES = ASSETS / 'templates'
+REFERENCES = HERE.parent / 'references'
+SKILLS_DIR = HERE.parent.parent
+# 带路菜单里“搭知识库”“自学”两条路要用的说明，从兄弟模块复制；文件名避开 AGENTS.md / CLAUDE.md，免得被 AI 工具当成本文件夹的规矩
+EXTRA_NOTES = [
+    ('cap-tiktok-knowledge/references/why-and-framework.md', '知识库/why-and-framework.md'),
+    ('cap-tiktok-knowledge/assets/vault-AGENTS.md', '知识库/vault-AGENTS.md'),
+    ('cap-tiktok-learning/assets/learning-folder/AGENTS.md', '自学/learning-AGENTS.md'),
+]
 PALETTES = {'cyber', 'neon', 'aurora', 'amber', 'jade', 'ice'}
 KEEP_ON_UPDATE = {'data/live.json', 'vendor', 'connectors/local_config.json'}
 
 
-def load_parts():
+def load_parts(custom_dir=None):
     parts = {}
-    for p in sorted(PARTS.iterdir()) if PARTS.is_dir() else []:
-        meta_file = p / 'part.json'
-        if p.is_dir() and (p / 'part.js').is_file():
+    for base, custom in ((PARTS, False), (custom_dir, True)):
+        if base is None or not base.is_dir():
+            continue
+        for p in sorted(base.iterdir()):
+            meta_file = p / 'part.json'
+            if not (p.is_dir() and (p / 'part.js').is_file()):
+                continue
+            if custom and p.name in parts:
+                print(f'提醒：custom/parts/{p.name} 和零件库里的零件同名，没用它；换一个 id')
+                continue
             meta = json.loads(meta_file.read_text(encoding='utf-8')) if meta_file.is_file() else {'id': p.name}
             meta['_dir'] = p
+            meta['_custom'] = custom
             parts[p.name] = meta
     return parts
 
@@ -144,23 +164,44 @@ def build(cfg, parts, used, out, update):
     (out / 'data').mkdir(exist_ok=True)
     (out / 'data' / 'company.js').write_text(
         'window.WB_COMPANY = ' + json.dumps(cfg, ensure_ascii=False, indent=2) + ';\n', encoding='utf-8')
+    (out / 'company.json').write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    if REFERENCES.is_dir():
+        copy_tree(REFERENCES, out / '给AI看的说明')
+        for src, dst in EXTRA_NOTES:
+            if (SKILLS_DIR / src).is_file():
+                (out / '给AI看的说明' / dst).parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(SKILLS_DIR / src, out / '给AI看的说明' / dst)
+    if not (out / 'CLAUDE.md').exists():
+        (out / 'CLAUDE.md').write_text(
+            '# 给 Claude 的说明\n\n本文件夹的规矩写在 AGENTS.md（Codex、Cursor 等工具也读它），先读它：\n\n@AGENTS.md\n\n'
+            '## 老板自己的长期要求\n\n（写在这里；生成器更新工作台时不会覆盖本文件。）\n', encoding='utf-8')
     if (out / 'parts').exists():
         shutil.rmtree(out / 'parts')
     notices = ['第三方与来源说明（由 new_workbench.py 生成）\n']
     for pid in used:
         meta = parts[pid]
+        if meta.get('_custom'):
+            notices.append(f'{pid}（{meta.get("name", pid)}，老板自己的零件，在 custom/parts/）\n  来源：{meta.get("source", "未登记")}\n  许可：{meta.get("license", "未登记")}\n')
+            continue
         copy_tree(meta['_dir'], out / 'parts' / pid)
         notices.append(f'{pid}（{meta.get("name", pid)}）\n  来源：{meta.get("source", "未登记")}\n  许可：{meta.get("license", "未登记")}\n')
     vendor = out / 'vendor'
     if vendor.is_dir():
         notices.append('\nvendor/ 下的第三方代码见各自的许可证文件。\n')
     (out / 'THIRD_PARTY_NOTICES.txt').write_text('\n'.join(notices), encoding='utf-8')
-    tags = '\n'.join(f'  <script src="parts/{pid}/part.js"></script>' for pid in used)
+    tags = '\n'.join(f'  <script src="{"custom/parts" if parts[pid].get("_custom") else "parts"}/{pid}/part.js"></script>'
+                     for pid in used)
+    css_tag = '  <link rel="stylesheet" href="custom/custom.css" />\n' if (out / 'custom' / 'custom.css').is_file() else ''
+    js_tag = '  <script src="custom/custom.js"></script>\n' if (out / 'custom' / 'custom.js').is_file() else ''
     title = (cfg.get('company') or {}).get('name', 'OPC').replace('<', '')
     for page in ('index.html', 'gallery.html'):
         html = (STARTER / page).read_text(encoding='utf-8')
         html = re.sub(r'<!-- PARTS:BEGIN -->.*?<!-- PARTS:END -->',
                       '<!-- PARTS:BEGIN -->\n' + tags + '\n  <!-- PARTS:END -->', html, flags=re.S)
+        html = re.sub(r'<!-- CUSTOM-CSS:BEGIN -->.*?<!-- CUSTOM-CSS:END -->',
+                      '<!-- CUSTOM-CSS:BEGIN -->\n' + css_tag + '  <!-- CUSTOM-CSS:END -->', html, flags=re.S)
+        html = re.sub(r'<!-- CUSTOM-JS:BEGIN -->.*?<!-- CUSTOM-JS:END -->',
+                      '<!-- CUSTOM-JS:BEGIN -->\n' + js_tag + '  <!-- CUSTOM-JS:END -->', html, flags=re.S)
         html = html.replace('<title>OPC 工作台</title>', '<title>' + title + ' · OPC 工作台</title>')
         (out / page).write_text(html, encoding='utf-8')
     return out / 'index.html'
@@ -179,7 +220,7 @@ def main():
     ap.add_argument('--name', help='第 1 步“名字上墙”：用老板公司的名字替换配置里的名字（Logo 字默认取第一个字）')
     ap.add_argument('--mark', help='Logo 上的一个字（可选，默认取名字的第一个字）')
     a = ap.parse_args()
-    parts = load_parts()
+    parts = load_parts(Path(a.out).expanduser().resolve() / 'custom' / 'parts' if a.out else None)
     if a.list_parts:
         for pid, m in parts.items():
             print(f'{pid:14} {m.get("name", ""):8} {m.get("kind", ""):6} 适合：{"、".join(m.get("best_for", []))}  风格：{"、".join(m.get("style", []))}')
@@ -227,7 +268,7 @@ def main():
     index = build(cfg, parts, used, Path(a.out).expanduser().resolve(), a.update)
     print(f'已生成：{index}')
     if a.gallery:
-        print(f'风格画廊：{index.parent / "gallery.html"}（先挑主场景，再点“下一步：看图挑配色和特效”打开 pick.html；视觉卡定了再试装）')
+        print(f'风格画廊：{index.parent / "gallery.html"}（先挑主场景，再点“下一步：挑配色”打开 pick.html；视觉卡定了，问完市场和岗位就生成正式工作台）')
     print('双击 index.html 就能打开（模拟数据）；接真实接口时再用 启动工作台 脚本。')
 
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""执行插座的任务箱工具（接口阶段才用）：老板在工作台派给“已接通”岗位的活会进 data/outbox.jsonl，
+"""执行插座的任务箱工具（接数据以后才用）：老板在工作台派给“已接通”岗位的活会进 data/outbox.jsonl，
 由 Claude（或顾问）领取、交给对应的船长大师真的去做，再把结果写回 data/live.json，工作台上的小人随之干活、汇报。
 
   python3 connectors/outbox.py pending                  # 看还没处理的派活（JSON）

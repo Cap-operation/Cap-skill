@@ -40,7 +40,7 @@
 </head>
 <body>
   <header class="g-top">
-    <nav class="wb-road" aria-label="六步路线"><b>① 视觉风格 · 现在</b><i>→</i><span>② 功能按键</span><i>→</i><span>③ 应用场景</span><i>→</i><span>④ 优化</span><i>→</i><span>⑤ 接口</span><i>→</i><span>⑥ 交付</span></nav>
+    <nav class="wb-road" aria-label="四步路线"><b>① 看样子 · 现在</b><i>→</i><span>② 定公司</span><i>→</i><span>③ 调到满意</span><i>→</i><span>④ 交付</span></nav>
     <div class="g-row1">
       <h1 id="g-title">风格画廊</h1>
       <p>画面按第一眼的感觉分组，都在用你自己的岗位实时跑（模拟数据）。上面每一行点一下就能看到效果；看中了点“就用这个”。</p>
@@ -87,6 +87,15 @@
       'energy-flow': ['能量流体', 'calm', '彩色能量带从老板流向各岗位，再流向成果'],
       'pipeline': ['流水线', 'calm', '任务卡一列列从左往右走，最清楚']
     };
+    // 点“就用这个”后按组自动配好背景、动感、庆祝（和 references/visual-discovery.md 的“气质 → 自动配置”表一致）
+    // 老板在顶上控制台自己点过的那几项保持不变
+    var GROUP_LOOK = {
+      warm: { fx: ['bokeh'], motion: 'normal', celebrate: 'confetti' },
+      club: { fx: ['scan', 'stars'], motion: 'wild', celebrate: 'fireworks' },
+      tech: { fx: ['grid', 'rain'], motion: 'normal', celebrate: 'comet' },
+      calm: { fx: ['aurora'], motion: 'calm', celebrate: 'confetti' }
+    };
+    var touched = {};
     var names = {};
     Object.keys(SCENES).forEach(function (k) { names[k] = SCENES[k][0]; });
     var grid = document.getElementById('g-grid'), insts = [];
@@ -119,6 +128,7 @@
           var on = d.multi ? (o[0] === 'none' ? th[d.key].length === 0 : th[d.key].indexOf(o[0]) !== -1) : th[d.key] === o[0];
           if (on) b.className = 'on';
           b.addEventListener('click', function () {
+            touched[d.key] = true;
             if (d.multi && o[0] === 'none') th[d.key] = [];
             else if (d.multi) {
               var i = th[d.key].indexOf(o[0]);
@@ -147,7 +157,7 @@
       var pick = function (k) { var d = DIMS.find(function (x) { return x.key === k; }); return [].concat(th[k]).map(function (v) { var o = d.opts.find(function (x) { return x[0] === v; }); return o ? o[1] : v; }).join('+') || '干净'; };
       document.getElementById('g-card').innerHTML = '<b>我的视觉卡</b><span>名字：' + esc((cfg.company && cfg.company.name) || '我的 OPC 公司') + '</span><span>主场景：' + (names[th.main_scene] || '还没选') + '</span><span>配色：' + pick('palette') +
         (th.accent ? '</span><span>品牌色：' + th.accent : '') + '</span><span>背景：' + pick('fx') + '</span><span>动感：' + pick('motion') + '</span><span>庆祝：' + pick('celebrate') + '</span><span>开场：' + pick('opening') +
-        '</span>' + (th._picked ? '<a class="go" style="text-decoration:none;padding:6px 14px;border-radius:9px" href="pick.html?' + new URLSearchParams({ scene: th.main_scene, palette: th.palette, fx: th.fx.join(','), motion: th.motion, celebrate: th.celebrate, opening: th.opening, accent: th.accent || '' }).toString() + '">下一步：看图挑配色和特效 →</a>' : '<span style="color:var(--muted)">→ 先在下面挑一个主场景，点“就用这个”</span>');
+        '</span>' + (th._picked ? '<a class="go" style="text-decoration:none;padding:6px 14px;border-radius:9px" href="pick.html?' + new URLSearchParams({ scene: th.main_scene, palette: th.palette, fx: th.fx.join(','), motion: th.motion, celebrate: th.celebrate, opening: th.opening, accent: th.accent || '' }).toString() + '">下一步：挑配色 →</a>' : '<span style="color:var(--muted)">→ 先在下面挑一个主场景，点“就用这个”</span>');
     }
 
     function mountAll() {
@@ -175,7 +185,13 @@
         grid.appendChild(tile);
         tile.querySelector('button').addEventListener('click', function () {
           document.querySelectorAll('.g-tile').forEach(function (t) { t.classList.remove('picked'); });
-          tile.classList.add('picked'); th.main_scene = id; th._picked = true; card();
+          tile.classList.add('picked'); th.main_scene = id; th._picked = true;
+          var look = GROUP_LOOK[s[1]];
+          if (look) {
+            ['fx', 'motion', 'celebrate'].forEach(function (k) { if (!touched[k]) th[k] = k === 'fx' ? look.fx.slice() : look[k]; });
+            if (!touched.opening) th.opening = 'boot';
+            consoleUI(); applyAll(false);
+          } else card();
           if (FX) FX.celebrate(th.celebrate);
         });
         var host = tile.querySelector('.stage-host');
