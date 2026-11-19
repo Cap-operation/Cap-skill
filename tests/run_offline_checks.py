@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline package checks S01-S10 from the acceptance plan. Uses temp dirs only.
+"""Offline package checks S01-S11 from the acceptance plan. Uses temp dirs only.
 
 Does not touch the real HOME or any installed skills, and makes no network calls.
 """
@@ -182,24 +182,72 @@ def s10_self_update(tmp):
 
     bare = tmp / 's10-bare'
     shutil.copytree(ROOT / 'skills', bare)
+    (bare / 'cap-skill/scripts/release-files.sha256').unlink()
     untracked = run([str(bare / 'cap-skill/scripts/update.py'), 'apply', '--from-zip', str(package), '--sha256', good])
     left_alone = (untracked.returncode == 1
                   and (bare / 'cap-tiktok-prep/VERSION').read_text(encoding='utf-8').strip() == current)
 
     ok = refused and updated and left_alone
-    record('S10', ok, 'updater installs a newer package, refuses a wrong checksum, keeps local edits and needs an install record'
+    record('S10', ok, 'updater installs a newer package, refuses a wrong checksum, keeps local edits; '
+           'an old copy without a file list is left alone'
            if ok else f'refused={refused} updated={updated} left_alone={left_alone} {out.stdout[-300:]}')
+    return package, good
+
+
+def s11_npx_update(tmp, built=None):
+    """An install without an install record (npx, symlink mode) updates in place: edited modules are
+    kept, the rest are backed up and replaced, a new module is added and linked into the agent folder."""
+    package, good = built
+    current = (ROOT / 'VERSION').read_text(encoding='utf-8').strip()
+    home = tmp / 's11-home'
+    canonical = home / '.agents/skills'
+    agent = home / '.claude/skills'
+    shutil.copytree(ROOT / 'skills', canonical)
+    shutil.rmtree(canonical / 'cap-tiktok-learning')
+    agent.mkdir(parents=True)
+    for module in canonical.iterdir():
+        if module.is_dir():
+            (agent / module.name).symlink_to(module, target_is_directory=True)
+    edited = canonical / 'cap-tiktok-shop/SKILL.md'
+    edited.write_text(edited.read_text(encoding='utf-8') + '\n本地修改\n', encoding='utf-8')
+    out = run([str(agent / 'cap-skill/scripts/update.py'), 'apply', '--from-zip', str(package), '--sha256', good],
+              home=home)
+    result = json.loads(out.stdout) if out.stdout.strip().startswith('{') else {}
+    learning = agent / 'cap-tiktok-learning'
+    ok = (out.returncode == 2 and result.get('from_version') == current and result.get('to_version') == '99.0.0'
+          and result.get('conflicts') == ['cap-tiktok-shop'] and '本地修改' in edited.read_text(encoding='utf-8')
+          and 'cap-tiktok-learning' in result.get('created', []) and 'cap-skill' in result.get('replaced', [])
+          and (agent / 'cap-tiktok-prep/VERSION').read_text(encoding='utf-8').strip() == '99.0.0'
+          and (agent / 'cap-skill').is_symlink() and learning.is_symlink()
+          and learning.resolve() == (canonical / 'cap-tiktok-learning').resolve()
+          and Path(result.get('backup') or '.', 'cap-skill/SKILL.md').is_file()
+          and json.loads((canonical / '.cap-tiktok-files.json').read_text(encoding='utf-8'))['version'] == '99.0.0')
+    again = run([str(agent / 'cap-skill/scripts/update.py'), 'apply', '--from-zip', str(package), '--sha256', good],
+                home=home)
+    second = json.loads(again.stdout) if again.stdout.strip().startswith('{') else {}
+    ok = ok and again.returncode == 0 and second.get('updated') is False
+    record('S11', ok, 'npx-style install without a record updates in place, keeps edits, links the new module'
+           if ok else f'{out.returncode} {out.stdout[-400:]} {again.stdout[-200:]}')
 
 
 def main():
     with tempfile.TemporaryDirectory() as raw:
         tmp = Path(raw)
+        built = None
         for case in (s01_s02_static, s03_single_truth_negative, s05_archive_scan,
                      s06_clean_machine, s07_migration, s08_rollback, s09_status, s10_self_update):
             try:
-                case(tmp)
+                value = case(tmp)
+                if case is s10_self_update:
+                    built = value
             except Exception as error:  # report and continue with remaining cases
                 record(case.__name__, False, repr(error))
+        try:
+            if built is None:
+                raise RuntimeError('S10 did not build the test package')
+            s11_npx_update(tmp, built)
+        except Exception as error:
+            record('s11_npx_update', False, repr(error))
     failed = [r for r in RESULTS if not r[1]]
     print(f'\n{len(RESULTS) - len(failed)}/{len(RESULTS)} offline checks passed. '
           'S04 (sources/licenses) is reviewed by hand in THIRD_PARTY_NOTICES.md.')

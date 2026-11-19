@@ -197,6 +197,16 @@ def check_updater():
           'Hub must route updates through update.py, with consent and never silently')
 
 
+def check_file_list():
+    """The per-file list shipped in the hub must match the files under skills/."""
+    listing = SKILLS / 'cap-skill/scripts/release-files.sha256'
+    files = sorted(p for p in SKILLS.rglob('*') if p.is_file() and p.name != '.DS_Store' and p != listing)
+    expected = ''.join(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(SKILLS).as_posix()}\n'
+                       for p in files)
+    check(listing.is_file() and read(listing) == expected,
+          'release-files.sha256 is stale: run scripts/update_checksums.py')
+
+
 def check_checksums():
     seen = set()
     for line in read(ROOT / 'SHA256SUMS.txt').splitlines():
@@ -226,6 +236,7 @@ def main():
     check_course_regression()
     check_overview()
     check_updater()
+    check_file_list()
     hashed = check_checksums()
     if ERRORS:
         print('FAIL\n' + '\n'.join(ERRORS))

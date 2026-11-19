@@ -13,6 +13,11 @@ that file, checks every file against the package's own checksum list, and then r
 own installer. The installer moves replaced modules into a backup folder and leaves modules the
 user edited untouched. Nothing here runs on its own schedule, and `check` never changes anything.
 
+Installs without an install record (`npx skills add`, or folders copied by hand) are updated here
+directly: the file list shipped in this folder (release-files.sha256) tells which modules the user
+edited, those are left alone, the rest are backed up and replaced in place (so agent folders that
+link to them keep working), and new modules are added and linked the same way.
+
 On Windows use `py -3` instead of `python3`.
 """
 
@@ -26,6 +31,7 @@ import ssl
 import subprocess
 import sys
 import tempfile
+import time
 import urllib.error
 import urllib.request
 import zipfile
@@ -37,10 +43,16 @@ LATEST_API = f'https://api.github.com/repos/{REPO}/releases/latest'
 DOWNLOAD_PREFIX = f'https://github.com/{REPO}/releases/download/'
 MANIFEST = '.cap-tiktok-install.json'
 BACKUP = '.cap-tiktok-backup'
+FILE_LIST = 'cap-skill/scripts/release-files.sha256'
+STATE = '.cap-tiktok-files.json'
 MAX_PACKAGE_BYTES = 60 * 1024 * 1024
 MAX_UNPACKED_BYTES = 300 * 1024 * 1024
 MANUAL = (f'手动更新：到 https://github.com/{REPO}/releases 下载最新的 Cap-skill 安装包，'
           '按 README 的“检查更新”操作；用 npx 安装的，重新运行 npx skills add ' + REPO)
+
+
+NO_FILE_LIST = ('这台电脑上的技能是用 npx 或手动复制装的旧版本，缺少文件清单，没法核对哪些被改过，不能自动替换。'
+                f'请重新运行一次 npx skills add {REPO}（选中全部模块）；之后再说“更新你自己”就能直接更新。')
 
 
 class UpdateError(Exception):
@@ -66,12 +78,126 @@ def installed(dest):
                 return record['version'], True
         except (OSError, ValueError):
             pass
+    found = []
     marker = dest / 'cap-tiktok-prep' / 'VERSION'
     if marker.is_file():
-        text = marker.read_text(encoding='utf-8').strip()
-        if version_key(text):
-            return text, False
+        found.append(marker.read_text(encoding='utf-8').strip())
+    state = read_state(dest)
+    if state:
+        found.append(str(state.get('version') or ''))
+    found = [v for v in found if version_key(v)]
+    if found:
+        return max(found, key=version_key), False
     return None, False
+
+
+def parse_file_list(text):
+    known = {}
+    for line in text.splitlines():
+        digest, _, name = line.partition('  ')
+        if len(digest) == 64 and name:
+            known[name] = digest
+    return known
+
+
+def read_state(dest):
+    """What a previous no-record update installed: {'version': ..., 'files': {...}}, or None."""
+    try:
+        state = json.loads((dest / STATE).read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return None
+    return state if isinstance(state, dict) and isinstance(state.get('files'), dict) else None
+
+
+def file_lists(dest):
+    """Known-good file hashes: the list shipped in cap-skill, and the one a previous update left."""
+    lists = []
+    shipped = dest / FILE_LIST
+    if shipped.is_file():
+        known = parse_file_list(shipped.read_text(encoding='utf-8'))
+        if known:
+            lists.append(known)
+    state = read_state(dest)
+    if state and state['files']:
+        lists.append(state['files'])
+    return lists
+
+
+def edited_against(folder, slug, known):
+    for path in folder.rglob('*'):
+        if not path.is_file() or path.name == '.DS_Store' or '__pycache__' in path.parts:
+            continue
+        name = f'{slug}/{path.relative_to(folder).as_posix()}'
+        if name != FILE_LIST and known.get(name) != sha256_of(path):
+            return True
+    return False
+
+
+def module_edited(folder, slug, lists):
+    """True when the module matches none of the known-good lists, i.e. the user changed it."""
+    return all(edited_against(folder, slug, known) for known in lists)
+
+
+def linked_skill_dirs(dest):
+    """Other skills folders (e.g. ~/.claude/skills) whose cap-skill is a link into dest."""
+    found = []
+    target = (dest / 'cap-skill').resolve()
+    bases = {Path.home(), dest.parent.parent}
+    for base in bases:
+        try:
+            candidates = [p / 'skills' for p in base.iterdir() if p.name.startswith('.')]
+        except OSError:
+            continue
+        for skills in candidates:
+            link = skills / 'cap-skill'
+            try:
+                if (link.is_symlink() and link.resolve() == target and skills.resolve() != dest.resolve()
+                        and skills not in found):
+                    found.append(skills)
+            except OSError:
+                continue
+    return found
+
+
+def adopt(dest, root, target):
+    """Update an install that has no install record, module by module, in place."""
+    lists = file_lists(dest)
+    registry = json.loads((root / 'modules.json').read_text(encoding='utf-8'))
+    slugs = [m['slug'] for m in registry.get('modules', []) if isinstance(m, dict) and m.get('slug')]
+    backup = dest / BACKUP / time.strftime('%Y%m%d-%H%M%S')
+    replaced, created, conflicts = [], [], []
+    for slug in slugs:
+        source = root / 'skills' / slug
+        if not source.is_dir():
+            continue
+        place = dest / slug
+        if place.exists():
+            real = place.resolve()
+            if module_edited(real, slug, lists):
+                conflicts.append(slug)
+                continue
+            backup.mkdir(parents=True, exist_ok=True)
+            shutil.copytree(real, backup / slug)
+            shutil.rmtree(real)
+            shutil.copytree(source, real)
+            replaced.append(slug)
+        else:
+            if place.is_symlink():
+                place.unlink()
+            shutil.copytree(source, place)
+            created.append(slug)
+    shipped = root / 'skills' / FILE_LIST
+    state = {'version': target, 'files': parse_file_list(shipped.read_text(encoding='utf-8'))
+             if shipped.is_file() else {}}
+    (dest / STATE).write_text(json.dumps(state, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
+    linked = []
+    for skills in linked_skill_dirs(dest):
+        for slug in created:
+            link = skills / slug
+            if not link.exists() and not link.is_symlink():
+                link.symlink_to(dest / slug, target_is_directory=True)
+                linked.append(str(link))
+    return replaced, created, conflicts, (str(backup) if replaced else None), linked
 
 
 def tls_context():
@@ -226,6 +352,7 @@ def check(args):
         'latest_version': release['version'],
         'update_available': newer,
         'install_record': recorded,
+        'install_method': 'installer' if recorded else 'npx_or_copy',
         'published_at': release['published_at'],
         'release_notes': release['notes'],
         'package': ({'name': release['package']['name'], 'size_bytes': release['package']['size_bytes']}
@@ -235,9 +362,8 @@ def check(args):
         payload['next'] = '这台电脑上没找到已安装的 Cap-skill。' + MANUAL
     elif not newer:
         payload['next'] = '已经是最新版，不需要更新。'
-    elif not recorded:
-        payload['next'] = ('有新版，但这台电脑上的技能不是用安装器装的（没有安装记录），不能自动替换。'
-                           '用 npx 安装的，重新运行 npx skills add ' + REPO + ' 即可更新。')
+    elif not recorded and not file_lists(dest):
+        payload['next'] = '有新版，但' + NO_FILE_LIST
     elif not release['package']:
         payload['next'] = '有新版，但这次发布没有附带安装包。' + MANUAL
     else:
@@ -251,9 +377,8 @@ def apply(args):
     current, recorded = installed(dest)
     if not current:
         raise UpdateError('这台电脑上没找到已安装的 Cap-skill。')
-    if not recorded:
-        raise UpdateError('这台电脑上的技能不是用安装器装的（没有安装记录），不能自动替换。'
-                          '用 npx 安装的，重新运行 npx skills add ' + REPO + ' 即可更新。')
+    if not recorded and not file_lists(dest):
+        raise UpdateError(NO_FILE_LIST)
     with tempfile.TemporaryDirectory(prefix='cap-skill-update-') as temp:
         temp = Path(temp)
         if args.from_zip:
@@ -286,6 +411,26 @@ def apply(args):
             raise UpdateError('安装包里的版本号和发布的版本号不一致，已停止。')
         if version_key(target) < version_key(current):
             raise UpdateError(f'安装包是 {target}，比现在装的 {current} 旧，不做降级。')
+        if not recorded:
+            if target == current:
+                return report({'updated': False, 'installed_version': current,
+                               'latest_version': target, 'note': '已经是最新版，没有改动任何文件。'})
+            replaced, created, conflicts, backup, linked = adopt(dest, root, target)
+            payload = {
+                'updated': True,
+                'from_version': current,
+                'to_version': target,
+                'install_method': 'npx_or_copy',
+                'replaced': replaced,
+                'created': created,
+                'conflicts': conflicts,
+                'backup': backup,
+                'linked': linked,
+                'note': '更新完成。新开一个对话后新版才生效。',
+            }
+            if conflicts:
+                payload['note'] += '有模块被用户改过，没有替换，见 conflicts。'
+            return report(payload, 2 if conflicts else 0)
         result = subprocess.run(
             [sys.executable, '-I', str(root / 'scripts' / 'install.py'), 'install', '--dest', str(dest)],
             cwd=str(temp), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)

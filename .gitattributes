@@ -1,0 +1,4 @@
+# Keep every file exactly as committed: no CRLF conversion on Windows checkouts.
+# The updater compares installed files with release-files.sha256, so an
+# `npx skills add` checkout must be byte-for-byte the same as the release.
+* -text
