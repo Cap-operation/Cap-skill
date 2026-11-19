@@ -1,7 +1,7 @@
 {
   "product": "Cap-skill v4.0",
   "install_slug": "cap-skill",
-  "version": "4.1.6",
+  "version": "4.1.7",
   "modules": [
     {
       "slug": "cap-skill",

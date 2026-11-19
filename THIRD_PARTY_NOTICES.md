@@ -18,7 +18,7 @@
 |---|---|---|
 | [Claw-Empire](https://github.com/GreenSheep01201/claw-empire)（GreenSheep01201，提交 `66a24ea7df2435ef897c48c147deb7ec572c01c2`） | Apache-2.0 | `skills/cap-tiktok-workbench/assets/parts/pixel-office/`：家具绘制代码（经船长OPC工作台从 PixiJS 改写为 Canvas 2D，再改为按岗位数自动布局）与 60 张角色像素图（等比缩小到 160px 高，未改画面内容）。完整许可证在该目录 `LICENSE`，来源说明在 `part.js` 文件头。原工作台中的第三方动漫形象图未打包。 |
 
-| [claude-seo](https://github.com/AgriciDaniel/claude-seo)（AgriciDaniel，提交 `cca7e4a`） | MIT | `skills/cap-tiktok-traffic/references/library/claude-seo/`：33 项技能与 19 个子助手的 Markdown 正文 |
+| [claude-seo](https://github.com/AgriciDaniel/claude-seo)（AgriciDaniel，提交 `cca7e4a`） | MIT | `skills/cap-tiktok-traffic/references/library/claude-seo/`：33 项技能与 19 个子助手的 Markdown 正文（删去了原作者要求在结果末尾附加的社群推广段落） |
 | [geo-seo-claude](https://github.com/zubair-trabzada/geo-seo-claude)（Zubair Trabzada，提交 `989cae0`） | MIT | `skills/cap-tiktok-traffic/references/library/geo-seo-claude/`：16 项技能与 5 个子助手 |
 | [marketingskills](https://github.com/coreyhaines31/marketingskills)（Corey Haines） | MIT | `skills/cap-tiktok-marketing/references/library/marketingskills/`：27 项技能的 Markdown 正文 |
 | [social-media-research-skills](https://github.com/ScrapeCreators/social-media-research-skills)（ScrapeCreators） | MIT | `skills/cap-tiktok-social/references/library/social-media-research-skills/`：13 项 |
