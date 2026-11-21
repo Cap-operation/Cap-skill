@@ -30,9 +30,9 @@
 
 必须先说明：**Chrome 就是谷歌浏览器，接下来下载安装它。**
 
-用电脑当前浏览器，把下面地址复制到地址栏打开：
+用电脑当前浏览器，把下面地址复制到地址栏打开（飞书 1.2 给的 Chrome 官方下载地址）：
 
-https://www.google.cn/chrome/
+https://www.google.com/intl/zh-CN/chrome/
 
 选择适用于本机系统的下载入口，完成安装包下载。如果需要区分 Windows/Mac，已有系统信息直接复用；未知时只问当前选择所需的信息。不因下载 Chrome 恢复已撤出的粉猫芯片核对流程。官网界面或版本选项不明时依据打码截图或官方资料核对，不猜按钮位置。
 
@@ -46,6 +46,8 @@ https://www.google.cn/chrome/
 - Mac：打开刚下载的 .dmg，把 Google Chrome 拖入“应用程序”，再从“应用程序”打开。
 
 只提供符合学员系统的一条路径。尚不明确系统时只问系统，不凭其他学员或旧模拟的设备信息猜测。
+
+打开后顺手把 Chrome 设为默认浏览器（飞书 1.2 完成检查清单的要求，之后的账号登录和 AI 工具都在 Chrome 里用）。Windows 11 在“设置”→“应用”→“默认应用”里选 Google Chrome 设为默认；Mac 在 Chrome 右上角三个点 →“设置”→“默认浏览器”点“设为默认”，看不到这个按钮说明已经是默认（依据：Google Chrome 帮助「将 Chrome 设置为默认浏览器 - 计算机」https://support.google.com/chrome/answer/95417 ，核对日期 2026-11-21）。界面对不上时看打码截图，不猜按钮。没设成默认不卡住本步。
 
 完成后回复：Chrome 已安装并打开。
 
@@ -70,6 +72,8 @@ https://gcnvra3kee7w.feishu.cn/wiki/Fr7ewDdMRi6Ga6kiD2ecropInA3?from=from_copyli
 购买确认后，引导学员继续按照同一份飞书 SOP 完成本人账号资料修改；需要重新定位教程时提供同一地址，不再发送购买网站：
 
 https://gcnvra3kee7w.feishu.cn/wiki/Fr7ewDdMRi6Ga6kiD2ecropInA3?from=from_copylink
+
+发教程时附一句风险提醒：买来的账号要尽快改成你本人能长期控制的密码、恢复邮箱和手机号，并开启两步验证，否则卖家或别人可能还能登录或找回这个账号。只提醒要做到什么，具体怎么改按教程，不另写点击路径。
 
 完成后接受“Google 账号资料已修改”的反馈；没有正文不编造具体改绑步骤。购买不等于已修改，不收密码或恢复信息。
 
@@ -100,3 +104,26 @@ https://notebooklm.google.com/
 > 课前准备工作已完成，请调整好心态，准备开课，祝你学习顺利！
 
 仍有必需缺项时不能发完成祝词。验收通过只发送上述原文，不加下一步、建议或提问。结束后范围锁定仍生效；即使学员主动问手机网络、IP 配置、运营或 NotebookLM 深入用法，也固定拒答并转【船长电商】工作人员，不进入其他模块；学员明确退出课前准备的，按课前准备入口“退出课前准备”处理。
+
+## 单独使用时：自己注册 Gmail
+
+只在没有课前准备上下文、用户明确要自己注册 Gmail 时用；课前流程仍按 P19 购买，不在课前流程里提这一段。课程依据：飞书 1.2「二、核心账号资产准备」和 1.13「Gmail邮箱账户注册」。
+
+先讲清网络要求：飞书 1.2 提醒，不要用粉猫（Clash Verge）的普通公共节点直接注册，容易被 Google 风控拦下；要在干净的住宅 ISP IP 环境下注册。IP 怎么买、怎么测不在本模块，交回总入口。
+
+手机上注册（飞书 1.13，在 Gmail App 里），一次一步：
+
+1. 打开 Gmail App，点底部 Sign In。
+2. Set up email 页面点 Google；弹出跳转提示点 Continue。
+3. Google 登录页点左下 Create account，再选 For my personal use。
+4. 填 First name（Last name 选填），点 Next。生日要满 18 岁。
+5. 飞书在填完姓名和选邮箱地址之间少了一步（第 8 步是空的），中间出现的页面需核对，按学员截图带。
+6. 选系统推荐的 Gmail 地址，或点 Create your own Gmail address 自己起名，点 Next。
+7. Add a recovery contact 页面暂时不加就点 Skip。
+8. Review your account info 核对姓名和地址，点 Next。
+9. Privacy and Terms 页面滑到底，阅读同意后点 I agree。
+10. Confirm settings? 弹窗：接受就点 Confirm，想调整点 More options。
+
+电脑上注册时（飞书 1.2）：在 Google 登录页点“创建账号”→“个人用途”，出现“需要先验证一些信息”的二维码时，用你自己平时那台有 SIM 卡、能发短信的手机扫码（不用工作机，工作机按课程是不插卡的），再在手机上点 Send SMS，用手机短信界面把验证短信发出去。设置密码、接收验证码由用户自己完成，不发给 AI。
+
+自己注册一直卡在验证时，飞书 1.2 的备用办法是改买成品账号，渠道见飞书 1.2，本模块不另发购买网址。完成标准（飞书 1.2 检查清单）：Gmail 能正常登录、能收到邮件。

@@ -30,7 +30,10 @@ def count(root=ROOT):
     by_kind = {}
     for module in modules:
         by_kind.setdefault(module['kind'], []).append(module['display_name'])
+    names = {m['slug']: m['display_name'] for m in modules}
+    groups = [(g['name'], [names[s] for s in g['modules']]) for g in registry.get('groups', [])]
     return {
+        'groups': groups,
         'version': registry['version'],
         'modules': len(modules),
         'methods': methods,
@@ -42,8 +45,10 @@ def count(root=ROOT):
 
 
 def short(name):
-    """船长选品大师 -> 选品"""
-    return name.removeprefix('船长').removesuffix('大师')
+    """船长选品大师 -> 选品；店铺经营主线 -> 店铺经营"""
+    if name.startswith('船长') and name.endswith('大师'):
+        return name[2:-2]
+    return name.removesuffix('主线')
 
 
 def card(c):
@@ -62,9 +67,14 @@ def card(c):
         '｜'.join(parts + [f'{c["documents"]} 份方法文档']),
         f'合计 {total} 项能力 = ' + ' + '.join(parts),
         '',
-        f'{len(masters)} 位大师：{"、".join(masters)}',
-        f'{len(operations)} 条经营主线：{"、".join(operations)}',
     ]
+    if c['groups']:  # grouped card: masters and operation lines shown by group
+        lines.append(f'{len(masters) + len(operations)} 位大师和经营主线，分 {len(c["groups"])} 组：')
+        lines += [f'{name}：{"、".join(short(n) for n in members)}' for name, members in c['groups']]
+        lines.append('能帮你做的事，比如：挑商品、写带货文案、开 TikTok 小店、看广告数据、回买家消息、搭公司工作台、做财务和招聘')
+    else:
+        lines += [f'{len(masters)} 位大师：{"、".join(masters)}',
+                  f'{len(operations)} 条经营主线：{"、".join(operations)}']
     course, foundation = len(kinds.get('course', [])), len(kinds.get('foundation', []))
     if course or foundation:  # editions without the course flow leave this line out
         lines.append(f'学员课前准备：{course} 个入口 + {foundation} 个基础模块')

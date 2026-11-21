@@ -61,6 +61,12 @@ def check_registry():
         if module['kind'] != 'hub':
             check(registry['install_slug'] in module['requires'],
                   f'{slug}: must require the shared hub')
+    grouped = [s for g in registry.get('groups', []) for s in g['modules']]
+    if grouped:
+        expected = {s for s, m in modules.items() if m['kind'] in ('business', 'operations')}
+        check(len(grouped) == len(set(grouped)), 'A module appears in more than one group')
+        check(set(grouped) == expected,
+              f'Groups must cover every business and operations module once: {sorted(set(grouped) ^ expected)}')
     return registry, modules
 
 

@@ -153,9 +153,9 @@ description: "船长电商学员课前准备入口（3.1 的 captain-tiktok）�
 | 设备购买、监管机、硬件和 iPhone 状态 | `cap-tiktok-device-reset` |
 | 明确询问爱思助手、刷机、清空刷机或刷机后初始化 | `cap-tiktok-device-reset` |
 | 美国 Apple ID 注册、验证、App Store 或礼品卡 | `cap-tiktok-apple-id` |
-| Shadowrocket、小火箭、树洞订阅、Socks5、Proxy Pass | `cap-tiktok-shadowrocket-treehole` |
+| Shadowrocket、小火箭、树洞订阅、Socks5、Proxy Pass、UDP Relay；中转（树洞、mitce、云狐、花云）怎么买 | `cap-tiktok-shadowrocket-treehole` |
 | Miya、IPRoyal、911Proxy 购买 | `cap-tiktok-ip-purchase` |
-| IP 归属、风险、DNS、WebRTC、IPv6、Pixelscan、IPHey | `cap-tiktok-ip-diagnostics` |
+| IP 归属、风险、Scamalytics、DNS、WebRTC、IPv6、时区、Pixelscan、IPHey | `cap-tiktok-ip-diagnostics` |
 | TikTok 运营问题、账号功能、发布和平台提示 | `cap-tiktok-operations` |
 | 官方广告 MCP 接入、广告账户授权、创建或更新广告、效果分析、预算出价优化、Product/LIVE GMV Max 执行 | `cap-tiktok-ads`（仅独立投放或店铺篇授权任务；本课前入口仍固定拒答） |
 | 店铺篇、市场选择、店铺模式、营业执照、经营范围、注册审核、下店、保证金、结算、仓库、装修、定位、预算、现金流、FastMoss、选品、商品合规、认证、上架、商品卡、内容账号、定价、优惠、首月计划、达人、寄样、佣金、GMV Max、投流、直播、订单、发货、售后、客服、对账或店铺绩效 | `cap-tiktok-shop` |
@@ -170,7 +170,7 @@ description: "船长电商学员课前准备入口（3.1 的 captain-tiktok）�
 4. 一次只指导一个动作。
 5. 每个关键动作后要求打码截图或文字结果。
 6. 记录已完成步骤和已尝试操作。
-7. 同一问题连续三轮无法确认时，停止试错并转【船长电商】工作人员。
+7. 同一问题第二轮仍未解决、学员说看不懂，或 SOP 资料不足以讲清时，按[飞书知识库章节对照](../cap-skill/references/feishu-map.md)告诉学员这一步在飞书第几章、第几节、哪一段，并给链接；这不算一轮排查，不改变当前步骤和失败轮数，也不算框架外回答。同一问题连续三轮无法确认时，停止试错并转【船长电商】工作人员。
 8. 电脑端整体验收完成后，只输出课前准备完成提示，不主动引导手机网络配置或 TikTok 运营。
 
 表达要求：先给结论，再给一个动作；多写动词，少写描述。规则说明默认使用 3–4 条短句，单点问题用 1–3 句答完。只有用户追问才展开原理、例外或新资料。完成当前步骤后停，不追加开放式讨论。只针对当前任务追问，不为解释一个规则重复收集设备信息。

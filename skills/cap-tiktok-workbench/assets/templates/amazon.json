@@ -108,7 +108,7 @@
    ],
    "module": "pipeline",
    "executor": {
-    "skill": "cap-tiktok-listing",
+    "skill": "cap-tiktok-marketing",
     "connected": false
    }
   },
@@ -175,7 +175,7 @@
   {
    "key": "gmv",
    "label": "今日成交",
-   "prefix": "$",
+   "prefix": "",
    "format": "money",
    "sim": {
     "start": 2300,

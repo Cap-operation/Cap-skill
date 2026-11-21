@@ -2,11 +2,19 @@
 
 一次只排查一个问题、只让对方做一个动作；做完让他回一句结果或截图。排查完回到原来那一步。同一问题三轮没解决，按下面的[求助单](#求助单)在工作台文件夹写一份，再请对方把它发给【船长电商】工作人员。
 
+## 没有 Python
+
+不管在哪一步（第 1 步生成画廊、生成正式工作台、接数据、启动工作台）都可能遇到：先运行 `python3 --version`（Windows 用 `py -3 --version`）确认。
+
+- Mac：先在终端运行 `xcode-select --install`，装好系统自带的开发者工具就有 `python3`；不行再到 [Python 官网](https://www.python.org/downloads/) 下载 3.10 或更新版本。
+- Windows：从官网安装，第一屏勾选 Add Python to PATH；之后命令里的 `python3` 换成 `py -3`。
+- 装完关掉终端重新打开，再确认一次版本号，然后回到原来那一步。
+
 ## 页面打开是空白或一直在转
 
 | 现象 | 先做 | 原因与处理 |
 |---|---|---|
-| 双击 `index.html` 一片黑，只有背景 | 请对方按 F12 → Console 截图（顾问可直接看） | 多半是 `data/company.js` 格式错了：重新运行 `new_workbench.py --check` 找出错误再生成 |
+| 双击 `index.html` 一片黑，只有背景 | 请对方按 F12 → Console 截图（顾问可直接看） | 多半是配置格式错了：用 `<本技能文件夹>/scripts/new_workbench.py --company company.json --check` 找出错误，改好 `company.json` 后 `--update` 重新生成 |
 | 页面提示“主场景零件没有加载” | 看 `parts/` 里有没有该零件文件夹 | 用 `--update` 重新生成；零件名要和 `theme.main_scene` 一致 |
 | 用了 Safari 或很旧的浏览器，画面错位 | 换 Chrome 或 Edge 最新版 | 部分效果需要较新的浏览器 |
 | 从微信、网盘里直接点开 | 先把整个文件夹保存到电脑上再打开 | 只打开 `index.html` 一个文件会缺零件和数据 |
@@ -31,8 +39,7 @@
 | 现象 | 处理 |
 |---|---|
 | Mac 双击 `启动工作台.command` 提示无法打开 | 右键 → 打开 → 再点打开；或在终端进入工作台文件夹运行 `python3 start_workbench.py` |
-| 双击后黑色窗口一闪就没了 | 多半是电脑上没有 Python 3：终端里运行 `python3 --version`（Windows 用 `py -3 --version`）确认 |
-| 提示没有 Python | Mac：先在终端运行 `xcode-select --install`，装好系统自带的开发者工具就有 `python3`；不行再到 [Python 官网](https://www.python.org/downloads/) 下载 3.10 或更新版本。Windows：从官网安装，第一屏勾选 Add Python to PATH。装完关掉终端重新打开再试 |
+| 双击后黑色窗口一闪就没了 | 多半是电脑上没有 Python 3，按上面[没有 Python](#没有-python)处理 |
 | 端口被占用 | 脚本会自动换 8761–8800 之间的空闲端口；都被占说明开了很多个，关掉旧窗口 |
 | 页面显示“部分接通”但数字没变 | 看 `data/live.json` 的 `updatedAt` 是不是最新；连接脚本是否还在运行 |
 

@@ -201,12 +201,12 @@
           <div class="tw-vbox warn" data-paid="near" hidden>
             <div class="tw-kicker">普通广告 · 近 7 天</div>
             <p class="tw-verdict warn">接近保本</p>
-            <p class="tw-vtext">ROAS <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_roas" data-fmt="roas">—</b>，只比保本线高 <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_gap" data-fmt="pct0">—</b>，利润很薄，先别加预算。</p>
+            <p class="tw-vtext">ROAS <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_roas" data-fmt="roas">—</b>，只比估算保本线高 <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_gap" data-fmt="pct0">—</b>，成本率多算 10 个点就会亏。要用真实成本确认，先别加预算。</p>
           </div>
           <div class="tw-vbox ok" data-paid="profit" hidden>
             <div class="tw-kicker">普通广告 · 近 7 天</div>
-            <p class="tw-verdict ok">在赚钱</p>
-            <p class="tw-vtext">ROAS <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_roas" data-fmt="roas">—</b>，比保本线高 <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_gap" data-fmt="pct0">—</b>，可以考虑给表现好的计划加预算。</p>
+            <p class="tw-verdict ok">高于保本</p>
+            <p class="tw-vtext">ROAS <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_roas" data-fmt="roas">—</b>，比保本线高 <b data-draw="kv" data-source="kpi" data-row="0" data-field="paid_gap" data-fmt="pct0">—</b>。ROAS 达标不等于赚钱，还要看退款和店铺账；是否加预算，先按店铺篇的放大条件核对。</p>
           </div>
           <div class="tw-gbox">
             <div class="tw-gauge" data-draw="gauge" data-source="kpi settings" aria-label="普通广告 ROAS 与保本线"></div>
@@ -259,7 +259,7 @@
         </div>
 
         <div class="tw-panel">
-          <div class="tw-phead"><h2 class="tw-h" id="overview-campaigns">广告计划</h2><p class="tw-sub">竖线是保本线 <b data-draw="kv" data-source="settings" data-row="0" data-field="breakeven_roas" data-fmt="roas">—</b> · 亏钱的排在前面</p></div>
+          <div class="tw-phead"><h2 class="tw-h" id="overview-campaigns">广告计划</h2><p class="tw-sub">竖线是各计划的保本线（默认 <b data-draw="kv" data-source="settings" data-row="0" data-field="breakeven_roas" data-fmt="roas">—</b>）· 亏钱的排在前面</p></div>
           <div class="tw-pbody">
             <div class="tw-tablebox">
               <table class="tw-table" data-source="campaign_eval" data-row-key="campaign">
@@ -277,9 +277,9 @@
 
       <section class="tw-body" id="campaigns" data-panel="campaigns" hidden>
         <div class="tw-panel">
-          <div class="tw-phead"><h2 class="tw-h">全部广告计划 · 近 7 天</h2><p class="tw-sub">竖线是保本线 <b data-draw="kv" data-source="settings" data-row="0" data-field="breakeven_roas" data-fmt="roas">—</b></p></div>
+          <div class="tw-phead"><h2 class="tw-h">全部广告计划 · 近 7 天</h2><p class="tw-sub">竖线是各计划的保本线（默认 <b data-draw="kv" data-source="settings" data-row="0" data-field="breakeven_roas" data-fmt="roas">—</b>）</p></div>
           <div class="tw-pbody">
-            <p class="tw-sub">普通广告低于保本线是亏钱，高出不到 20% 算接近保本。已暂停、学习中和 GMV Max 的计划不下这个结论。</p>
+            <p class="tw-sub">低于保本线是亏钱。保本线是按成本率估算的，没超过“成本率多算 10 个点”的那条线算接近保本，要用真实成本确认。GMV Max 高于保本线只说明覆盖商品整体不亏，赚没赚要看店铺账。有自己保本线的计划按自己的线判断；已暂停、学习中的计划不下结论。</p>
             <div class="tw-tablebox">
               <table class="tw-table" data-source="campaign_eval" data-row-key="campaign">
                 <thead><tr>
@@ -298,7 +298,7 @@
         <div class="tw-panel">
           <div class="tw-phead"><h2 class="tw-h">素材表现 · 近 7 天</h2><p class="tw-sub">竖线是判断标准</p></div>
           <div class="tw-pbody">
-            <p class="tw-sub">点击率低于 <b data-draw="kv" data-source="settings" data-row="0" data-field="ctr_min" data-fmt="pct1">—</b> 算开头留不住人，转化率低于 <b data-draw="kv" data-source="settings" data-row="0" data-field="cvr_min" data-fmt="pct1">—</b> 算看了不买。示例标准，真实使用时按你的类目调整。</p>
+            <p class="tw-sub">点击率低于 <b data-draw="kv" data-source="settings" data-row="0" data-field="ctr_min" data-fmt="pct1">—</b> 算开头留不住人，转化率低于 <b data-draw="kv" data-source="settings" data-row="0" data-field="cvr_min" data-fmt="pct1">—</b> 算看了不买。<span data-sample="no" hidden>对比线是你账户近 30 天素材的中位数，只和自己比，不是行业标准。</span><span data-sample="yes" hidden>这是示例值，不是标准。</span></p>
             <div class="tw-tablebox">
               <table class="tw-table" data-source="creative_eval" data-row-key="creative">
                 <thead><tr>
@@ -320,7 +320,7 @@
               <ol class="tw-steps tw-sub">
                 <li>在右侧建议卡上点“复制指令”，粘贴到 Claude 对话里发送。</li>
                 <li>Claude 列出要改的计划、旧值和新值、金额上限，等你确认。</li>
-                <li>你说“确认”后 Claude 才改广告，改完回读，告诉你平台上的实际状态。</li>
+                <li>会多花钱的改动（加预算、启用、降 ROI 目标），你回“确认执行”后 Claude 才改；改完回读，告诉你平台上的实际状态。</li>
               </ol>
             </div>
           </div>
@@ -340,8 +340,8 @@
           <div class="tw-pbody">
             <dl class="tw-terms">
               <dt>ROAS</dt><dd>花 1 块钱广告费卖回多少钱。比如 ROAS 2.5，就是花 1 块卖回 2.5 块。</dd>
-              <dt>保本线</dt><dd>ROAS 到这个数刚好不赚不亏，用商品成本、运费、佣金等按贡献利润算出来。低于它就是在亏钱。</dd>
-              <dt>GMV Max ROI</dt><dd>GMV Max 的回报数字，里面含自然流量带来的成交，所以会偏高，不能直接和保本线比。</dd>
+              <dt>保本线</dt><dd>ROAS 到这个数刚好不赚不亏，用商品成本、运费、佣金等按贡献利润算出来。低于它就是在亏钱。成本是估算的，就再看成本率多算 10 个点后的那条更严的线。</dd>
+              <dt>GMV Max ROI</dt><dd>GMV Max 的回报数字，里面含自然流量带来的成交，所以会偏高。低于保本线可以确定在亏钱；高于保本线只说明覆盖商品整体不亏，赚没赚要看店铺账。</dd>
               <dt>点击率</dt><dd>看到广告的人里有多少点进来。低，说明视频开头留不住人。</dd>
               <dt>转化率</dt><dd>点进来的人里有多少下单。低，说明商品页、价格或评价有问题。</dd>
               <dt>学习中</dt><dd>新计划刚开始投，系统还在找人群，数据不稳，先不下结论。</dd>
@@ -365,20 +365,25 @@
 <script>
 dash.calc('campaign_eval', {
   title: '计划对比保本线',
-  description: '普通广告计划的 ROAS（成交额 ÷ 花费）和保本线比较；已暂停、学习中和 GMV Max 的计划不下结论。',
+  description: '计划的 ROAS / ROI（成交额 ÷ 花费）和保本线比较：有自己保本线的用自己的，否则用账户默认线；估算保本线和“成本率多算 10 个点”的最差线之间算接近保本；GMV Max 高于保本线只说明整体不亏；已暂停、学习中的不下结论。',
   inputs: ['campaigns', 'settings'],
   fn: (campaigns, settings) => {
-    const be = Number(settings[0].breakeven_roas);
-    const order = {'低于保本': 0, '接近保本': 1, '高于保本': 2};
+    const be0 = Number(settings[0].breakeven_roas);
+    const worst0 = Math.max(be0, Number(settings[0].breakeven_roas_worst) || 0);
+    const order = {'低于保本': 0, '接近保本': 1, '高于保本': 2, '整体不亏，待核店铺账': 2};
     return campaigns.map((c) => {
       const spend = Number(c.spend), gmv = Number(c.gmv);
       const roas = Math.round(gmv / spend * 100) / 100;
+      const own = Number(c.breakeven_roas) > 0;
+      const be = own ? Number(c.breakeven_roas) : be0;
+      const worst = Math.max(be, own ? (Number(c.breakeven_roas_worst) || 0) : worst0);
       let verdict;
       if (c.status === '已暂停') verdict = '已暂停';
       else if (c.status === '学习中') verdict = '学习中，不判断';
-      else if (c.type === 'GMV Max') verdict = '参考，不比保本';
-      else verdict = roas < be ? '低于保本' : roas < be * 1.2 ? '接近保本' : '高于保本';
-      return {campaign: c.campaign, type: c.type, status: c.status, spend, gmv, roas, verdict};
+      else if (roas < be) verdict = '低于保本';
+      else if (roas < worst) verdict = '接近保本';
+      else verdict = c.type === 'GMV Max' ? '整体不亏，待核店铺账' : '高于保本';
+      return {campaign: c.campaign, type: c.type, status: c.status, spend, gmv, roas, be, verdict};
     }).sort((a, b) => (order[a.verdict] ?? 3) - (order[b.verdict] ?? 3) || a.roas - b.roas);
   }
 });
@@ -400,10 +405,11 @@ dash.calc('creative_eval', {
 
 dash.calc('kpi', {
   title: '近 7 天与前 7 天',
-  description: '按天加总近 7 天和前 7 天：全部花费、成交额、订单；普通广告 ROAS 和 GMV Max ROI 分开算，普通广告再和保本线比较；数在投的亏钱计划和待批准的建议。',
+  description: '按天加总近 7 天和前 7 天：全部花费、成交额、订单；普通广告 ROAS 和 GMV Max ROI 分开算，普通广告再和账户默认保本线、最差线比较；数在投的亏钱计划和待批准的建议。',
   inputs: ['daily', 'campaign_eval', 'suggestions', 'settings'],
   fn: (daily, campaign_eval, suggestions, settings) => {
     const be = Number(settings[0].breakeven_roas);
+    const worst = Math.max(be, Number(settings[0].breakeven_roas_worst) || 0);
     const rows = daily.slice().sort((a, b) => a.day < b.day ? -1 : 1);
     const last = rows.slice(-7), prev = rows.slice(-14, -7);
     const sum = (rs, f) => rs.reduce((t, r) => t + Number(r[f]), 0);
@@ -423,7 +429,7 @@ dash.calc('kpi', {
       paid_roas_chg: paid_roas / paidP - 1,
       max_roi_chg: max_roi / maxP - 1,
       paid_gap: Math.abs(paid_roas / be - 1),
-      paid_state: paid_roas < be ? 'loss' : paid_roas < be * 1.2 ? 'near' : 'profit',
+      paid_state: paid_roas < be ? 'loss' : paid_roas < worst ? 'near' : 'profit',
       below: campaign_eval.filter((c) => c.verdict === '低于保本').length,
       pending: suggestions.filter((s) => s.status === '待你批准').length
     }];
@@ -530,20 +536,21 @@ dash.draw('gauge', (el) => {
   el.replaceChildren();
   if (tw.pending(el, [k.status, s.status])) return;
   const roas = Number(k.data[0].paid_roas), be = Number(s.data[0].breakeven_roas);
+  const worst = Math.max(be, Number(s.data[0].breakeven_roas_worst) || 0);
   const W = el.clientWidth || 360, H = 96, padX = 8;
-  const max = Math.max(be * 1.6, roas * 1.15);
+  const max = Math.max(be * 1.6, worst * 1.2, roas * 1.15);
   const x = d3.scaleLinear([0, max], [padX, W - padX]);
   const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
   const y0 = 46, h = 12;
   svg.append('rect').attr('x', x(0)).attr('y', y0).attr('width', x(be) - x(0)).attr('height', h).attr('rx', 3)
     .attr('fill', 'var(--color-bad)').attr('opacity', 0.16);
-  svg.append('rect').attr('x', x(be)).attr('y', y0).attr('width', x(be * 1.2) - x(be)).attr('height', h)
+  svg.append('rect').attr('x', x(be)).attr('y', y0).attr('width', x(worst) - x(be)).attr('height', h)
     .attr('fill', 'var(--color-warn)').attr('opacity', 0.18);
-  svg.append('rect').attr('x', x(be * 1.2)).attr('y', y0).attr('width', x(max) - x(be * 1.2)).attr('height', h).attr('rx', 3)
+  svg.append('rect').attr('x', x(worst)).attr('y', y0).attr('width', x(max) - x(worst)).attr('height', h).attr('rx', 3)
     .attr('fill', 'var(--color-ok)').attr('opacity', 0.16);
   const zone = (a, b, t) => svg.append('text').attr('x', (x(a) + x(b)) / 2).attr('y', y0 + h + 18).attr('text-anchor', 'middle')
     .attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(t);
-  zone(0, be, '亏钱'); zone(be * 1.2, max, '赚钱');
+  zone(0, be, '亏钱'); zone(worst, max, '高于保本');
   svg.append('line').attr('x1', x(be)).attr('x2', x(be)).attr('y1', y0 - 6).attr('y2', y0 + h + 4)
     .attr('stroke', 'var(--color-fg)').attr('stroke-width', 1.5);
   svg.append('text').attr('x', x(be)).attr('y', y0 + h + 18).attr('text-anchor', 'middle')
@@ -685,7 +692,7 @@ dash.draw('roasChart', (el) => {
       dot.attr('cx', x(r.date)).attr('cy', y(r.paid_roas)).attr('opacity', 1);
       const k = el.clientWidth / W;
       tw.showTip(el, tip, x(r.date) * k, y(r.paid_roas) * k, d3.utcFormat('%-m月%-d日')(r.date),
-        'ROAS ' + tw.fmt.roas(r.paid_roas) + (r.paid_roas < be ? '（亏钱）' : '（没亏）') + '　花费 ' + tw.fmt.money(r.paid_spend));
+        'ROAS ' + tw.fmt.roas(r.paid_roas) + (r.paid_roas < be ? '（亏钱）' : '（未低于保本）') + '　花费 ' + tw.fmt.money(r.paid_spend));
     })
     .on('pointerleave', () => { dot.attr('opacity', 0); tip.hidden = true; });
 });
@@ -736,7 +743,7 @@ dash.draw('campRows', (tbody) => {
   if (c.status !== 'ok' || s.status !== 'ok') return;
   const be = Number(s.data[0].breakeven_roas);
   const cls = {'低于保本': 'bad', '接近保本': 'warn', '高于保本': 'ok'};
-  const maxSpend = d3.max(c.data, (r) => r.spend), maxRoas = Math.max(be * 1.6, d3.max(c.data, (r) => r.roas));
+  const maxSpend = d3.max(c.data, (r) => r.spend), maxRoas = Math.max(be * 1.6, d3.max(c.data, (r) => Math.max(r.roas, r.be * 1.2)));
   c.data.forEach((r) => {
     const tr = tbody.insertRow(); tr.className = cls[r.verdict] || '';
     const n = tr.insertCell(); n.className = 'tw-name'; n.textContent = r.campaign;
@@ -747,7 +754,7 @@ dash.draw('campRows', (tbody) => {
     const g = tr.insertCell(); g.className = 'num'; g.textContent = tw.fmt.money(r.gmv);
     const ro = tr.insertCell(); ro.className = 'num';
     const col = cls[r.verdict] ? 'var(--color-' + cls[r.verdict] + ')' : 'var(--color-fg-muted)';
-    tw.bar(ro, tw.fmt.roas(r.roas), r.roas, maxRoas, r.type === 'GMV Max' ? null : be, col);
+    tw.bar(ro, tw.fmt.roas(r.roas), r.roas, maxRoas, r.be, col);
     tw.pill(tr.insertCell(), r.verdict, cls[r.verdict] || 'muted');
   });
 });

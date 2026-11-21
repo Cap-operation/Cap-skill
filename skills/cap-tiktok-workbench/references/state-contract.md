@@ -2,9 +2,9 @@
 
 本文件是工作台数据格式的唯一真源。外壳、模拟插座、真实插座和所有零件都只按这里的字段读写；新零件、新接口不得另起一套字段。
 
-## 1. 公司配置 `data/company.js`
+## 1. 公司配置 `company.json`（页面读 `data/company.js`）
 
-文件内容固定为 `window.WB_COMPANY = { … };`，大括号内是合法 JSON（方便脚本读写）。由视觉卡、公司卡生成，之后改岗位、数字、风格都只改这个文件，不改页面代码。
+配置写在工作台文件夹的 `company.json`，由视觉卡、公司卡生成；页面读的是生成器从它写出的 `data/company.js`（内容固定为 `window.WB_COMPANY = { … };`，大括号内是同样的 JSON）。之后改岗位、数字、风格，都改 `company.json`，再用生成器更新：`python3 <本技能文件夹>/scripts/new_workbench.py --company company.json --out . --update`；没装 Cap-skill 的，把同样的改动写进 `data/company.js`，两边保持一致。不改页面代码。
 
 | 字段 | 必填 | 说明 |
 |---|---|---|
@@ -41,7 +41,7 @@
 | `flow` | 可选，该岗位任务走的流水线 ID |
 | `color` | 可选，不填按调色板轮换 |
 | `socket` | 以后要接的真实数据，如“TikTok Shop 订单”；只写名称，不写密钥 |
-| `executor` | 执行插座：`{ "skill": "cap-tiktok-selection", "connected": false }`。`skill` 是以后真正干这个岗位活的船长模块；`connected` 只在接数据阶段该岗位接通后改为 `true` |
+| `executor` | 执行插座：`{ "skill": "cap-tiktok-selection", "connected": false }`。`skill` 是以后真正干这个岗位活的船长模块（按[执行插座默认对接](interview.md#执行插座默认对接)）；`connected` 只在接数据阶段该岗位接通后改为 `true`。没有对应模块的岗位 `skill` 留空、加 `"note": "暂无对应模块，只模拟"`，不打开执行插座 |
 
 ### 顶栏数字 `kpis[]`
 

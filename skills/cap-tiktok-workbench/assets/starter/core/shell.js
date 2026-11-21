@@ -253,7 +253,7 @@
           '<h4>数据插座</h4><div class="socket">现在：<b>' + (src ? '已接通' : '模拟数据') + '</b><br>' +
           (r.socket ? '以后接：' + esc(r.socket) : '以后可接真实后台；先把画面调满意再接') + '</div>' +
           '<h4>执行插座</h4><div class="socket">现在：<b>' + (WB.isConnected(r) ? '已接通 · 老板派的活交给 ' + esc((r.executor && r.executor.skill) || '真实执行') : '模拟干活') + '</b><br>' +
-          (r.executor && r.executor.skill ? '以后由 <b>' + esc(r.executor.skill) + '</b> 真的去做' : '以后可交给对应的船长大师真的去做') + '</div>' +
+          (r.executor && r.executor.skill ? '以后由 <b>' + esc(r.executor.skill) + '</b> 真的去做' : (r.executor && r.executor.note ? esc(r.executor.note) : '以后可交给对应的船长大师真的去做')) + '</div>' +
           '<h4>最近任务</h4><div id="wb-role-tasks"></div>' +
         '</div></div>';
       drawer.querySelector('.drawer-x').addEventListener('click', close);

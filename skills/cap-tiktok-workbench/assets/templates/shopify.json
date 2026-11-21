@@ -219,7 +219,7 @@
    ],
    "module": "globe",
    "executor": {
-    "skill": "cap-tiktok-shop",
+    "skill": "cap-tiktok-roles",
     "connected": false
    }
   }
@@ -228,7 +228,7 @@
   {
    "key": "gmv",
    "label": "今日成交",
-   "prefix": "$",
+   "prefix": "",
    "format": "money",
    "sim": {
     "start": 4200,

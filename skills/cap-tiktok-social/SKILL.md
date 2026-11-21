@@ -1,6 +1,6 @@
 ---
 name: cap-tiktok-social
-description: "船长社媒大师：社媒出海运营与研究。找趋势和爆款、拆竞品和达人账号、挖评论里的买家原话、判断商品需求、找合作达人、拆竞品广告库，并做 Instagram 和 YouTube 的内容规划、脚本、文案、封面标题、账号诊断和评论区运营，中文输出。用户做海外社媒、找达人、研究爆款或运营 Instagram、YouTube 时使用；TikTok 短视频口播改写归拆解大师，广告投放归投流大师。"
+description: "船长社媒大师：社媒出海运营与研究。找趋势和爆款、拆竞品和达人账号、挖评论里的买家原话、判断商品需求、找合作达人、拆竞品广告库，并做 Instagram 和 YouTube 的内容规划、脚本、文案、封面标题、账号诊断和评论区运营；跟用户用中文说明，给海外观众的文案用目标市场语言附中文对照。用户做海外社媒、在 Instagram 和 YouTube 找达人、研究爆款、拆竞品广告或运营 Instagram、YouTube 时使用；TikTok 账号运营和联盟达人归店铺篇，TikTok 短视频口播改写归拆解大师，广告投放归投流大师。"
 ---
 
 # 船长社媒大师
@@ -9,14 +9,20 @@ description: "船长社媒大师：社媒出海运营与研究。找趋势和爆
 
 帮跨境商家做海外社媒：先研究（趋势、爆款、竞品、达人、评论里的买家原话），再运营 Instagram 和 YouTube 账号。方法来自三个开源社媒技能库，按 Cap 规则改造。
 
+按[总入口](../cap-skill/SKILL.md)“名字相近、容易分错的”表分工：
+
+- TikTok 账号发什么、怎么涨粉、内容账号绑定归[店铺经营主线](../cap-tiktok-shop/references/content-account.md)；本模块的账号运营只管 Instagram 和 YouTube。
+- 达人：在 Instagram、YouTube 上找达人、给达人打分归本模块；TikTok Shop 联盟达人（佣金、寄样、建联话术）归[店铺经营主线](../cap-tiktok-shop/references/creator-content.md)；品牌层面的达人合作预算和合同归[营销大师](../cap-tiktok-marketing/SKILL.md)。
+- 竞品广告拆解归本模块；[投流大师](../cap-tiktok-ads/SKILL.md)只看自家广告账户，负责投放。
 - TikTok 短视频的钩子和口播改写归[拆解大师](../cap-tiktok-breakdown/SKILL.md)，本模块的研究结果（爆款开头、买家原话）交给它；选品判断归[选品大师](../cap-tiktok-selection/SKILL.md)，需求研究结果作为它的一份证据。
-- 广告投放归[投流大师](../cap-tiktok-ads/SKILL.md)；营销方案和文案归[营销大师](../cap-tiktok-marketing/SKILL.md)。
+- 营销方案和商品页、邮件文案归营销大师。
 
 ## Cap 规则（覆盖参考库原文）
 
 参考库是第三方原文（英文），只当方法参考；与下面规则或[总入口](../cap-skill/SKILL.md)、[共用交接约定](../cap-skill/references/shared-contracts.md)冲突时，以 Cap 规则为准。
 
-- **一律中文输出**，结论在前，默认 3–4 条短句；英文术语第一次出现附一句中文解释。
+- 跟用户说话用中文，结论在前，默认 3–4 条短句；英文术语第一次出现附一句中文解释。给海外观众看的帖子文案、脚本、标题、回复草稿按[共用交接约定第 10 节](../cap-skill/references/shared-contracts.md#10-交付语言)用目标市场语言写，下附中文对照。
+- 参考库按[共用交接约定第 11 节](../cap-skill/references/shared-contracts.md#11-收录的第三方方法库怎么用)改用：方法要求自建的档案（如 `~/.claude/instagram/…`）一律改用商家档案，写前先问；没有脚本时不输出分数；SaaS 或美国场景的方法先按本系统口径改。
 - 先读[商家档案](../cap-skill/references/shared-contracts.md#8-商家档案本地)（有的话），只问会改变下一步的一个问题。
 - 成本、利润、定价只用[贡献利润口径](../cap-skill/references/profit.md)，不用参考库里的公式另算。
 - 发送、发布、回复、改价、付款、签署、对外提交等任何对外动作，都按共用约定第 4 节先列确认条、经用户批准才做；默认只交付草稿。
@@ -30,12 +36,12 @@ description: "船长社媒大师：社媒出海运营与研究。找趋势和爆
 
 | 任务 | 参考 |
 |---|---|
-| 数据接口说明（需要用户自己的 ScrapeCreators 付费账号） | [scrapecreators-api](references/library/social-media-research-skills/scrapecreators-api/guide.md) |
+| 数据接口说明（只在能运行命令且用户已有 ScrapeCreators 付费账号时用） | [scrapecreators-api](references/library/social-media-research-skills/scrapecreators-api/guide.md) |
 | 发现趋势与热门话题 | [trend-discovery](references/library/social-media-research-skills/trend-discovery/guide.md) |
 | 找爆款帖子（远超平均表现的内容） | [outlier-post-finder](references/library/social-media-research-skills/outlier-post-finder/guide.md) |
 | 竞品社媒账号研究 | [competitor-social-research](references/library/social-media-research-skills/competitor-social-research/guide.md) |
 | 拆解达人账号 | [creator-profile-teardown](references/library/social-media-research-skills/creator-profile-teardown/guide.md) |
-| 寻找合作达人 | [influencer-prospecting](references/library/social-media-research-skills/influencer-prospecting/guide.md) |
+| 在 Instagram、YouTube 寻找合作达人（TikTok Shop 联盟达人归店铺篇） | [influencer-prospecting](references/library/social-media-research-skills/influencer-prospecting/guide.md) |
 | 受众研究 | [audience-research](references/library/social-media-research-skills/audience-research/guide.md) |
 | 评论挖掘：买家原话、痛点、疑问 | [comment-mining](references/library/social-media-research-skills/comment-mining/guide.md) |
 | 从社媒判断商品需求 | [product-demand-research](references/library/social-media-research-skills/product-demand-research/guide.md) |
@@ -80,9 +86,9 @@ description: "船长社媒大师：社媒出海运营与研究。找趋势和爆
 
 ## 本模块额外规则
 
-- **研究数据**：社媒研究方法需要 ScrapeCreators 付费接口时，由用户自己注册并把密钥配置在本机环境变量里；不要在对话里发密钥，不读取、不复述、不写进任何文件。没有接口时，用用户提供的截图、链接内容或导出数据分析，并说明覆盖范围。
+- **研究数据**：默认用用户提供的截图、链接内容或平台导出数据分析，并说明覆盖范围；纯聊天环境（不能运行命令）一律这样做。只有当前环境能运行命令、且用户已经有 ScrapeCreators 付费账号时才提这个接口，不主动推荐新手去注册；密钥由用户自己配置在本机环境变量里，不要在对话里发，不读取、不复述、不写进任何文件。用之前提醒：第三方抓取可能违反平台服务条款，抓到的数据结论只作参考。
 - **发帖、回复、私信**：只写草稿；发布、回复、私信、关注、点赞都由用户本人操作或经批准后执行。不批量私信、不刷互动、不冒充买家或达人。
-- **达人合作**：只整理公开信息和合作建议，不收集达人的私人联系方式以外的个人资料。
+- **达人合作**：只整理公开信息和公开的商务联系方式；不收集私人手机号、私人邮箱、住址等个人资料。
 - 研究结论注明平台、时间范围和样本量，单个账号的爆款不当成类目规律。
 
 ## 能力状态
@@ -90,7 +96,7 @@ description: "船长社媒大师：社媒出海运营与研究。找趋势和爆
 | 层级 | 状态 |
 |---|---|
 | 方法已实现 | 是：13 项社媒研究、13 项 Instagram、11 项 YouTube 方法 |
-| 工具 | ScrapeCreators 接口可选，需要用户自己的账号；没有时用截图和导出数据 |
+| 工具 | 默认用截图和导出数据；ScrapeCreators 接口只在能运行命令且用户已有账号时可选，结论只作参考 |
 | 首次接入 | 第一次接入数据接口时先抽查几条与平台页面一致，再用于结论 |
 
 ## 来源

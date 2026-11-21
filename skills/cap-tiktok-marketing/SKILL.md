@@ -1,6 +1,6 @@
 ---
 name: cap-tiktok-marketing
-description: "船长营销大师：跨境电商品牌与独立站营销。客户研究、竞品拆解、卖点定位、商品页与广告文案、促销与定价、转化率优化、A/B 测试、新品上市、邮件短信、弹窗留资、老带新、达人合作、社群公关、复购挽回和营销数据归因，中文输出可执行方案与文案草稿。用户要做营销计划、写文案、提转化、做促销、做邮件或上新计划时使用；不负责广告账户操作、社媒账号运营、选品或建站。"
+description: "船长营销大师：跨境电商品牌与独立站营销。客户研究、竞品拆解、卖点定位、商品页与广告图文文案、独立站促销与定价、转化率优化、A/B 测试、新品上市、邮件短信、弹窗留资、老带新、品牌层面的达人合作预算与合同、社群公关、复购挽回和营销数据归因；跟用户用中文说明方案，给买家看的文案用目标市场语言附中文对照。用户要做营销计划、写商品页或广告文案、提转化、做独立站促销、做邮件或上新计划时使用；不负责广告账户操作、TikTok 与社媒账号运营、TikTok Shop 店内定价和活动、视频口播改写、选品或建站。"
 ---
 
 # 船长营销大师
@@ -9,14 +9,20 @@ description: "船长营销大师：跨境电商品牌与独立站营销。客户
 
 为跨境电商商家做品牌和独立站营销：从研究买家、定卖点，到写文案、设计促销、提升转化、做邮件短信和复购。方法来自开源营销技能库，按 Cap 规则改造。
 
-- 短视频口播与钩子改写归[拆解大师](../cap-tiktok-breakdown/SKILL.md)；广告账户与投放归[投流大师](../cap-tiktok-ads/SKILL.md)；TikTok、Instagram、YouTube 账号运营归[社媒大师](../cap-tiktok-social/SKILL.md)；SEO 与 GEO 归[流量大师](../cap-tiktok-traffic/SKILL.md)。
+按[总入口](../cap-skill/SKILL.md)“名字相近、容易分错的”表分工：
+
+- 商品页、图文、邮件文案的**初稿**归本模块；[流量大师](../cap-tiktok-traffic/SKILL.md)只在这份稿上补搜索关键词和可引用段落，[上架大师](../cap-tiktok-listing/SKILL.md)只负责写入和事实核对。视频口播与钩子改写归[拆解大师](../cap-tiktok-breakdown/SKILL.md)（默认 1 稿）。
+- TikTok 账号发什么、怎么涨粉、TikTok Shop 店内定价和平台活动归[店铺经营主线](../cap-tiktok-shop/SKILL.md)；本模块的促销只管独立站。Instagram、YouTube 账号运营和竞品广告拆解归[社媒大师](../cap-tiktok-social/SKILL.md)。
+- 达人：本模块只管品牌层面的达人合作预算和合同要点；在 Instagram、YouTube 上找达人、打分归社媒大师；TikTok Shop 联盟达人（佣金、寄样、建联）归店铺经营主线。
+- 广告账户与投放归[投流大师](../cap-tiktok-ads/SKILL.md)；独立站装像素、转化事件归[建站大师](../cap-tiktok-site/SKILL.md)。
 - 商品事实以共用约定的商品事实为准，不写没有证据的功效、认证或对比结论。
 
 ## Cap 规则（覆盖参考库原文）
 
 参考库是第三方原文（英文），只当方法参考；与下面规则或[总入口](../cap-skill/SKILL.md)、[共用交接约定](../cap-skill/references/shared-contracts.md)冲突时，以 Cap 规则为准。
 
-- **一律中文输出**，结论在前，默认 3–4 条短句；英文术语第一次出现附一句中文解释。
+- 跟用户说话、解释方案用中文，结论在前，默认 3–4 条短句；英文术语第一次出现附一句中文解释。给买家看的成品（商品页、广告文案、邮件、短信、弹窗）按[共用交接约定第 10 节](../cap-skill/references/shared-contracts.md#10-交付语言)用目标市场语言写，下附中文对照。
+- 参考库按[共用交接约定第 11 节](../cap-skill/references/shared-contracts.md#11-收录的第三方方法库怎么用)改用：方法要求读写的 Business context、`.agents/…` 等档案一律改用商家档案，写前先问；没有脚本时不输出分数；SaaS 方法先按本系统口径改。
 - 先读[商家档案](../cap-skill/references/shared-contracts.md#8-商家档案本地)（有的话），只问会改变下一步的一个问题。
 - 成本、利润、定价只用[贡献利润口径](../cap-skill/references/profit.md)，不用参考库里的公式另算。
 - 发送、发布、回复、改价、付款、签署、对外提交等任何对外动作，都按共用约定第 4 节先列确认条、经用户批准才做；默认只交付草稿。
@@ -37,10 +43,10 @@ description: "船长营销大师：跨境电商品牌与独立站营销。客户
 | 营销计划 | [marketing-plan](references/library/marketingskills/marketing-plan/guide.md) |
 | 营销点子清单 | [marketing-ideas](references/library/marketingskills/marketing-ideas/guide.md) |
 | 消费心理与说服原则 | [marketing-psychology](references/library/marketingskills/marketing-psychology/guide.md) |
-| 商品页、落地页、广告文案 | [copywriting](references/library/marketingskills/copywriting/guide.md) |
+| 商品页、落地页、广告图文文案（初稿） | [copywriting](references/library/marketingskills/copywriting/guide.md) |
 | 文案润色与校对 | [copy-editing](references/library/marketingskills/copy-editing/guide.md) |
-| 促销与组合优惠设计 | [offers](references/library/marketingskills/offers/guide.md) |
-| 定价策略与价格页 | [pricing](references/library/marketingskills/pricing/guide.md) |
+| 促销与组合优惠设计（SaaS 原文，见下方提示） | [offers](references/library/marketingskills/offers/guide.md) |
+| 定价策略（SaaS 原文，见下方提示） | [pricing](references/library/marketingskills/pricing/guide.md) |
 | 转化率优化（商品页、结账） | [cro](references/library/marketingskills/cro/guide.md) |
 | A/B 测试设计与解读 | [ab-testing](references/library/marketingskills/ab-testing/guide.md) |
 | 新品上市计划 | [launch](references/library/marketingskills/launch/guide.md) |
@@ -49,18 +55,22 @@ description: "船长营销大师：跨境电商品牌与独立站营销。客户
 | 弹窗与留资 | [popups](references/library/marketingskills/popups/guide.md) |
 | 引流赠品与留资素材 | [lead-magnets](references/library/marketingskills/lead-magnets/guide.md) |
 | 老带新与推荐计划 | [referrals](references/library/marketingskills/referrals/guide.md) |
-| 达人合作策略 | [influencer-marketing](references/library/marketingskills/influencer-marketing/guide.md) |
+| 品牌层面的达人合作策略、预算和合同要点 | [influencer-marketing](references/library/marketingskills/influencer-marketing/guide.md) |
 | 社群运营 | [community-marketing](references/library/marketingskills/community-marketing/guide.md) |
 | 公关与媒体报道 | [public-relations](references/library/marketingskills/public-relations/guide.md) |
 | 内容策略与选题 | [content-strategy](references/library/marketingskills/content-strategy/guide.md) |
-| 复购与流失挽回 | [churn-prevention](references/library/marketingskills/churn-prevention/guide.md) |
+| 复购与流失挽回（SaaS 原文，见下方提示） | [churn-prevention](references/library/marketingskills/churn-prevention/guide.md) |
 | 营销数据与指标 | [analytics](references/library/marketingskills/analytics/guide.md) |
 | 归因分析 | [attribution](references/library/marketingskills/attribution/guide.md) |
-| 转化追踪设置 | [conversion-tracking](references/library/marketingskills/conversion-tracking/guide.md) |
+| 转化追踪：定要追哪些事件和口径（安装像素归建站大师） | [conversion-tracking](references/library/marketingskills/conversion-tracking/guide.md) |
+
+**定价、促销、复购三项是 SaaS 原文**（按席位定价、订阅挽留等），电商场景先读[定价、优惠与平台活动](../cap-tiktok-shop/references/pricing-promotions.md)和[利润口径](../cap-skill/references/profit.md)的“三个价格”，任何优惠价都不低于活动最低可售价；原文只借思路。
+
+**邮件、短信名单**：只能用用户在自己渠道（独立站、自有社群等）合规拿到营销同意的联系人；不能用 TikTok Shop 等平台订单里的买家资料发营销。目标市场的营销同意规定（订阅确认、退订方式等）需核对当前官方规则。
 
 ## 交付
 
-- 文案类：给 2–3 个有差异的版本，每版写清针对的买家和卖点，标注需要事实确认的地方。
+- 文案类（商品页、广告图文、邮件、短信）：给 2–3 个有差异的版本，每版写清针对的买家和卖点，标注需要事实确认的地方。视频口播不在这里写，交拆解大师（默认 1 稿）。
 - 方案类：目标、做法、所需资源、衡量指标、停止条件；不承诺转化率或销售额。
 - 发出邮件、短信、上线弹窗或改价前，交给用户或对应大师，经批准再执行。
 
@@ -68,7 +78,7 @@ description: "船长营销大师：跨境电商品牌与独立站营销。客户
 
 | 层级 | 状态 |
 |---|---|
-| 方法已实现 | 是：27 项营销方法与中文交付规则 |
+| 方法已实现 | 是：27 项营销方法与交付规则 |
 | 工具 | 不需要专属工具；邮件、短信、建站等平台由用户或对应大师操作 |
 | 首次接入 | 用到真实店铺数据时，先抽查几项与后台一致再下结论 |
 

@@ -1,4 +1,4 @@
 interface:
   display_name: "船长流量大师"
-  short_description: "独立站 SEO 与 GEO：让商品页被谷歌搜到、被 ChatGPT 等 AI 推荐，中文输出跨境电商可执行清单"
+  short_description: "独立站 SEO 与 GEO：让商品页被谷歌搜到、被 ChatGPT 等 AI 推荐，用中文给跨境电商可执行清单"
   default_prompt: "使用 $cap-tiktok-traffic 先确认独立站网址、目标国家和主推商品，做一次快速体检，用中文给出最该先改的三件事。"

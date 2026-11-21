@@ -1,6 +1,6 @@
 # 零件清单
 
-零件放在 `assets/parts/<id>/`，每个零件都能当首页主场景（`main`），也能当岗位抽屉里的模块（`role`）。查看当前实际可用的零件：`python3 scripts/new_workbench.py --list-parts`（以脚本输出为准，本表是说明）。
+零件放在 `assets/parts/<id>/`，每个零件都能当首页主场景（`main`），也能当岗位抽屉里的模块（`role`）。查看当前实际可用的零件：`python3 <本技能文件夹>/scripts/new_workbench.py --list-parts`（以脚本输出为准，本表是说明）。
 
 ## 现有零件
 

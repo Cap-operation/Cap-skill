@@ -4,7 +4,7 @@
 
 第 2 步（定公司）两道题问完就用，不先装临时版本。
 
-1. 复制第 1 步用的行业模板（`assets/templates/<行业>.json`）成临时文件夹里的 `company.json`（生成器要求工作台文件夹是空的，不要先放进去），写入：
+1. 复制第 1 步用的行业模板（`<本技能文件夹>/assets/templates/<行业>.json`）成临时文件夹里的 `company.json`（生成器要求工作台文件夹是空的，不要先放进去），写入：
    - 视觉卡：`company.name`、`mark` 用名字上墙时的值，`theme` 用看图挑选页读到的 `window.WB_PICK.theme`（读不到就按老板发回的视觉卡那一行填）；
    - 市场和岗位：按[定公司](interview.md)的两道题；
    - 快捷指令、顶栏数字、口号、岗位画面：按[自动配好，不问](interview.md#自动配好不问)。
@@ -13,8 +13,8 @@
 4. 先检查，再生成：
 
 ```bash
-python3 scripts/new_workbench.py --company company.json --check
-python3 scripts/new_workbench.py --company company.json --out <工作台目录>
+python3 <本技能文件夹>/scripts/new_workbench.py --company company.json --check
+python3 <本技能文件夹>/scripts/new_workbench.py --company company.json --out <工作台目录>
 ```
 
 5. 打开 `index.html`（能开浏览器就直接打开给老板看；不能就告诉老板“双击工作台文件夹里的 index.html”）。
@@ -36,7 +36,7 @@ python3 scripts/new_workbench.py --company company.json --out <工作台目录>
 
 ### 调试清单
 
-交给老板前，Claude 自己逐项检查（能用浏览器就截图看，不能就让顾问截图）：
+交给老板前，Claude 自己逐项检查（能用浏览器就截图看，不能就让顾问截图；没有浏览器也没有顾问的，按 [SKILL.md 宿主与工具](../SKILL.md#宿主与工具)请老板截一张全屏图，其余项标“待验证”）：
 
 | 项 | 怎么查 | 通过标准 |
 |---|---|---|

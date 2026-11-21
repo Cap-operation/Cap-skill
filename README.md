@@ -86,7 +86,7 @@ python3 scripts/install.py install --dest ~/.claude/skills   # 更新
 | `cap-tiktok-marketing` | 船长营销大师 | 客户研究、卖点、文案、促销定价、转化优化、邮件短信、上新与复购（27 项方法） |
 | `cap-tiktok-social` | 船长社媒大师 | 找爆款与趋势、拆竞品和达人、挖评论、Instagram 与 YouTube 运营（37 项方法） |
 | `cap-tiktok-roles` | 船长岗位大师 | 经营报告、现金流、库存、对账、采购、合同初审、招聘与 SOP（43 项方法） |
-| `cap-tiktok-knowledge` | 船长知识库大师 | Obsidian 知识库：讲清好处、跨境电商学员推荐框架、需求诊断、资料加工、星空图谱、长期复用 |
+| `cap-tiktok-knowledge` | Obsidian搭建 | Obsidian 知识库：讲清好处、跨境电商学员推荐框架、需求诊断、资料加工、星空图谱、长期复用 |
 | `cap-tiktok-learning` | 船长自学大师 | 一对一交互式学习：学习计划、一课一个文件、检查站、按回答推进、下次接着学；学会的可沉淀进知识库 |
 | `cap-tiktok-shop` | 店铺经营主线 | 市场、主体、注册、合规、上线、定价、达人、履约、财务 |
 | `cap-tiktok-operations` | 运营诊断 | TikTok 账号功能与平台提示 |

@@ -1,6 +1,6 @@
 ---
 type: knowledge
-status: draft
+status: 草稿
 source: []
 ---
 

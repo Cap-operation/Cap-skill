@@ -4,7 +4,7 @@ Cap 使用通用的 Agent Skills 结构（每个模块一个文件夹，内含�
 
 ## 安装要求
 
-- 23 个模块文件夹放在同一个技能目录下，互为同级，相对链接才能解析。
+- `modules.json` 里登记的全部模块文件夹放在同一个技能目录下，互为同级，相对链接才能解析。
 - 只装部分模块时，至少同时带上 `cap-skill`（共用规则）；课前准备另需 `cap-tiktok-prep`、`cap-tiktok-computer-prep`、`cap-tiktok-device-reset`。
 - 把 ZIP 发到聊天网页不等于安装。
 

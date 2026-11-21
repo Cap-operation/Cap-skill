@@ -10,11 +10,14 @@
 
 ## 第一分钟：直接给看
 
-老板一开口（哪怕只说了“我想搭个工作台”），先猜一个最接近的行业模板生成画廊，不先问问题：
+老板一开口（哪怕只说了“我想搭个工作台”），先猜一个最接近的行业模板生成画廊，不先问问题。
+
+生成前先确认这台电脑有 Python 3：运行 `python3 --version`（Windows 用 `py -3 --version`，下面所有命令里的 `python3` 在 Windows 上都换成 `py -3`）。没有就先按[没有 Python](setup-troubleshoot.md#没有-python)装好，再生成；跟老板只说一句“先装一个小工具，装好马上给你看”。`<本技能文件夹>` 指 `cap-tiktok-workbench` 这个技能所在的文件夹，不是老板当前打开的文件夹。
+
 
 ```bash
-python3 scripts/new_workbench.py --list-templates
-python3 scripts/new_workbench.py --template tiktok-shop --out <临时文件夹> --gallery
+python3 <本技能文件夹>/scripts/new_workbench.py --list-templates
+python3 <本技能文件夹>/scripts/new_workbench.py --template tiktok-shop --out <临时文件夹> --gallery
 ```
 
 | 老板说的 | 用模板 |
@@ -33,7 +36,7 @@ python3 scripts/new_workbench.py --template tiktok-shop --out <临时文件夹> 
 2. 他一说，马上用他的名字刷新画廊（Logo 上的字默认取名字第一个字，他想换就加 `--mark "<一个字>"`）：
 
 ```bash
-python3 scripts/new_workbench.py --template <行业> --name "<老板说的名字>" --out <画廊文件夹> --gallery --update
+python3 <本技能文件夹>/scripts/new_workbench.py --template <行业> --name "<老板说的名字>" --out <画廊文件夹> --gallery --update
 ```
 
 3. 刷新后只说一句（如“顶上已经是‘星河宠物’了”），紧接着问首页画面。
@@ -82,7 +85,7 @@ python3 scripts/new_workbench.py --template <行业> --name "<老板说的名字
 
 - **定位而不是问“喜不喜欢”：** 老板说“感觉不对”时，给选项：太暗 / 太花 / 太素 / 字太小 / 动得太快 / 颜色不搭。
 - **两两对比：** 拿不定主意时只留两个，当场切换给他看，问“左还是右”。背景、动感、庆祝、开场要并排比时，打开 `pick.html?steps=fx,motion,celebrate,opening`（只列要比的那几项），和挑配色一样点选。
-- **主要在哪儿看：** 第 3 步问一次：电脑上自己用 / 投到大屏或电视 / 直播或录视频当背景 / 手机上看。大屏、直播：背景选得更亮、动感不低于正常，交付时教他点「大屏」；手机：主场景避开信号总线、流水线（用画面中文名给替换建议，老板同意再换）。
+- **主要在哪儿看：** 第 3 步问一次：电脑上自己用 / 投到大屏或电视 / 直播或录视频当背景 / 手机上看（目前只能电脑打开后投屏或录屏发到手机）。大屏、直播：背景选得更亮、动感不低于正常，交付时教他点「大屏」；手机：主场景避开信号总线、流水线（用画面中文名给替换建议，老板同意再换）。
 - **岗位画面：** 逐个点开岗位给他看，问“这个岗位的画面满意吗？”。
 - **灵感参考：** 老板主动发了截图、电影、游戏或别人的大屏才用：只提取氛围（颜色、亮暗、动感、元素），映射回配色、背景、动感；不照抄具体作品的角色、标志或画面。不主动索要。
 - **用他的东西：** 有 Logo 就取主色当品牌色；卖到哪些国家就让地球亮起那些国家；常说的那句话就做成派活栏的快捷指令。

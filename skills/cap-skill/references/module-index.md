@@ -13,4 +13,4 @@
 | [TikTok IP 购买](../../cap-tiktok-ip-purchase/SKILL.md) | Miya、IPRoyal、911Proxy 购买规格 |
 | [TikTok IP 检测](../../cap-tiktok-ip-diagnostics/SKILL.md) | 归属、风险、DNS、WebRTC、IPv6 检测 |
 
-课程资料缺口（Google 账号飞书 SOP 正文、手机设置原图、客户端安装包、树洞供应商资料）见仓库根 `RELEASE_READINESS.md`（与 `modules.json` 一样不随技能安装，需仓库检出才能读取）。遇到缺口时说明“所需资料未提供”并转【船长电商】工作人员，不按经验补写步骤。
+2026-11-21 起，基础模块（手机、电脑、IP 购买与检测、小火箭、Apple ID、TikTok 账号）已按飞书第 1 章逐节对照过。遇到模块里没写的情况，按[飞书知识库章节对照](feishu-map.md)的原则处理：飞书有就以飞书为准并指到那一节；飞书没有就给有官方依据的真实办法并说明依据；都查不到就直说，同一步第三次转【船长电商】工作人员，不按经验补写步骤。

@@ -17,7 +17,7 @@
 | 能力 | 处理方式 | 不能推导 |
 |---|---|---|
 | TikTok Business 私信（DM） | 查 Chatwoot 当前 TikTok 渠道说明与账号地区资格；按通用三步验收。参考：[Chatwoot TikTok 渠道指南](https://www.chatwoot.com/hc/user-guide/articles/1769595702-how-to-setup-a-tik_tok-channel) | 不代表能接入 Shop 买家消息或评论 |
-| TikTok Shop 买家站内信 | 默认在 Seller Center 按店铺篇处理；若用户要接入第三方客服工具，先核实该工具对目标市场 Shop 消息有真实支持与授权，否则标“未支持/未验证” | 不能用 Business DM 的文档或渠道名代替 |
+| TikTok Shop 买家站内信 | TikTok Shop 卖家中心自带的客服设置（自动回复、快捷回复、消息时效）归 [店铺篇](../../cap-tiktok-shop/SKILL.md)；若用户要接入第三方客服工具，先核实该工具对目标市场 Shop 消息有真实支持与授权，否则标“未支持/未验证” | 不能用 Business DM 的文档或渠道名代替 |
 | 视频/帖子评论 | 单独核实是否有获授权的评论读取与回复能力；没有就交人工在平台处理或给回复草稿 | 不能把私信 Inbox 写成“评论也自动回复” |
 
 同一句“接入 TikTok 客服”可能指三者之一或全部；先问清，逐项报告结果。一个通过不代表另两个通过。

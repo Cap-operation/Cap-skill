@@ -170,7 +170,7 @@
    ],
    "module": "neural-galaxy",
    "executor": {
-    "skill": "cap-tiktok-shop",
+    "skill": "cap-tiktok-social",
     "connected": false
    }
   },
@@ -225,7 +225,7 @@
    ],
    "module": "pipeline",
    "executor": {
-    "skill": "cap-tiktok-listing",
+    "skill": "cap-tiktok-shop",
     "connected": false
    }
   },
@@ -251,7 +251,7 @@
    ],
    "module": "neon-grid",
    "executor": {
-    "skill": "cap-tiktok-shop",
+    "skill": "cap-tiktok-roles",
     "connected": false
    }
   },
@@ -279,7 +279,7 @@
    ],
    "module": "globe",
    "executor": {
-    "skill": "cap-tiktok-shop",
+    "skill": "cap-tiktok-roles",
     "connected": false
    }
   },
@@ -332,8 +332,9 @@
    ],
    "module": "pipeline",
    "executor": {
-    "skill": "cap-tiktok-shop",
-    "connected": false
+    "skill": "",
+    "connected": false,
+    "note": "暂无对应模块，只模拟"
    }
   },
   {
@@ -358,8 +359,9 @@
    ],
    "module": "neon-grid",
    "executor": {
-    "skill": "cap-tiktok-shop",
-    "connected": false
+    "skill": "",
+    "connected": false,
+    "note": "暂无对应模块，只模拟"
    }
   }
  ],

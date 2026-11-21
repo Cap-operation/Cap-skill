@@ -1,6 +1,6 @@
 ---
 name: cap-tiktok-ip-diagnostics
-description: "诊断 IP 归属、ASN、风险评分、DNS、WebRTC、IPv6、Pixelscan、IPHey 和普通网页连通性，按内部阈值输出通过、待复核或不通过。"
+description: "按飞书 1.4 的四个阶段检测 IP：类型与运营商（ISP 还是机房）、Scamalytics 欺诈值、DNS/WebRTC/IPv6 与时区、软路由网关、上机刷 TikTok 终检，输出通过、待复核或不通过；刷出中文时带自救步骤。"
 ---
 
 # IP 检测诊断
@@ -9,21 +9,24 @@ description: "诊断 IP 归属、ASN、风险评分、DNS、WebRTC、IPv6、Pixe
 
 由课前准备入口发起（课前准备上下文）时，先读取 [课前准备流程控制契约](../cap-tiktok-prep/SKILL.md#流程控制契约全局硬规则)，继承当前步骤、状态和待返回位置。跳过、临时答疑、前置阻塞及结束条件按课前准备入口执行；缺少该依赖时不猜测控制规则、不继续顺序陪跑。模块内按现有 SOP 的独立结果建立固定节点编号，不能用“跳过”一次略过整套流程。
 
-单独使用、没有课前上下文时，不套用课程 P 节点流程、跳过规则和结束祝词，只回答IP 检测与诊断；本模块以外的问题简短说明不在本模块范围，交回[总入口](../cap-skill/SKILL.md)。
+单独使用、没有课前上下文时，不套用课程 P 节点流程、跳过规则和结束祝词，只回答IP 检测与诊断；本模块以外的问题简短说明不在本模块范围，交回[总入口](../cap-skill/SKILL.md)。单独使用时按[共用交接约定第 9 节“全程引导”](../cap-skill/references/shared-contracts.md#9-全程引导)带用户：每次留一个出口、卡住先诊断、会用的走快速模式。
 
 用途仅限让网络环境稳定并与用户合法注册经营的市场一致；不协助绕过封禁或限制、多账号规避限制、伪造身份或规避平台审核。
 
-读取 [references/ip-diagnostics.md](references/ip-diagnostics.md)，固定节点和 IP 后逐项检测。每个网站单独截图，AI 确认后再进行下一项。
+读取 [references/ip-diagnostics.md](references/ip-diagnostics.md)，固定节点和 IP 后按飞书「1.4 IP质量检测教程」的四个阶段逐项检测。每个网站单独截图，AI 确认后再进行下一项。
+
+开头只问目标国家（已知就不问）；城市、类型、ASN 等购买规格不逐项追问，请用户对照订单页核对，缺了也不挡检测。检测前先请用户把手机的时区、语言、地区调成和网络出口国家一致，否则检测网站会报时区、位置不一致，被误判成 IP 有问题。时区以 ipleak.net 为准。
+
+本模块只负责判断 IP 这一环有没有问题。0 播放、不能点赞关注、不能换头像这类现象，本模块检测 IP 通过后即排除 IP 因素，其余交[运营诊断](../cap-tiktok-operations/SKILL.md)，不在这里继续查账号和内容。
 
 ## 关键标准
 
-- Scamalytics：`0–10` 优质，`11–19` 合格，`20–29` 建议更换，`30+` 不交付。
-- Country 必须与目标市场一致；City 允许同一国家内小范围数据库差异。
-- ASN 优先 Mobile、Residential、Broadband、Cable、Fiber ISP。
-- DNS 不要求全部属于目标国家，但禁止真实本地泄漏。
-- WebRTC 为 Disabled 或只显示代理出口；出现真实公网 IP 不合格。
-- IPv6 最佳为 Disabled/Not detected；存在时不得暴露真实网络。
-- Pixelscan 重点排查 DNS Leak、WebRTC Leak、Blacklist、Location mismatch、IPv6 Leak、Hosting/Datacenter。
-- IPHey 多项 Suspicious、Mismatch 或 Low Trust 时停止上号排查。
+按飞书 1.4，细则见 references：
 
-公网 IP 可作为比对证据，认证参数必须打码。IP 检测结果不保证 TikTok 账号、播放量或互动结果。
+- 阶段一 类型与运营商：IP2Location 的 `Usage Type` 和 `AS Usage Type` 都是 ISP（双 ISP），运营商是真实本地宽带；`Hosting`/机房、名字带 Cloud/Datacenter/Hosting 直接不通过；`Business`（商业宽带）默认也不通过，飞书说“部分极品除外”但没定义什么算极品，想保留的请工作人员确认，AI 不自己放行。
+- 阶段二 欺诈值：Scamalytics `0–15` 安全，`16–30` 观察（结合上机实测），超过 `30` 或多个黑名单不通过。DNS 必须和 IP 同国、不能有中国 DNS；WebRTC 禁用或只显示代理出口；IPv6 不得暴露真实网络。时区以 ipleak.net 为准。
+- 阶段三 软路由（只对软路由）：TCP/UDP 全绿、丢包 5% 以内、不跳 ping，流量 100% 走代理、无直连。
+- 阶段四 上机终检：刷 5–10 个视频顺畅，推荐页是本地内容；刷出中文立刻停，按自救步骤处理，不在这个环境注册或登录主力账号。
+- 流量池三层是课程的判断口径，不说成 TikTok 官方机制。
+
+公网 IP 可作为比对证据，认证参数必须打码。IP 检测结果不保证 TikTok 账号、播放量或互动结果。学员同一步第二次还卡，按[飞书知识库章节对照](../cap-skill/references/feishu-map.md)指到 1.4 对应段落；第三次转【船长电商】工作人员（在社交媒体上搜索“船长电商”）。

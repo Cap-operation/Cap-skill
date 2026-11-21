@@ -72,18 +72,22 @@ AI 岗位（6 个小人）：统筹助理｜选品专家｜内容专家｜投流
 
 ### 执行插座默认对接
 
-接数据阶段打开执行插座时，岗位的活默认交给下面的模块去做；写进 `executor.skill`，`connected` 先保持 `false`。
+接数据阶段打开执行插座时，岗位的活默认交给下面的模块去做；写进 `executor.skill`，`connected` 先保持 `false`。“按行业”的岗位按老板的卖货渠道取；老板现场补的岗位也按这张表填。
 
 | 岗位 | `executor.skill` | 能直接做的（只读 / 草案） | 要单独批准的 |
 |---|---|---|---|
 | 统筹助理 | `cap-skill` | 拆解指令、汇总日报 | — |
 | 选品专家 | `cap-tiktok-selection` | 候选清单、评分、测试方案 | 采购、拿样 |
 | 内容专家 | `cap-tiktok-breakdown` | 脚本、钩子、多版本 | 发布 |
+| 亚马逊模板的 Listing 专家（`id` 是 `content`） | `cap-tiktok-marketing` | 标题、五点、A+ 文案初稿 | 写入亚马逊后台 |
 | 投流专家 | `cap-tiktok-ads` | 读报表、出调整建议 | 任何广告创建、改预算 |
-| 达人经理、财务管家、供应链管家 | `cap-tiktok-shop` | 名单、对账表、补货建议 | 联系达人、付款、下单 |
+| 达人经理 | 按行业：TikTok Shop 跨境店的联盟达人 → `cap-tiktok-shop`；独立站、亚马逊、外贸工厂找 Instagram、YouTube 达人 → `cap-tiktok-social` | 达人名单、建联话术草稿、寄样进度表 | 联系达人、寄样、付款 |
 | 客服专家 | `cap-tiktok-service` | 话术、知识库草稿、差评分析 | 发给买家、退款 |
-| 店铺运营 | `cap-tiktok-listing` | 商品资料包、审阅表 | 推送、上架 |
+| 店铺运营 | 按行业：TikTok Shop（含外贸工厂在 TikTok Shop 开的店）→ `cap-tiktok-shop`；独立站推送商品 → `cap-tiktok-listing` | 商品资料包、活动报名清单、审阅表 | 推送、上架、报名活动 |
+| 财务管家 | `cap-tiktok-roles` | 对账表、月结和现金流草稿（TikTok 结算口径引用店铺篇） | 付款 |
+| 供应链管家 | `cap-tiktok-roles` | 补货建议、物流异常表、供应商比价 | 下单、付款 |
 | 独立站专家 | `cap-tiktok-site` | 页面方案、本地预览 | 发布上线 |
+| 询盘专家、质检专家（外贸工厂） | 暂无对应模块，只模拟：`skill` 留空，`note` 写“暂无对应模块，只模拟” | — | 不打开执行插座 |
 
 利润相关的说法（“计算贡献利润”）只是岗位名称，工作台不计算利润；真实计算按[贡献利润口径](../../cap-skill/references/profit.md)，在接数据阶段由对应模块完成。
 

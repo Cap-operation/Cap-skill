@@ -8,12 +8,13 @@
 - TikTok 广告仍按本模块的官方 MCP 流程处理；参考库的 TikTok 部分只作补充视角。
 - 利润和保本线只用[贡献利润口径](../../cap-skill/references/profit.md)；不同平台的归因口径不同，分开列示，不相加成一个 ROAS。
 - 参考库是第三方原文（英文），中文输出；其中提到的脚本、命令和连接器未随包提供。
+- **参考库只剩流程大纲**：原项目的各平台检查清单、评分规则、基准数据和打分程序都没有收录。用它时只列“这个平台要看哪些项目”和看到的问题，不给分数、等级或“健康度”，不声称做了完整体检；交付时写明“基于导出表的部分检查，不是完整体检”。其余按[共用约定第 11 节](../../cap-skill/references/shared-contracts.md#11-收录的第三方方法库怎么用)处理。
 
 ## 参考库
 
 | 任务 | 参考 |
 |---|---|
-| 多平台广告体检 | [ads-audit](library/claude-ads/ads-audit/guide.md) |
+| 多平台广告检查（只列检查项目，不打分） | [ads-audit](library/claude-ads/ads-audit/guide.md) |
 | Meta（Facebook、Instagram）广告 | [ads-meta](library/claude-ads/ads-meta/guide.md) |
 | Google 广告 | [ads-google](library/claude-ads/ads-google/guide.md) |
 | 亚马逊广告 | [ads-amazon](library/claude-ads/ads-amazon/guide.md) |
